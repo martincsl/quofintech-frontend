@@ -2,7 +2,7 @@
 export default function useValidations (value) {
 
     function noBlanks (value) {
-     alert("entrou em NoBlanks");
+    
       if (value === "") {
         return {
           valid: false,
