@@ -62,7 +62,6 @@ const useStyles = makeStyles( (mainTheme) => ({
 }))
 
 export default function CustPersonalDetail ({handleChange, values, setValues, formErrors, setFormErrors,isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
-  
 
   const classes = useStyles();  
   //const {handleChange, handleChangeStorage, bulkHandleChange, handleChangeSalary, handleSubmit,  chkBlankFormCustomer, chkFormErrors, isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks,  values, formErrors} =  useFormCustomer ();
@@ -73,6 +72,10 @@ export default function CustPersonalDetail ({handleChange, values, setValues, fo
   const [dialogMessage,setDialogMessage]=useState({title:"",message:""});
   const dialogButtons = {button1:"Salir",button2:"Nueva Solicitud"};
   const dialogBtnsUnmount = {button1:"Salir",button2:"Seguir cargando"};
+
+  useEffect(() => {
+    localStorage.setItem("stateData", JSON.stringify(values));
+  });
 
   const handleDialogClose = (value) => {
     setIsDialogOpen(false);

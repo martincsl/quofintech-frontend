@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import { Grid, Paper, Button, Box, Typography, Grow, Slide } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
@@ -41,6 +41,10 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function CustDocsUpload ({handleChange, values, setValues, formErrors, setFormErrors,isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
 
   const classes = useStyles();  
+
+  useEffect(() => {
+    localStorage.setItem("stateData", JSON.stringify(values));
+  });
 
   return (
       <div>

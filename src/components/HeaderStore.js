@@ -10,7 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { Hidden } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 
-import mainLogo from'../assets/LogoQuo.png';
+import mainLogo from '../assets/LogoQuo.png';
 import mainTheme from '../mainTheme.js';
 import Routes from '../routes.js'
 

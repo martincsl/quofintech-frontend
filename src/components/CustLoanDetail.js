@@ -42,6 +42,10 @@ const useStyles = makeStyles( (mainTheme) => ({
 
 export default function CustLoanDetail ({handleChange, values, setValues, formErrors, setFormErrors,isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
 
+ useEffect(() => {
+    localStorage.setItem("stateData", JSON.stringify(values));
+  });
+
   useEffect(() => {
 //  if (values.loanCapital > 0 && values.loanTerm > 0) {
   if (values.loanTerm > 0) {

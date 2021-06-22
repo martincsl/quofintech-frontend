@@ -45,8 +45,12 @@ const useStyles = makeStyles( (mainTheme) => ({
 }))
 
 export default function CustWorkDetail ({handleChange, values, setValues, formErrors, setFormErrors,isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
-    
-  const classes = useStyles();  
+
+  const classes = useStyles();
+
+  useEffect(() => {
+    localStorage.setItem("stateData", JSON.stringify(values));
+  });
 
     return (
       <div>
