@@ -94,10 +94,10 @@ export default function CustPersReferences ({handleChange, values, setValues, fo
             </Grid>
 
             <Grid item container xs={12} md={12} spacing={1} > 
-               <Grid item xs={6}  >
+               <Grid item xs={6} md={3} >
                   <MobilePrefixSelect value={values.persReference1MobilePrefix} onChange={(e) => handleChange (e,[noBlanks])} name="persReference1MobilePrefix"/> 
                 </Grid>
-                <Grid item xs={6}  >
+                <Grid item xs={6} md={3} >
                   <TextField
                   label="Celular *"
                   value={values.persReference1Mobile}

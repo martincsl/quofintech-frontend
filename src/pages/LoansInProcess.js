@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import { Grid, Button, Hidden, Paper, Box, Card, Typography } from '@material-ui/core'
+import { Grid, Paper, Box, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
@@ -64,9 +64,9 @@ const useStyles = makeStyles({
 })  
 
 export default function LoansInProcess () {
-  const classes=useStyles();  
-  const [isDialogOpen,setIsDialogOpen]=useState(false);
-  const [dialogMessage,setDialogMessage]=useState({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:""});
+  const classes = useStyles();  
+  const [ isDialogOpen,setIsDialogOpen ] = useState(false);
+  const [ dialogMessage,setDialogMessage ] = useState({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:""});
   const dialogButtons = {button1:"Volver",button2:"Confirmar"};
   
   function handleDeleteLoan (incident){
@@ -188,8 +188,8 @@ export default function LoansInProcess () {
     ] ;
 
   return (
-    <div>
-      <HeaderStore />  
+    <>
+    <HeaderStore />  
 
       <Grid container direction="column" alignItems="center" style= {{ minHeight: '90vh'}}>
         <Grid item xs={12} style= {{ minHeight: '0vh'}}/> 
@@ -222,15 +222,15 @@ export default function LoansInProcess () {
         </Grid>   
         <Grid style={{height:'8vh'}} />
       </Grid> 
-      <AlertDialog open={isDialogOpen} onClose={handleDialogClose} severity={dialogMessage.severity} title={dialogMessage.title} buttons={dialogButtons}>
-        {dialogMessage.messageLine1}
-        <br />
-        {dialogMessage.messageLine2}
-        <br />
-        {dialogMessage.messageLine3}
+    <AlertDialog open={isDialogOpen} onClose={handleDialogClose} severity={dialogMessage.severity} title={dialogMessage.title} buttons={dialogButtons}>
+      {dialogMessage.messageLine1}
+      <br />
+      {dialogMessage.messageLine2}
+      <br />
+      {dialogMessage.messageLine3}
 
-      </AlertDialog> 
-      <Footer />
-    </div>
+    </AlertDialog> 
+    <Footer />
+    </>
   )
 }

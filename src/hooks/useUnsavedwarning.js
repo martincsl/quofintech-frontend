@@ -1,12 +1,13 @@
-
 import React, { useState, useEffect } from "react";
 import { Prompt } from "react-router-dom";
 
-const useUnsavedWarning = (message = "Are you sure want to discard changes?")  => {
-    const [isDirty, setDirty] = useState(false);
+const useUnsavedWarning = (message = "Desea realmente salir del formulario?")  => {
+
+    const [isDirty, setIsDirty] = useState(false);
 
     useEffect(() => {
         //Detecting browser closing
+        console.log(isDirty);
         window.onbeforeunload = isDirty && (() => message);
 
         return () => {
@@ -15,8 +16,10 @@ const useUnsavedWarning = (message = "Are you sure want to discard changes?")  =
     }, [isDirty]);
 
     const routerPrompt = <Prompt when={isDirty} message={message} />;
+   
+    // return [routerPrompt, setIsDirty];
 
-    return [routerPrompt, () => setDirty(true), () => setDirty(false)];
+    return [routerPrompt, () => setIsDirty(true), () => setIsDirty(false)];
 };
 
 export default useUnsavedWarning;

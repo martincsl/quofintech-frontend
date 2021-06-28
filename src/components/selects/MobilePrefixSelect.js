@@ -1,15 +1,12 @@
 import React from 'react';
 
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import {FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles( (mainTheme) => ({
-    root: {
-      flexGrow: 1,
-    },
+    // root: {
+    //   flexGrow: 1,
+    // },
     formControl: {
       marginTop: mainTheme.spacing(0),
       

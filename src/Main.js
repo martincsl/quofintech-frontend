@@ -12,7 +12,6 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 
 import mainVideo from './assets/videoQuoWeb.mp4';
-//import mainVideo from'./assets/Flappers.mp4';
 //import mainPicture from'./assets/FotoQuoReduc.jpg';
 //import mobilePicture from'./assets/FotoQuoMobile3.jpg';
 
@@ -24,13 +23,6 @@ const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
     position: 'absolute',
     top: '65px'
-  },
-  paperStyle: {
-    margin: 'auto',
-    padding:'10px',
-    minWidth: "350",
-    maxWidth:"500",
-    backgroundColor:"orange", 
   },
   buttonStyle:{
     color: "white",
@@ -69,7 +61,7 @@ export default function Main () {
 
   const classes = useStyles();  
 
-  return(
+  return (
     <div>
       <Header />
 
@@ -82,27 +74,28 @@ export default function Main () {
 
         <div className="video-section-info">
          <Grid container direction="row" alignItems="center" justify="center" style={{ minHeight:'30vh'}} /> 
+
          <Grid container direction="row" alignItems="center" justify="center" style={{minHeight:'35px'}}>
            <div style={{backgroundColor:'white'},{height:'20vh'}}></div>
              <Grid item container direction="column" alignItems="center" justify="center" spacing={2} >
                <MyComponent />
              </Grid>
              <Slide in direction = "up" timeout = {1000}>
-            <Grid item container direction="row" alignItems="center" justify="center" spacing={2} xs={12} sm={6}> 
-              <Button className={classes.buttonStyle} component={Link} to={'/contact'} variant="outlined" size ="large" disableRipple>Me interesa ! Quiero catastrarme</Button>
-              <Button className={classes.buttonStyle} component={Link} to={'/login'}variant="contained" size ="large"disableRipple>Ya soy cliente, quiero conectarme</Button>
-            </Grid>
-            </Slide>
-
+             <Grid item container direction="row" alignItems="center" justify="center" spacing={2} xs={12} sm={6}> 
+               <Button className={classes.buttonStyle} component={Link} to={'/contact'} variant="outlined" size ="large" disableRipple>Me interesa ! Quiero catastrarme</Button>
+               <Button className={classes.buttonStyle} component={Link} to={'/login'}variant="contained" size ="large"disableRipple>Ya soy cliente, quiero conectarme</Button>
+             </Grid>
+             </Slide>
         </Grid>
+
         <Slide in direction = "up" timeout = {1600}>
         <Box className={classes.socialNetworkBox}>
           <Typography>Seguinos en nuestras redes sociales</Typography>
-                <LinkedInIcon className={classes.iconStyle} style={{ fontSize: 30 }}/>
-                <TwitterIcon className={classes.iconStyle} style={{ fontSize: 30 }}/>
-                <FacebookIcon className={classes.iconStyle} style={{ fontSize: 30 }}/>
-                <InstagramIcon className={classes.iconStyle} style={{ fontSize: 30 }}/>
-             </Box>
+          <LinkedInIcon className={classes.iconStyle} style={{ fontSize: 30 }}/>
+          <TwitterIcon className={classes.iconStyle} style={{ fontSize: 30 }}/>
+          <FacebookIcon className={classes.iconStyle} style={{ fontSize: 30 }}/>
+          <InstagramIcon className={classes.iconStyle} style={{ fontSize: 30 }}/>
+        </Box>
         </Slide>
       <Footer />
       </div>

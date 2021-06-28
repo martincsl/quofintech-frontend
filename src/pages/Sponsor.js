@@ -1,28 +1,23 @@
 import React from 'react';
 
-import {Grid, Box, Typography, Paper, Button} from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
+import { Grid, Paper, Box, Typography, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 import HeaderStore from '../components/HeaderStore';
 import Footer from '../components/Footer';
 import TableCollatDocs from '../components/TableCollatDocs';
-import ContactlessIcon from '@material-ui/icons/Contactless';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const useStyles = makeStyles( (mainTheme) => ({
     contentStyle: {
       position: 'absolute',
       top: '65px',
     },
-    buttonStyle:{
+    buttonStyle: {
       color: "white",
       font: "14px",
       backgroundColor:mainTheme.palette.secondary.main,
       textTransform:"none",
       margin: "0px",
-     
-  //    marginTop: "15px",
- 
     },
     titleStyle: {
       width: "100%",   
@@ -46,7 +41,6 @@ const useStyles = makeStyles( (mainTheme) => ({
       color: "white",
       backgroundColor: mainTheme.palette.secondary.main,
       padding: "10px",
- 
     },
     iconStyle: {
       textAlign: "center",
@@ -59,45 +53,46 @@ const useStyles = makeStyles( (mainTheme) => ({
   }))
 
 export default function Sponsor() {
-    const classes = useStyles();
-    localStorage.clear();
-    
-    return (
-      
-      <div>
-      <HeaderStore />  
-{/*************** Area do Grid geral */}  
-      <Grid container direction="column" alignItems="center" style= {{ minHeight: '90vh'}}>
 
-        <Grid item xs={12} style= {{ minHeight: '0vh'}}/> 
+  const classes = useStyles();
+  localStorage.clear();
 
-        <Grid item xs={12} style= {{ width: '100%'}}>
-          <Box className={classes.titleStyle}>      
-            <Typography align="center" variant="h6" ><b>Resumen de Pagarés</b></Typography>
-          </Box>
-        </Grid>
-     
-          <Grid item container direction="row" spacing={1}>
-          
-              <Grid item xs={12} md={3}>
-                 <Paper className={classes.paperStyle}>
-                    <Typography align="center" style={{color:"#1C1C49"}} gutterBottom><b>Resumen de Solicitudes</b></Typography> 
-                    <Button className={classes.buttonStyle} size="medium" fullWidth>Enviadas: 312</Button>
-                    <Button className={classes.buttonStyle} size="medium"fullWidth>Aprobadas: 98</Button>
-                    <Button className={classes.buttonStyle} size="medium"fullWidth>Rechazadas: 199</Button>
-                    <Button className={classes.buttonStyle} size="medium"fullWidth>En proceso: 12</Button>
-                    <Button className={classes.buttonStyle} size="medium"fullWidth>Pendientes: 3</Button>
-                 </Paper>
-              </Grid>  
-              <Grid item xs={12} md={6}> 
-                <TableCollatDocs />
-              </Grid>
-              <Grid item xs={12} md={3} /> 
-          </Grid>
+  return (
+
+    <>
+    <HeaderStore />  
+
+    <Grid container direction="column" alignItems="center" style= {{ minHeight: '90vh'}} >
+
+      <Grid item xs={12} style= {{ minHeight: '0vh'}} /> 
+
+      <Grid item xs={12} style= {{ width: '100%'}} >
+        <Box className={classes.titleStyle}>      
+          <Typography align="center" variant="h6" ><b>Resumen de Pagarés</b></Typography>
+        </Box>
       </Grid>
-     
-      <Grid container direction="column" alignItems="center" style= {{ minHeight: '5vh'}}/>
-      <Footer />
-      </div>
-    );
+    
+      <Grid item container direction="row" spacing={1} >
+        
+        <Grid item xs={12} md={3} >
+          <Paper className={classes.paperStyle} >
+            <Typography align="center" style={{color:"#1C1C49"}} gutterBottom><b>Resumen de Solicitudes</b></Typography> 
+            <Button className={classes.buttonStyle} size="medium" fullWidth>Enviadas: 312</Button>
+            <Button className={classes.buttonStyle} size="medium"fullWidth>Aprobadas: 98</Button>
+            <Button className={classes.buttonStyle} size="medium"fullWidth>Rechazadas: 199</Button>
+            <Button className={classes.buttonStyle} size="medium"fullWidth>En proceso: 12</Button>
+            <Button className={classes.buttonStyle} size="medium"fullWidth>Pendientes: 3</Button>
+          </Paper>
+        </Grid>  
+        <Grid item xs={12} md={6} > 
+          <TableCollatDocs />
+        </Grid>
+        <Grid item xs={12} md={3} /> 
+      </Grid>
+    </Grid>
+    
+    <Grid container direction="column" alignItems="center" style= {{ minHeight: '5vh'}}/>
+    <Footer />
+    </>
+  );
 }

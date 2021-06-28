@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
 import { Redirect, Route } from "react-router-dom";
-import { Grid, Paper, TextField, Typography } from '@material-ui/core'
+import { Grid, Paper, TextField, Typography, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
 import useFormCustomer from '../components/useFormCustomer';
@@ -112,7 +112,7 @@ export default function CustPersonalDetail ({handleChange, values, setValues, fo
             <Typography align="center" variant="subtitle1" style={{color:'white'}} gutterBottom>Datos Personales</Typography>
  
             <Grid item container direction="row" spacing={1}>
-              <Grid item xs={12} md={3} > 
+              <Grid item xs={6} md={3} > 
                 <TextField
                   label="Numero de Cedula *"
                   value={values.customerId}
@@ -128,7 +128,7 @@ export default function CustPersonalDetail ({handleChange, values, setValues, fo
                 {formErrors.customerId ? <div className="error-helper-text">{formErrors.customerId}</div> : null} 
               </Grid>
                  
-              <Grid item xs={12} md={9} > 
+              <Grid item xs={6} md={9} > 
                 <TextField id="customerName" label="Nombre del cliente *" 
                   variant ="filled" margin="none"  fullWidth
                   name="customerName" value={values.customerName} onChange={ (e) => handleChange (e,[isValidName])}
@@ -138,7 +138,7 @@ export default function CustPersonalDetail ({handleChange, values, setValues, fo
             </Grid>
               
               <Grid item container direction="row" spacing={1}> 
-                <Grid item xs={12} md={3} > 
+                <Grid item xs={4} md={3} > 
                 
                   <TextField
                     label="Fecha Nacimiento *"
@@ -154,7 +154,7 @@ export default function CustPersonalDetail ({handleChange, values, setValues, fo
                   />
                   {formErrors.customerBirthDate ? <div className="error-helper-text">{formErrors.customerBirthDate}</div> : null} 
                 </Grid>
-                <Grid item xs={12} md={6} > 
+                <Grid item xs={8} md={6} > 
                    <OccupationSelect value={values.customerOccupation} onChange={(e) => handleChange (e,[noBlanks])} name="customerOccupation"/>
                 </Grid>
               </Grid>
@@ -174,11 +174,11 @@ export default function CustPersonalDetail ({handleChange, values, setValues, fo
              </Grid>
 
              <Grid item container direction="row" spacing={1} >
-                <Grid item xs={3} md={3}>
+                <Grid item xs={4} md={3}>
                   <MobilePrefixSelect value={values.customerMobilePrefix} onChange={(e) => handleChange (e,[noBlanks])} name="customerMobilePrefix"/> 
                 </Grid>
 
-                <Grid item xs={12} md={3}>
+                <Grid item xs={4} md={3}>
                   <TextField
                     label="Celular *"
                     value={values.customerMobile}
@@ -194,7 +194,7 @@ export default function CustPersonalDetail ({handleChange, values, setValues, fo
                   {formErrors.customerMobile ? <div className="error-helper-text">{formErrors.customerMobile}</div> : null}
                 </Grid>
  
-                <Grid item xs={12} md={6}> 
+                <Grid item xs={9} md={6}> 
                   <TextField id="customerEmail" label="E-mail *"
                   variant ="filled" margin="none"  type="customerEmail" fullWidth
                   name="customerEmail" value={values.customerEmail} onChange={(e) => handleChange (e,[noBlanks])}

@@ -1,17 +1,13 @@
 import React, {useState} from 'react';
 
-import { Grid, Button, Hidden, Paper, Box, Card, Typography } from '@material-ui/core'
+import { Grid, Paper, Box, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 import HeaderStore from '../components/HeaderStore.js';
 import Footer from '../components/Footer.js';
 import AlertDialog from '../components/modals/AlertDialog.js';
-
-
-//backgroundColor:"#1C1C49",
 
 const useStyles = makeStyles({
   titleStyle:{
@@ -67,8 +63,8 @@ const useStyles = makeStyles({
 })  
 
 export default function LoansPending () {
-  const [isDialogOpen,setIsDialogOpen]=useState(false);
-  const [dialogMessage,setDialogMessage]=useState({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:""});
+  const [ isDialogOpen,setIsDialogOpen ] = useState (false);
+  const [ dialogMessage,setDialogMessage ] = useState ({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:""});
   const dialogButtons = {button1:"Volver",button2:"Confirmar"}
 
   function handleDeleteLoan (incident){
@@ -182,69 +178,67 @@ export default function LoansPending () {
           loanCapital: 1000000 },
     ] ;
 
-
   const classes=useStyles();  
 
   return (
+    <>
+    <HeaderStore />  
 
-    <div>
-      <HeaderStore />  
+    <Grid container direction="column" alignItems="center" style= {{ minHeight: '90vh'}} >
+      <Grid item xs={12} style= {{ minHeight: '0vh'}} /> 
+      <Grid item xs={12} style= {{ width: '100%'}} >
+        <Box className={classes.titleStyle} >
+          <Typography align="center" variant="h6" ><b>Solicitudes Pendientes (necesidad de actualizacion de documentos)</b></Typography>
+        </Box>
+      </Grid>
 
-      <Grid container direction="column" alignItems="center" style= {{ minHeight: '90vh'}}>
-        <Grid item xs={12} style= {{ minHeight: '0vh'}}/> 
-        <Grid item xs={12} style= {{ width: '100%'}}>
-          <Box className={classes.titleStyle}>      
-            <Typography align="center" variant="h6" ><b>Solicitudes Pendientes (necesidad de actualizacion de documentos)</b></Typography>
-          </Box>
+      <Grid item container direction="row" spacing={2} xs={12} >
+            
+        {incidents.map (incident => (
+
+        <Grid item direction="row" spacing={1} xs={12} sm={6} md={3} >
+          <Paper elevation={9} className={classes.paperStyle} style={{minHeight:'30vh'}} >
+            <Typography align="center" variant="subtitle2" className={classes.boxStyle}>{incident.customerName}</Typography>              
+            <Typography align="center" variant="subtitle2" className={classes.boxStyle} gutterBottom>Cedula: {Intl.NumberFormat('es-PY',{style:'decimal'}).format(incident.customerId)}</Typography>
+
+            <Box className={classes.innerBoxStyle}> 
+              <Typography variant="subtitle2" gutterBottom><b>Compra: </b>{incident.loanProduct}</Typography>
+              <Typography variant="subtitle2" gutterBottom><b>Monto: </b>{Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(incident.loanCapital)}<b> Cuotas: </b>{incident.loanTerm}</Typography>
+              <Typography variant="subtitle2" gutterBottom><b>Pendencia: </b></Typography>
+              <Typography variant="subtitle2" gutterBottom style={{color:"red"}}>{incident.loanRequestDenialMsg}</Typography>
+            </Box>
+              <Grid container spacing={0} >
+                <Grid item xs={6} style={{textAlign:'center'}} >
+                  <input
+                    accept="image/*"
+                    className={classes.input}
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                  />
+                  <label htmlFor="contained-button-file">
+                    <Button variant="outlined" size="small" component="span" disableRipple startIcon={<CloudUploadIcon />} className={classes.buttonStyle} style={{justifyContent: 'center'},{width:'150px'}}>Actualizar Archivo</Button>
+                  </label> 
+                </Grid>
+                <Grid item xs={6} style={{textAlign:'center'}}>
+                  <Button variant="outlined" size="small" disableRipple startIcon={<DeleteForeverIcon />} className={classes.buttonStyle} style={{justifyContent: 'center'},{width:'150px'}} onClick={() => handleDeleteLoan(incident)}>Anular Solicitud</Button>
+                </Grid>
+              </Grid>
+          </Paper>
         </Grid>
+        ))}
 
-        <Grid item container direction="row" spacing={2} xs={12}>
-             
-          {incidents.map(incident => (
-
-          <Grid item direction="row" spacing={1} xs={12} sm={6} md={3}>
-            <Paper elevation={9} className={classes.paperStyle} style={{minHeight:'30vh'}}>
-               <Typography align="center" variant="subtitle2" className={classes.boxStyle}>{incident.customerName}</Typography>              
-               <Typography align="center" variant="subtitle2" className={classes.boxStyle} gutterBottom>Cedula: {Intl.NumberFormat('es-PY',{style:'decimal'}).format(incident.customerId)}</Typography>
-                   
-               <Box className={classes.innerBoxStyle}> 
-                 <Typography variant="subtitle2" gutterBottom><b>Compra: </b>{incident.loanProduct}</Typography>
-                 <Typography variant="subtitle2" gutterBottom><b>Monto: </b>{Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(incident.loanCapital)}<b> Cuotas: </b>{incident.loanTerm}</Typography>
-                 <Typography variant="subtitle2" gutterBottom><b>Pendencia: </b></Typography>
-                 <Typography variant="subtitle2" gutterBottom style={{color:"red"}}>{incident.loanRequestDenialMsg}</Typography>
-               </Box>
-                 <Grid container spacing={0} >
-                   <Grid item xs={6} style={{textAlign:'center'}}>
-                   <input
-                          accept="image/*"
-                          className={classes.input}
-                          id="contained-button-file"
-                          multiple
-                          type="file"
-                       />
-                       <label htmlFor="contained-button-file">
-                         <Button variant="outlined" size="small" component="span" disableRipple startIcon={<CloudUploadIcon />} className={classes.buttonStyle} style={{justifyContent: 'center'},{width:'150px'}}>Actualizar Archivo</Button>
-                       </label> 
-                   </Grid>
-                   <Grid item xs={6} style={{textAlign:'center'}}>
-                     <Button variant="outlined" size="small" disableRipple startIcon={<DeleteForeverIcon />} className={classes.buttonStyle} style={{justifyContent: 'center'},{width:'150px'}} onClick={() => handleDeleteLoan(incident)}>Anular Solicitud</Button>
-                   </Grid>
-                 </Grid>
-            </Paper>
-          </Grid>
-          ))}
-
-        </Grid>   
-        <Grid style={{height:'8vh'}} />
-      </Grid> 
-      <AlertDialog open={isDialogOpen} onClose={handleDialogClose} severity={dialogMessage.severity} title={dialogMessage.title} buttons={dialogButtons}>
-        {dialogMessage.messageLine1}
-        <br />
-        {dialogMessage.messageLine2}
-        <br />
-        {dialogMessage.messageLine3}
-      </AlertDialog> 
-      <Footer />
-    </div>
+      </Grid>
+      <Grid style={{height:'8vh'}} />
+    </Grid>
+    <AlertDialog open={isDialogOpen} onClose={handleDialogClose} severity={dialogMessage.severity} title={dialogMessage.title} buttons={dialogButtons}>
+      {dialogMessage.messageLine1}
+      <br />
+      {dialogMessage.messageLine2}
+      <br />
+      {dialogMessage.messageLine3}
+    </AlertDialog> 
+    <Footer />
+    </>
   )
 }

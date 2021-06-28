@@ -9,7 +9,6 @@ import picMcl from '../assets/mcl.jpg';
 import picElh from '../assets/picelh.jpg';
 import picMaz from '../assets/picmaz.jpg';
 
-
 const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
     position: 'absolute',

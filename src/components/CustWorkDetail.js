@@ -38,7 +38,7 @@ const useStyles = makeStyles( (mainTheme) => ({
     padding:'10px',
     minWidth: 350,
     maxWidth: 550,
-    height: 400,
+    minHeight: 400,
     backgroundColor:mainTheme.palette.secondary.main,  
   },
 
@@ -62,58 +62,55 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
               <Typography align="center" variant="subtitle1" style={{color:'white'}} gutterBottom>Datos Laborales</Typography>
               
               <Grid item container direction="row" spacing={1}>
-              <Grid item xs={12} md={6} > 
-                <HireTypeSelect value={values.customerHiringType} onChange={(e) => handleChange (e,[noBlanks])} name="customerHiringType"/>
-              </Grid>
-              <Grid item xs={12} md={4} >   
 
-              <TextField
-                label="Salario mensual *"
-                value={values.customerSalary}
-                onChange={(e) => handleChange (e,[noBlanks])}
-                variant="filled"
-                fullWidth
-                name="customerSalary"
-                id="formatted-numberformat-input"
-                InputProps={{
-                  inputComponent: NumberFormatAmount,
-                }}
-              />
-              {formErrors.customerSalary ? <div className="error-helper-text">{formErrors.customerSalary}</div> : null}
-
-                    </Grid>
-              <Grid item xs={12} md={2} > 
-                <TextField id="customerLaborSeniority" label="Antiguedad (meses) *"
-                  variant ="filled" type="customerLaborSeniority" type="number" fullWidth
-                  name="customerLaborSeniority" value={values.customerLaborSeniority} onChange={(e) => handleChange (e,[isValidAmount])}
-                  inputProps={{ maxLength: 3 }}
-                  error={formErrors.customerLaborSeniority}></TextField>
-                  {formErrors.customerLaborSeniority ? <div className="error-helper-text">{formErrors.customerLaborSeniority}</div> : null}
-              </Grid>
-              </Grid> 
-              <Grid item container direction="row" spacing={1}>
-              <Grid item xs={12} md={6} > 
-                  
+                <Grid item xs={12} md={6} >
+                  <HireTypeSelect value={values.customerHiringType} onChange={(e) => handleChange (e,[noBlanks])} name="customerHiringType"/>
                 </Grid>
-              </Grid>
+
+                <Grid item xs={9} md={4} >
+                  <TextField
+                    label="Salario mensual *"
+                    value={values.customerSalary}
+                    onChange={(e) => handleChange (e,[noBlanks])}
+                    variant="filled"
+                    fullWidth
+                    name="customerSalary"
+                    id="formatted-numberformat-input"
+                    InputProps={{
+                      inputComponent: NumberFormatAmount,
+                    }}
+                  />
+                  {formErrors.customerSalary ? <div className="error-helper-text">{formErrors.customerSalary}</div> : null}
+                </Grid>
+
+                <Grid item xs={3} md={2} > 
+                  <TextField id="customerLaborSeniority" label="Antiguedad (meses) *"
+                    variant ="filled" type="customerLaborSeniority" type="number" fullWidth
+                    name="customerLaborSeniority" value={values.customerLaborSeniority} onChange={(e) => handleChange (e,[isValidAmount])}
+                    inputProps={{ maxLength: 3 }}
+                    error={formErrors.customerLaborSeniority}></TextField>
+                    {formErrors.customerLaborSeniority ? <div className="error-helper-text">{formErrors.customerLaborSeniority}</div> : null}
+                </Grid>
+              </Grid> 
+
               <Grid item container direction="row" spacing={1}>
-                <Grid item xs={12} md={3} > 
 
-                <TextField
-                  label="RUC *"
-                  value={values.companyId}
-                  onChange={(e) => handleChange (e,[noBlanks])}
-                  variant="filled"
-                  fullWidth
-                  name="companyId"
-                  id="formatted-numberformat-input"
-                  InputProps={{
-                    inputComponent: NumberFormatRUC,
-                  }}
-                />
-                {formErrors.companyId ? <div className="error-helper-text">{formErrors.companyId}</div> : null} 
+                <Grid item xs={9} md={3} > 
+                  <TextField
+                    label="RUC *"
+                    value={values.companyId}
+                    onChange={(e) => handleChange (e,[noBlanks])}
+                    variant="filled"
+                    fullWidth
+                    name="companyId"
+                    id="formatted-numberformat-input"
+                    InputProps={{
+                      inputComponent: NumberFormatRUC,
+                    }}
+                  />
+                  {formErrors.companyId ? <div className="error-helper-text">{formErrors.companyId}</div> : null} 
+                </Grid>
 
-              </Grid>
                 <Grid item xs={12} md={9} > 
                   <TextField id="companyName" label="Nombre de la Empresa *" 
                   variant ="filled"  fullWidth  
@@ -124,8 +121,8 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
               </Grid>
 
               <Grid item container direction="row" spacing={1}>
-                <Grid item xs={12} md={3}> 
 
+                <Grid item xs={4} md={3}> 
                   <TextField
                     label="Linea Baja *"
                     value={values.companyPhone}
@@ -139,30 +136,31 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
                     }}
                   />
                   {formErrors.companyPhone ? <div className="error-helper-text">{formErrors.companyPhone}</div> : null}
-
-                  </Grid>  
-                <Grid item container xs={12} md={6} spacing={1} > 
-                  <Grid item xs={6} >
-                    <MobilePrefixSelect value={values.companyMobilePrefix} onChange={(e) => handleChange (e,[noBlanks])} name="companyMobilePrefix"/> 
-                  </Grid>
-                  <Grid item xs={6} >
-                    <TextField
-                      label="Celular *"
-                      value={values.companyMobile}
-                      onChange={(e) => handleChange (e,[noBlanks])}
-                      variant="filled"
-                      fullWidth
-                      name="companyMobile"
-                      id="formatted-numberformat-input"
-                      InputProps={{
-                       inputComponent: NumberFormatPhone,
-                      }}
-                    />
-                    {formErrors.companyMobile ? <div className="error-helper-text">{formErrors.companyMobile}</div> : null}    
-                  </Grid>
                 </Grid>  
 
-              </Grid>
+                {/* <Grid item container xs={12} md={6} spacing={1} >  */}
+                <Grid item xs={4} md={3} >
+                  <MobilePrefixSelect value={values.companyMobilePrefix} onChange={(e) => handleChange (e,[noBlanks])} name="companyMobilePrefix"/> 
+                  {formErrors.companyMobilePrefix ? <div className="error-helper-text">{formErrors.companyMobilePrefix}</div> : null}
+                </Grid>
+
+                <Grid item xs={4} md={3} >
+                  <TextField
+                    label="Celular *"
+                    value={values.companyMobile}
+                    onChange={(e) => handleChange (e,[noBlanks])}
+                    variant="filled"
+                    fullWidth
+                    name="companyMobile"
+                    id="formatted-numberformat-input"
+                    InputProps={{
+                      inputComponent: NumberFormatPhone,
+                    }}
+                  />
+                  {formErrors.companyMobile ? <div className="error-helper-text">{formErrors.companyMobile}</div> : null}    
+                </Grid>
+              </Grid>  
+
               <Grid item container direction="row" spacing={1}>
                 <Grid item xs={12} md={9}> 
                   <TextField id="companyAddress" label="Direccion *"
@@ -175,6 +173,7 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
                   <CitiesSelect value={values.companyCity} onChange={(e) => handleChange (e,[noBlanks])} name="companyCity"/> 
                 </Grid>  
               </Grid>
+
             </form>
           </Paper>
         </Grid>

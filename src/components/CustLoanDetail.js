@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import TermSelect from './selects/TermSelect';
 import NumberFormatAmount from './formats/NumberFormatAmount';
 import NumberFormatDate from './formats/NumberFormatDate';
-import useUnsavedWarning from '../hooks/useUnsavedwarning';
 
 const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
@@ -128,7 +127,9 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
           <Paper elevation={6} spacing={2} className={classes.paperStyle}>
             <form noValidate>
               <Typography align="center" variant="subtitle1" style={{color:'white'}} gutterBottom>Datos de la Financiación</Typography>
+              
               <Grid item container direction="row" spacing={1}>
+
                 <Grid item xs={12} md={12}> 
                   <TextField id="loanProduct" label="Producto/Servicio" 
                    variant ="filled"  fullWidth  
@@ -140,7 +141,7 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
               </Grid>  {/* Linea Producto   */}
 
               <Grid item container direction="row" spacing={1}>
-                <Grid item xs={12} md={4}> 
+                <Grid item xs={6} md={4}> 
                   <TextField
                     label="Monto solicitado *"
                     value={values.loanCapital}
@@ -156,13 +157,13 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
                   {formErrors.loanCapital ? <div className="error-helper-text">{formErrors.loanCapital}</div> : null}
                 </Grid>
 
-                <Grid item xs={12} md={4}> 
+                <Grid item xs={6} md={4}> 
                   <TermSelect value={values.loanTerm} onChange={(e) => handleChange (e,[noBlanks])} name="loanTerm"/>
                 </Grid>  
               </Grid>  
 
-                <Grid item container direction="row" spacing={1}>
-                  <Grid item xs={12} md={4}> 
+                <Grid item container direction="row" spacing={1}  >
+                  <Grid item xs={6} md={4}> 
                     <TextField id="loanTotalAmount" label="Monto del pagaré"
                       variant ="filled" margin="none" type="loanTotalAmount" disabled fullWidth
                       name="loanTotalAmount" value={values.loanTotalAmount} onChange={(e) => handleChange (e,[isValidAmount])}
@@ -172,7 +173,7 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
                       }}></TextField>
                        {formErrors.loanTotalAmount ? <div className="error-helper-text">{formErrors.loanTotalAmount}</div> : null}
                   </Grid>  
-                  <Grid item xs={12} md={4}> 
+                  <Grid item xs={6} md={4}> 
                     <TextField id="loanPayment" label="Monto de la cuota"
                      variant ="filled" margin="none"  type="loanPayment" disabled fullWidth
                      name="loanPayment" value={values.loanPayment} onChange={(e) => handleChange (e,[isValidAmount])}
@@ -182,10 +183,10 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
                      }}>
                     </TextField>
                     {formErrors.loanPayment ? <div className="error-helper-text">{formErrors.loanPayment}</div> : null}
-                </Grid>
-
-                <Grid item container direction="row" spacing={1}>
-                  <Grid item xs={12} md={4}> 
+                  </Grid>
+                </Grid>  
+                <Grid item container direction="row" spacing={1}  >
+                  <Grid item xs={6} md={4}> 
                     <TextField id="loanExpireDate" label="Fecha de Vencimiento"
                       variant ="filled" margin="none"  type="loanExpireDate" disabled fullWidth
                       name="loanExpireDate" value={values.loanExpireDate} onChange={(e) => handleChange (e,[noBlanks])}
@@ -197,12 +198,8 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
                     {formErrors.loanExpireDate ? <div className="error-helper-text">{formErrors.loanExpireDate}</div> : null}
                   </Grid>
                 </Grid>
-
-              </Grid>  
             </form>
-            
           </Paper>
-       
         </Grid>  {/* Grid formStyle    */}
       </Grid>    {/* Grid contentStyle    */}
       </div>

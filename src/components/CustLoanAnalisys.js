@@ -7,7 +7,6 @@ import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
-import useUnsavedWarning from '../hooks/useUnsavedwarning';
 import { TramRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles( (mainTheme) => ({
@@ -60,12 +59,6 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function CustLoanAnalisys ({handleChange, values, setValues, formErrors, setFormErrors, isLoanPreApproved, setIsLoanPreApproved, isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
 
   const classes = useStyles();  
-//    const [Prompt, setDirty, setPristine] = useUnsavedWarning();
-
-  // useEffect(() => {
-  //   isLoanApproved();
-  // }, []);
-
 
   function isLoanApproved (){
     if ( ! isValidAge().valid || ! isValidLaborSeniority().valid || ! isValidSalaryPaymentRatio().valid ) {

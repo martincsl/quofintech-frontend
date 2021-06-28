@@ -1,9 +1,11 @@
 import React from 'react';
 
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import {FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+
+// import InputLabel from '@material-ui/core/InputLabel';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import FormControl from '@material-ui/core/FormControl';
+// import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles( (mainTheme) => ({
@@ -12,7 +14,7 @@ const useStyles = makeStyles( (mainTheme) => ({
     },
     formControl: {
       marginTop: mainTheme.spacing(0),
-      minWidth: 260,
+      minWidth: 230,
  
       maxHeight: 48,
     },

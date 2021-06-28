@@ -1,24 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 
-import { Button,ThemeProvider,  } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import { Hidden } from '@material-ui/core';
-import Box from '@material-ui/core/Box';
-
+import { AppBar, Toolbar, IconButton, Box, Button, Hidden } from '@material-ui/core';
 import { Drawer, List, ListItem, ListItemText, ListItemIcon, Divider } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+// import AppBar from '@material-ui/core/AppBar';
+// import Toolbar from '@material-ui/core/Toolbar';
+// import IconButton from '@material-ui/core/IconButton';
 
+// import { Hidden } from '@material-ui/core';
+// import Box from '@material-ui/core/Box';
+
+import MenuIcon from '@material-ui/icons/Menu';
 import mainLogo from '../assets/LogoQuo.png';
 
-import mainTheme from '../mainTheme.js';
-import Routes from '../routes.js'
-
 const useStyles = makeStyles( (mainTheme) => ({
-  buttonMenuStyle:{
+  buttonMenuStyle: {
     color: "white",
     backgroundColor:mainTheme.palette.primary.main,
     textTransform:"none",
@@ -27,14 +24,14 @@ const useStyles = makeStyles( (mainTheme) => ({
       color:mainTheme.palette.secondary.main,
     }
   },
-  buttonDrawerStyle:{
+  buttonDrawerStyle: {
     color: "white",
     textTransform:"none",
     "&:hover": {
       color:mainTheme.palette.secondary.main
     },
   },
-  logoStyle:{
+  logoStyle: {
     position: "relative",
     top:"5px"
   },
@@ -64,7 +61,7 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function Header() {
 
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -75,39 +72,36 @@ export default function Header() {
   };
 
   return (
-      <>
-      <ThemeProvider theme = {mainTheme}>
-      <AppBar position="fixed" style={{top:'0px'}}>
-        <Toolbar style={{minWidth:'360'}}>
+    <>
+    <AppBar position="fixed" style={{top:'0px'}}>
+      <Toolbar style={{minWidth:'360'}}>
 
-          <Link to={'/main'}> 
-            <img src={mainLogo} className={classes.logoStyle} style={{ height: '45px'}}/>
-         </Link>   
+        <Link to={'/main'}>
+          <img src={mainLogo} className={classes.logoStyle} style={{ height: '45px'}}/>
+        </Link>
 
-          <Hidden smDown>
-            <Box style={{ width: '20px' }}/>    
-              <Button component={Link} to={'/whoweare'} className={classes.buttonMenuStyle} size="large" disableRipple>Quienes Somos</Button>
-              <Button component={Link} to={'/howitworks'} className={classes.buttonMenuStyle} size="large" disableRipple>Como Funciona?</Button>
-              <Button component={Link} to={'/benefits'} className={classes.buttonMenuStyle} size="large" disableRipple>Beneficios</Button>
-              <Button component={Link} to={'/contact'} className={classes.buttonMenuStyle} size="large" disableRipple>Contáctanos</Button>
-              <div className={classes.grow} />
-{/*}               <Button component={Link} to={'/register'} className={classes.buttonMenuStyle} size="large" disableRipple>Catastrarse</Button> */}
-               <Button component={Link} to={'/login'} className={classes.buttonMenuStyle} size="large" disableRipple>Conectarse</Button>
-          </Hidden>
+        <Hidden smDown>
+          <Box style={{ width: '20px' }}/>    
+            <Button component={Link} to={'/whoweare'} className={classes.buttonMenuStyle} size="large" disableRipple>Quienes Somos</Button>
+            <Button component={Link} to={'/howitworks'} className={classes.buttonMenuStyle} size="large" disableRipple>Como Funciona?</Button>
+            <Button component={Link} to={'/benefits'} className={classes.buttonMenuStyle} size="large" disableRipple>Beneficios</Button>
+            <Button component={Link} to={'/contact'} className={classes.buttonMenuStyle} size="large" disableRipple>Contáctanos</Button>
+            <div className={classes.grow} />
+            <Button component={Link} to={'/login'} className={classes.buttonMenuStyle} size="large" disableRipple>Conectarse</Button>
+        </Hidden>
 
         <div className={classes.toolbarButtons}> 
-            <Hidden mdUp>
-              <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerOpen}>
-                <MenuIcon />
-              </IconButton>
-            </Hidden>
+          <Hidden mdUp>
+            <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerOpen}>
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
        </div> 
  
-        </Toolbar>
-      </AppBar>
+      </Toolbar>
+    </AppBar>
 
-      
-      <Hidden mdUp>
+    <Hidden mdUp>
       <Drawer
         className={classes.drawer}
         variant="temporary"
@@ -120,33 +114,28 @@ export default function Header() {
        >
        <div className={classes.drawerContainer}>
           <List>
-          <ListItem button component={Link} to={'/whoweare'} disableRipple className={classes.buttonDrawerStyle}>
-               <ListItemText primary="Quienes Somos" />
+            <ListItem button component={Link} to={'/whoweare'} disableRipple className={classes.buttonDrawerStyle}>
+              <ListItemText primary="Quienes Somos" />
             </ListItem> 
             <ListItem button component={Link} to={'/howitworks'} disableRipple className={classes.buttonDrawerStyle} >
-               <ListItemText primary="Como Funciona?" />
+              <ListItemText primary="Como Funciona?" />
             </ListItem> 
             <ListItem button component={Link} to={'/benefits'} disableRipple className={classes.buttonDrawerStyle}>
-               <ListItemText primary="Beneficios" />
+              <ListItemText primary="Beneficios" />
             </ListItem> 
             <ListItem button component={Link} to={'/contact'} disableRipple className={classes.buttonDrawerStyle} >
-               <ListItemText primary="Contáctanos" />
+              <ListItemText primary="Contáctanos" />
             </ListItem> 
-           
           </List>
           <Divider />
           <List>
-            <ListItem button component={Link} to={'/register'} disableRipple className={classes.buttonDrawerStyle}>
-               <ListItemText primary="Catastrarse" />
-            </ListItem> 
             <ListItem button component={Link} to={'/login'} disableRipple className={classes.buttonDrawerStyle} >
                <ListItemText primary="Conectarse" />
             </ListItem> 
          </List>
         </div>
       </Drawer>
-      </Hidden>
-      </ThemeProvider>
+    </Hidden>
     </>
   )
 }

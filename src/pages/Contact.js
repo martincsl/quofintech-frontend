@@ -10,7 +10,7 @@ import Footer from '../components/Footer.js';
 import AlertMessage from '../components/modals/AlertMessage';
 
 import useForm from '../components/useForm.js';
-import useUnsavedWarning from '../hooks/useUnsavedwarning';
+import useUnsavedWarning from '../hooks/useUnsavedWarning.js';
 
 const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
@@ -54,7 +54,8 @@ export default function Contact () {
   const {handleChange, handleSubmit, chkBlankFormContact, chkFormErrors, isValidName, isValidPhone, isValidEmail, noBlanks, isValidUser, isValidPassword,values, formErrors} = useForm (submit);
   const [isAlertOpen,setIsAlertOpen]=useState(false);
   const [alertMessage,setAlertMessage]=useState({severity:"",title:"",message:""});
-  const [Prompt, setDirty, setPristine] = useUnsavedWarning();
+  const [Prompt, setIsDirty, setIsPristine] = useUnsavedWarning();
+
   const history = useHistory();
 
   const handleAlertClose = () => {
@@ -74,6 +75,8 @@ export default function Contact () {
       } else {
           setAlertMessage(prevState => ( {...prevState, severity:"success", title: "Mensaje enviado con exito", message:"Nuestro equipo estara revisando para darle una respuesta, gracias!"}));
           setIsAlertOpen(true);
+        setIsPristine(true);
+
       }
   } 
 
@@ -106,21 +109,34 @@ export default function Contact () {
               <Grid item xs={12}> 
                 <TextField id="name" label="Nombre *" 
                   variant ="filled" margin="dense" size="small" fullWidth  
-                  name="name" value={values.name} onChange={(e) => handleChange (e,[noBlanks])}
+                  name="name" value={values.name} 
+                  onChange={ (e) => {
+                    handleChange (e,[noBlanks]);
+                    setIsDirty(true);
+                    }}
+
                   error={formErrors.name} ></TextField>
                   {formErrors.name ? <div className="error-helper-text">{formErrors.name}</div> : null}
               </Grid>
               <Grid item xs={12} md={9}> 
                 <TextField id="phone" label="Celular"
                   variant ="filled" margin="dense" size="small" fullWidth
-                  name="phone" value={values.phone} onChange={(e) => handleChange (e,[noBlanks])}
+                  name="phone" value={values.phone} 
+                  onChange={ (e) => {
+                    handleChange (e,[noBlanks]);
+                    setIsDirty(true);
+                    }}
                   error={formErrors.phone}></TextField>
                   {formErrors.phone ? <div className="error-helper-text">{formErrors.phone}</div> : null}
               </Grid>  
               <Grid item xs={12}>
               <TextField id="email" label="E-mail *" 
                 variant ="filled" margin="dense" size="small" fullWidth 
-                name="email" value={values.email} onChange={(e) => handleChange (e,[noBlanks])}
+                name="email" value={values.email} 
+                onChange={ (e) => {
+                  handleChange (e,[noBlanks]);
+                  setIsDirty(true);
+                  }}
                 error={formErrors.email}></TextField>
                 {formErrors.email ? <div className="error-helper-text">{formErrors.email}</div> : null}
               </Grid>
@@ -128,7 +144,11 @@ export default function Contact () {
                 <Typography align="left" variant="subtitle1" style={{color:'white'}} gutterBottom>Mensaje *</Typography>
                 <div>
                   <textarea name="message" placeholder="Escriba su mensaje" rows="4" 
-                  onChange={(e) => handleChange (e,[noBlanks])}></textarea>
+                    onChange={ (e) => {
+                      handleChange (e,[noBlanks]);
+                      setIsDirty(true);
+                             }}
+                  ></textarea>
                   {formErrors.message ? <div className="error-helper-text">{formErrors.message}</div> : null}
                 </div>
               </Grid>
@@ -141,7 +161,7 @@ export default function Contact () {
         </Grow>
         <Grid />
       </Grid>
-
+      {Prompt}
       <AlertMessage open={isAlertOpen} onClose={handleAlertClose} severity={alertMessage.severity} title={alertMessage.title}>
         {alertMessage.message}
       </AlertMessage>

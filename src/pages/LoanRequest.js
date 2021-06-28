@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useContext, createContext } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Redirect, Route } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
-import { Grid, Paper, Button, Box, TextField, Typography, Grow, Slide } from '@material-ui/core'
+import { Grid, Stepper, Step, StepLabel, Typography, Button, Hidden } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
+
+// import Stepper from '@material-ui/core/Stepper';
+// import Step from '@material-ui/core/Step';
+// import StepLabel from '@material-ui/core/StepLabel';
 
 import HeaderStore from '../components/HeaderStore.js';
 import Footer from '../components/Footer.js';
@@ -14,7 +15,7 @@ import AlertMessage from '../components/modals/AlertMessage';
 import AlertDialog from '../components/modals/AlertDialog.js';
 
 import useValidations from '../hooks/useValidations.js';
-import useCheckFormValues from '../hooks/useCheckFormValues.js';
+// import useCheckFormValues from '../hooks/useCheckFormValues.js';
 
 import CustPersonalDetail from '../components/CustPersonalDetail';
 import CustWorkDetail from '../components/CustWorkDetail';
@@ -319,21 +320,22 @@ function getButtonStatus () {
 
       <Grid item xs={12} md={2}/> 
       <Grid item xs={12} md={8}>
-        <Stepper activeStep={activeStep} style={{height:100}}>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel classes={{label: classes.customLabelStyle}} >{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+        <Hidden smDown>
+          <Stepper activeStep={activeStep} style={{height:100}}>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel classes={{label: classes.customLabelStyle}} >{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </Hidden>
       </Grid>
       <Grid item xs={12} md={2}/>
     </Grid> 
-
       {/* Coloca os componentes (custPersonalDetail/custWorkDetail...) para ler inputs de dados */}
-    <Typography>
-      {getStepContent(activeStep)}
-    </Typography>
+      <Typography>
+        {getStepContent(activeStep)}
+      </Typography>
 
       {/* Coloca os botoes de Volver x proximo x Finalizar */}            
     <Grid container direction="row" alignItems="center" justify="center" className={classes.buttonAreaStyle}> 
