@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { Grid, Paper, Box, Typography, TextField, Button, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,7 +10,7 @@ import Footer from '../components/Footer.js';
 import AlertMessage from '../components/modals/AlertMessage';
 
 import useForm from '../components/useForm.js';
-import useUnsavedWarning from '../hooks/useUnsavedWarning.js';
+import useUnsavedWarning from '../hooks/useUnsavedWarning';
 
 const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
@@ -51,10 +51,10 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function Contact () {
 
   const classes = useStyles();  
-  const {handleChange, handleSubmit, chkBlankFormContact, chkFormErrors, isValidName, isValidPhone, isValidEmail, noBlanks, isValidUser, isValidPassword,values, formErrors} = useForm (submit);
-  const [isAlertOpen,setIsAlertOpen]=useState(false);
-  const [alertMessage,setAlertMessage]=useState({severity:"",title:"",message:""});
-  const [Prompt, setIsDirty, setIsPristine] = useUnsavedWarning();
+  const { handleChange, handleSubmit, chkBlankFormContact, chkFormErrors, isValidName, isValidPhone, isValidEmail, noBlanks, isValidUser, isValidPassword,values, formErrors} = useForm (submit);
+  const [ isAlertOpen, setIsAlertOpen ] = useState(false);
+  const [ alertMessage, setAlertMessage ] = useState({severity:"",title:"",message:""});
+  const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
 
   const history = useHistory();
 
@@ -73,100 +73,89 @@ export default function Contact () {
         setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor corregir los dados marcados como incorrectos, gracias!"}));
         setIsAlertOpen(true);
       } else {
+          setIsPristine();
           setAlertMessage(prevState => ( {...prevState, severity:"success", title: "Mensaje enviado con exito", message:"Nuestro equipo estara revisando para darle una respuesta, gracias!"}));
           setIsAlertOpen(true);
-        setIsPristine(true);
-
-      }
+        }
   } 
 
-{/* <form onSubmit={() => {
-      handleSubmit();
-      setPristine();
-    }} noValidate>
-
-    onChange={(e) => {
-      handleChange (e,[noBlanks]);
-      setDirty();
-    }}
-*/}   
-
   return (
-    <div>
-      <Header />
+    <>
+    <Header />
 
-      <Grid container direction="row" alignItems="center" justify="center" className={classes.contentStyle} style={{ minHeight:'80vh'}}>
-        <Grid />
-        <Grow in timeout = {1000}>
-        <Grid item container className={classes.formStyle}>
-          <Paper elevation={6} spacing={2} className={classes.paperStyle}>
-             <form onSubmit={handleSubmit} noValidate>
-               
-              <Typography align="center" variant="subtitle1" style={{color:'white'}} gutterBottom>Contacto</Typography>
-              <Box className={classes.iconBox} >
-                <ContactMailIcon className={classes.iconStyle} style={{ fontSize: 40 }}/>
-              </Box>
-              <Grid item xs={12}> 
-                <TextField id="name" label="Nombre *" 
-                  variant ="filled" margin="dense" size="small" fullWidth  
-                  name="name" value={values.name} 
-                  onChange={ (e) => {
-                    handleChange (e,[noBlanks]);
-                    setIsDirty(true);
-                    }}
-
-                  error={formErrors.name} ></TextField>
-                  {formErrors.name ? <div className="error-helper-text">{formErrors.name}</div> : null}
-              </Grid>
-              <Grid item xs={12} md={9}> 
-                <TextField id="phone" label="Celular"
-                  variant ="filled" margin="dense" size="small" fullWidth
-                  name="phone" value={values.phone} 
-                  onChange={ (e) => {
-                    handleChange (e,[noBlanks]);
-                    setIsDirty(true);
-                    }}
-                  error={formErrors.phone}></TextField>
-                  {formErrors.phone ? <div className="error-helper-text">{formErrors.phone}</div> : null}
-              </Grid>  
-              <Grid item xs={12}>
-              <TextField id="email" label="E-mail *" 
-                variant ="filled" margin="dense" size="small" fullWidth 
-                name="email" value={values.email} 
+    <Grid container direction="row" alignItems="center" justify="center" className={classes.contentStyle} style={{ minHeight:'80vh'}}>
+      <Grid />
+      <Grow in timeout = {1000}>
+      <Grid item container className={classes.formStyle}>
+        <Paper elevation={6} spacing={2} className={classes.paperStyle}>
+            <form onSubmit={handleSubmit} noValidate>
+              
+            <Typography align="center" variant="subtitle1" style={{color:'white'}} gutterBottom>Contacto</Typography>
+            <Box className={classes.iconBox} >
+              <ContactMailIcon className={classes.iconStyle} style={{ fontSize: 40 }}/>
+            </Box>
+            <Grid item xs={12}> 
+              <TextField id="name" label="Nombre *" 
+                variant ="filled" margin="dense" size="small" fullWidth  
+                name="name" value={values.name} 
                 onChange={ (e) => {
                   handleChange (e,[noBlanks]);
-                  setIsDirty(true);
-                  }}
-                error={formErrors.email}></TextField>
-                {formErrors.email ? <div className="error-helper-text">{formErrors.email}</div> : null}
-              </Grid>
-              <Grid item xs={12}>
-                <Typography align="left" variant="subtitle1" style={{color:'white'}} gutterBottom>Mensaje *</Typography>
-                <div>
-                  <textarea name="message" placeholder="Escriba su mensaje" rows="4" 
-                    onChange={ (e) => {
-                      handleChange (e,[noBlanks]);
-                      setIsDirty(true);
-                             }}
-                  ></textarea>
-                  {formErrors.message ? <div className="error-helper-text">{formErrors.message}</div> : null}
-                </div>
-              </Grid>
-              <Grid container direction="row" alignItems="center" justify="center"> 
-                <Button type="submit" className={classes.buttonStyle} variant="outlined" disableRipple >Enviar Mensaje</Button>
-              </Grid>
-            </form>
-          </Paper>
-        </Grid>
-        </Grow>
-        <Grid />
-      </Grid>
-      {Prompt}
-      <AlertMessage open={isAlertOpen} onClose={handleAlertClose} severity={alertMessage.severity} title={alertMessage.title}>
-        {alertMessage.message}
-      </AlertMessage>
+                  setIsDirty();
+                }}
 
-      <Footer />
-    </div>
+                error={formErrors.name} ></TextField>
+                {formErrors.name ? <div className="error-helper-text">{formErrors.name}</div> : null}
+            </Grid>
+            <Grid item xs={12} md={9}> 
+              <TextField id="phone" label="Celular"
+                variant ="filled" margin="dense" size="small" fullWidth
+                name="phone" value={values.phone} 
+                onChange={ (e) => {
+                  handleChange (e,[noBlanks]);
+                  setIsDirty();
+                }}
+                error={formErrors.phone}></TextField>
+                {formErrors.phone ? <div className="error-helper-text">{formErrors.phone}</div> : null}
+            </Grid>  
+            <Grid item xs={12}>
+            <TextField id="email" label="E-mail *" 
+              variant ="filled" margin="dense" size="small" fullWidth 
+              name="email" value={values.email} 
+              onChange={ (e) => {
+                handleChange (e,[noBlanks]);
+                setIsDirty();
+              }}
+              error={formErrors.email}></TextField>
+              {formErrors.email ? <div className="error-helper-text">{formErrors.email}</div> : null}
+            </Grid>
+            <Grid item xs={12}>
+              <Typography align="left" variant="subtitle1" style={{color:'white'}} gutterBottom>Mensaje *</Typography>
+              <div>
+                <textarea name="message" placeholder="Escriba su mensaje" rows="4" 
+                  onChange={ (e) => {
+                    handleChange (e,[noBlanks]);
+                    setIsDirty();
+                  }}
+                ></textarea>
+                {formErrors.message ? <div className="error-helper-text">{formErrors.message}</div> : null}
+              </div>
+            </Grid>
+            <Grid container direction="row" alignItems="center" justify="center"> 
+              <Button type="submit" className={classes.buttonStyle} variant="outlined" disableRipple >Enviar Mensaje</Button>
+            </Grid>
+          </form>
+        </Paper>
+      </Grid>
+      </Grow>
+      <Grid />
+    </Grid>
+    {Prompt}
+
+    <AlertMessage open={isAlertOpen} onClose={handleAlertClose} severity={alertMessage.severity} title={alertMessage.title}>
+      {alertMessage.message}
+    </AlertMessage>
+
+    <Footer />
+    </>
   )
 }

@@ -4,12 +4,6 @@ import {Link} from 'react-router-dom';
 import { AppBar, Toolbar, IconButton, Box, Button, Hidden } from '@material-ui/core';
 import { Drawer, List, ListItem, ListItemText, ListItemIcon, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-// import AppBar from '@material-ui/core/AppBar';
-// import Toolbar from '@material-ui/core/Toolbar';
-// import IconButton from '@material-ui/core/IconButton';
-
-// import { Hidden } from '@material-ui/core';
-// import Box from '@material-ui/core/Box';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import mainLogo from '../assets/LogoQuo.png';

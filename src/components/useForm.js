@@ -4,7 +4,7 @@ export default function useForm (callback) {
 
   const [values, setValues] = useState({ name: "", phone: "", email: "", message:"", user:"",password:"" });
   const [formErrors, setFormErrors] = useState({ name: "", phone: "", email: "", message:"", user:"",password:"" });
-  const {name, phone, email, message, user, password} = values
+  const {name, email, message, user, password} = values
 
   function noBlanks (value) {
     if (value === "") {
@@ -24,15 +24,13 @@ export default function useForm (callback) {
       }
     } else if (value==="jmartinez" || value==="mcalcena" || value==="elopez" || value==="admin") {
       return {valid:true}
-  } else {
-    return {
-      valid: false,
-      message: "Nombre de usuario no catastrado"
+    } else {
+       return {
+         valid: false,
+         message: "Nombre de usuario no catastrado"
+       }
     }
-  }
-}
-
-
+  } 
 
   function isValidPassword (value) {
     if (value === "") {
@@ -93,10 +91,11 @@ export default function useForm (callback) {
   function chkFormErrors () {
     let isError = false;
     Object.keys(formErrors).forEach( (key) => {   // key es el nombre del key
-      if (formErrors[key] != ""){                //errors[key] es el contenido del key
+      if (formErrors[key] !== ""){                //errors[key] es el contenido del key
         isError=true;
       }
     })
+
     return isError;
   }
   
@@ -116,7 +115,7 @@ export default function useForm (callback) {
     let isError = false;
     const valuesToCheck={user,password}
     Object.keys(valuesToCheck).forEach( (key) => {   // key es el nombre del key
-      if (values [key] === ""){                //values[key] es el contenido del key
+      if (values [key] === "") {                     //values[key] es el contenido del key
         setFormErrors(prevState => ( {...prevState, [key]:  "Esta información es requerida"}));
         isError=true;
       }
@@ -151,6 +150,6 @@ export default function useForm (callback) {
     })
   }
 
-  return { handleChange, handleSubmit, chkBlankFormContact, chkBlankFormLogin,chkFormErrors, isValidName, isValidPhone, isValidEmail, noBlanks, isValidUser, isValidPassword,values, formErrors }
+  return { handleChange, handleSubmit, chkBlankFormContact, chkBlankFormLogin,chkFormErrors, isValidName, isValidPhone, isValidEmail, noBlanks, isValidUser, isValidPassword, values, formErrors }
 }
 

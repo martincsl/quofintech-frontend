@@ -2,21 +2,11 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Redirect } from "react-router-dom";
 
-import { Grid, Stepper, Step, StepLabel, Typography, Button, Hidden } from '@material-ui/core'
+import { Grid, Typography, Button, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
-// import Stepper from '@material-ui/core/Stepper';
-// import Step from '@material-ui/core/Step';
-// import StepLabel from '@material-ui/core/StepLabel';
 
 import HeaderStore from '../components/HeaderStore.js';
 import Footer from '../components/Footer.js';
-import AlertMessage from '../components/modals/AlertMessage';
-import AlertDialog from '../components/modals/AlertDialog.js';
-
-import useValidations from '../hooks/useValidations.js';
-// import useCheckFormValues from '../hooks/useCheckFormValues.js';
-
 import CustPersonalDetail from '../components/CustPersonalDetail';
 import CustWorkDetail from '../components/CustWorkDetail';
 import CustLoanDetail from '../components/CustLoanDetail';
@@ -24,6 +14,15 @@ import CustLoanAnalisys from '../components/CustLoanAnalisys.js';
 import CustPersReferences from '../components/CustPersReferences';
 import CustComReferences from '../components/CustComReferences';
 import CustDocsUpload from '../components/CustDocsUpload.js';
+
+import AlertMessage from '../components/modals/AlertMessage';
+import AlertDialog from '../components/modals/AlertDialog.js';
+
+import useValidations from '../hooks/useValidations.js';
+import useUnsavedWarning from '../hooks/useUnsavedWarning';
+
+import CustomerStepper from '../components/CustomerStepper';
+import useStepper from '../hooks/useStepper';
 
 const useStyles = makeStyles( (mainTheme) => ({
   root: {
@@ -48,7 +47,6 @@ const useStyles = makeStyles( (mainTheme) => ({
   },
   contentStyle: {
     position: 'absolute',
-
     top: '120px',
   },
   titleStyle: {
@@ -107,9 +105,7 @@ const useStyles = makeStyles( (mainTheme) => ({
     margin: "auto",
     marginTop: "10px",
   },
-  customLabelStyle: {
-    fontSize: "12px",
-  }
+
 }))
 
 function getSteps() {
@@ -120,27 +116,28 @@ export default function LoanRequest (){
 
   const classes = useStyles();  
   const history = useHistory();
+
   const inicialValuesState={ customerId: "", customerName: "", customerBirthDate:"",customerMobilePrefix:"",customerMobile: "", customerEmail: "", customerCity:"", customerAddress:"", customerOccupation:"",customerSalary:"",customerLaborSeniority:"",companyId:"",companyName:"",companyPhone:"", companyMobilePrefix:"",companyMobile:"", companyAddress:"", companyCity:"",customerHiringType:"", loanId:"",loanProduct:"", loanCapital:"", loanTerm:"", loanPayment:"", loanTotalAmount:"",loanExpireDate:"",loanRequestStatus:"",loanRequestDenialMsg:"",loanDocStatus:"",customerIdFile1:"",customerIdFile2:"",customerInvoiceFile:"",customerTaxFile1:"",customerTaxFile2:"",customerTaxFile3:"",persReference1Id:"",persReference1Name:"",persReference1MobilePrefix:"",persReference1Mobile:"",persReference2Id:"",persReference2Name:"",persReference2MobilePrefix:"",persReference2Mobile:"",comReference1Id:"",comReference1Name:"",comReference1MobilePrefix:"",comReference1Mobile:"",comReference2Id:"",comReference2Name:"",comReference2MobilePrefix:"",comReference2Mobile:"" };
   const inicialFormErrorsState={ customerId: "", customerName: "", customerBirthDate:"",customerMobilePrefix:"",customerMobile: "", customerEmail: "", customerCity:"", customerAddress:"", customerOccupation:"",customerSalary:"",customerLaborSeniority:"",companyId:"",companyName:"",companyPhone:"", companyMobilePrefix:"",companyMobile:"", companyAddress:"", companyCity:"",customerHiringType:"", loanId:"",loanProduct:"", loanCapital:"", loanTerm:"", loanPayment:"", loanTotalAmount:"",loanExpireDate:"",loanRequestStatus:"",loanRequestDenialMsg:"",loanDocStatus:"",customerIdFile1:"",customerIdFile2:"",customerInvoiceFile:"",customerTaxFile1:"",customerTaxFile2:"",customerTaxFile3:"",persReference1Id:"",persReference1Name:"",persReference1MobilePrefix:"",persReference1Mobile:"",persReference2Id:"",persReference2Name:"",persReference2MobilePrefix:"",persReference2Mobile:"",comReference1Id:"",comReference1Name:"",comReference1MobilePrefix:"",comReference1Mobile:"",comReference2Id:"",comReference2Name:"",comReference2MobilePrefix:"",comReference2Mobile:"" };
-  
-  const {isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks} = useValidations ();
-  const [activeStep, setActiveStep] = useState(0);
   const [values, setValues] = useState(inicialValuesState);
   const [formErrors, setFormErrors] = useState(inicialFormErrorsState);
-  
   const {customerId, customerName, customerBirthDate,customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary,customerLaborSeniority,companyId,companyName,companyPhone, companyMobile, companyAddress, customerHiringType, loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount,loanExpireDate,loanRequestStatus,loanDocStatus,persReference1Id,persReference1Name,persReference1MobilePrefix,persReference1Mobile,persReference2Id,persReference2Name,persReference2MobilePrefix,persReference2Mobile,comReference1Id,comReference1Name,comReference1MobilePrefix,comReference1Mobile,comReference2Id,comReference2Name,comReference2MobilePrefix,comReference2Mobile } = values;
+
+  const {isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks} = useValidations ();
+
+  const [activeStep, setActiveStep] = useState(0);
+  const {handleBack, handleNext, handleReset} = useStepper(activeStep,setActiveStep, submit);
+  const steps = getSteps();
+
+  const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
   const [isLoanPreApproved, setIsLoanPreApproved] = useState(false);
-  // const [isRequestComplete, setIsRequestComplete] = useState(false);
+
   const [isAlertOpen,setIsAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState({severity:"",title:"",message:""});
   const [isDialogOpen,setIsDialogOpen] = useState(false);
   const [dialogMessage,setDialogMessage] = useState({title:"",message:""});
   const dialogButtons = {button1:"Salir",button2:"Nueva Solicitud"};
   const dialogBtnsUnmount = {button1:"Salir",button2:"Seguir cargando"};
-  // const [isDirty, setIsDirty]=useState(false);
-
-  const steps = getSteps();
-  //const LoanContext = createContext({})
 
   const handleAlertClose = () => {
     setIsAlertOpen(false);
@@ -172,32 +169,6 @@ export default function LoanRequest (){
     history.push('/sponsor');
   }
 
-  const handleNext = () => {
-    if (activeStep < 6) {
-      // caso custPersonalDetail
-//      if (isBlankFormCustomer ()){
-//        setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias!"}));
-//        setIsAlertOpen(true);
-//      } else if (isFormErrors()) {
-//          setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor corregir los dados marcados como incorrectos, gracias!"}));
-//          setIsAlertOpen(true);
-//        } else {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1); 
-//      } 
-      
-    } else if (activeStep===6) {
-      submit()
-    }
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
   function chkFormErrors () {
     let isError = false;
     Object.keys(formErrors).forEach( (key) => {   // key es el nombre del key
@@ -227,6 +198,7 @@ export default function LoanRequest (){
   }
 
   const handleValidators = (target, validators) => {
+
     validators.forEach(validation => {         // array 
     const result= validation (target.value)    // value="martin" ou "0985 290979"...
     const errors= formErrors [target.name]     // le os erros do "vetor"
@@ -243,13 +215,15 @@ export default function LoanRequest (){
   }
 
   function submit() {
-    
+
     if (chkBlankFormCustomer ()){
       setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias!"}));
       setIsAlertOpen(true);
+
     } else if (chkFormErrors()) {
         setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor corregir los dados marcados como incorrectos, gracias!"}));
         setIsAlertOpen(true);
+
       } else {
           setDialogMessage( {title: "Solicitud cargada con exito !", message:"Desea cargar una nueva solicitud ?"});
           setIsDialogOpen(true);   
@@ -260,53 +234,29 @@ export default function LoanRequest (){
     switch (stepIndex) {
       case 0:
         return (
-          <CustPersonalDetail 
-            handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/>
-        );
+          <CustPersonalDetail handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> );
       case 1:
          return (
-          <CustLoanDetail 
-            handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/>
-        );
+          <CustLoanDetail handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> );
       case 2:
         return (
-          <CustWorkDetail 
-            handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/>
-        );
+          <CustWorkDetail handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> );
       case 3:
         return (
-          <CustLoanAnalisys 
-            handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isLoanPreApproved={isLoanPreApproved} setIsLoanPreApproved={setIsLoanPreApproved} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/>
-        );
+          <CustLoanAnalisys isLoanPreApproved={isLoanPreApproved} setIsLoanPreApproved={setIsLoanPreApproved} /> );
       case 4:
           return (
-           <CustPersReferences 
-             handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/>
-          ) 
+           <CustPersReferences handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> );
       case 5:
         return (
-          <CustComReferences 
-            handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/>
-        )   
+          <CustComReferences handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> );   
       case 6:
         return (
-         <CustDocsUpload 
-           handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/>
-        )  
-    }
+          <CustDocsUpload handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> ); 
+    } 
   }
 
-// function getButtonText () {
-//   if (activeStep === steps.length - 1){
-//     return 'Enviar Solicitud';
-//   } else if (! isLoanPreApproved && activeStep===3)  {
-//       return "Cargar Nueva"
-//   } else {
-//       return 'Proximo';
-//   }
-// }
-
-function getButtonStatus () {
+function getIsButtonDisabled () {
   if (! isLoanPreApproved && activeStep === 3) {
     return true;
   }
@@ -315,48 +265,39 @@ function getButtonStatus () {
     <>    
     <HeaderStore />
 
-    {/* Coloca o Stepper */}
     <Grid container direction="row" alignItems="center" justify="center" className={classes.stepperStyle}>
 
       <Grid item xs={12} md={2}/> 
       <Grid item xs={12} md={8}>
         <Hidden smDown>
-          <Stepper activeStep={activeStep} style={{height:100}}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel classes={{label: classes.customLabelStyle}} >{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
+          <CustomerStepper activeStep={activeStep} steps={steps} />
         </Hidden>
       </Grid>
       <Grid item xs={12} md={2}/>
     </Grid> 
-      {/* Coloca os componentes (custPersonalDetail/custWorkDetail...) para ler inputs de dados */}
-      <Typography>
-        {getStepContent(activeStep)}
-      </Typography>
 
-      {/* Coloca os botoes de Volver x proximo x Finalizar */}            
+    <Typography>
+      {getStepContent(activeStep)}
+    </Typography>
+
     <Grid container direction="row" alignItems="center" justify="center" className={classes.buttonAreaStyle}> 
+
       <Grid item xs={0} md={4} />
 
       <Grid item xs={6} md={2} style={{textAlign:"left"}} style={{paddingRight:0}} >
-        <Button
-          onClick={handleExit} className={classes.buttonStyle} disableRipple >
+        <Button onClick={handleExit} className={classes.buttonStyle} disableRipple >
           Salir
          </Button>
       </Grid>
-      <Grid item xs={6} md={1} style={{textAlign:"right"}}  >
-       
-          <Button
-            disabled={activeStep === 0} onClick={handleBack} className={classes.buttonStyle} disableRipple>
-            Anterior
-          </Button>
-      
+     
+      <Grid item xs={6} md={1} style={{textAlign:"right"}} >
+        <Button disabled={activeStep === 0} onClick={handleBack} className={classes.buttonStyle} disableRipple>
+          Anterior
+        </Button>
       </Grid>
-      <Grid item xs={6} md={2}  >
-        <Button className={classes.buttonStyle} disabled={getButtonStatus()} variant="contained" onClick={handleNext} disableRipple >
+     
+      <Grid item xs={6} md={2} >
+        <Button className={classes.buttonStyle} disabled={getIsButtonDisabled()} variant="contained" onClick={handleNext} disableRipple >
           {activeStep === steps.length - 1 ? 'Enviar Solicitud' : 'Próximo'}
         </Button>
       </Grid>
@@ -366,6 +307,7 @@ function getButtonStatus () {
     <AlertMessage open={isAlertOpen} onClose={handleAlertClose} severity={alertMessage.severity} title={alertMessage.title}>
       {alertMessage.message}
     </AlertMessage>
+
     <AlertDialog open={isDialogOpen} onClose={handleDialogClose} severity="success" title={dialogMessage.title} buttons={dialogButtons}>
       {dialogMessage.message}
     </AlertDialog> 

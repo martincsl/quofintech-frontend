@@ -1,7 +1,9 @@
 import React, {useEffect} from 'react';
 
-import { Grid, Paper, Button, Box, TextField, Typography, Grow, Slide, InputAdornment } from '@material-ui/core'
+import { Grid, Paper, TextField, Typography, Grow, Slide } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
+
+import useUnsavedWarning from '../hooks/useUnsavedWarning';
 
 import MobilePrefixSelect from './selects/MobilePrefixSelect';
 import CitiesSelect from './selects/CitiesSelect';
@@ -47,6 +49,7 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function CustWorkDetail ({handleChange, values, setValues, formErrors, setFormErrors,isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
 
   const classes = useStyles();
+  const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
 
   useEffect(() => {
     localStorage.setItem("stateData", JSON.stringify(values));
@@ -71,7 +74,7 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
                   <TextField
                     label="Salario mensual *"
                     value={values.customerSalary}
-                    onChange={(e) => handleChange (e,[noBlanks])}
+                    onChange={ (e) => { handleChange (e,[noBlanks])}}
                     variant="filled"
                     fullWidth
                     name="customerSalary"
@@ -86,7 +89,8 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
                 <Grid item xs={3} md={2} > 
                   <TextField id="customerLaborSeniority" label="Antiguedad (meses) *"
                     variant ="filled" type="customerLaborSeniority" type="number" fullWidth
-                    name="customerLaborSeniority" value={values.customerLaborSeniority} onChange={(e) => handleChange (e,[isValidAmount])}
+                    name="customerLaborSeniority" value={values.customerLaborSeniority} 
+                    onChange={ (e) => { handleChange (e,[noBlanks])}}
                     inputProps={{ maxLength: 3 }}
                     error={formErrors.customerLaborSeniority}></TextField>
                     {formErrors.customerLaborSeniority ? <div className="error-helper-text">{formErrors.customerLaborSeniority}</div> : null}
@@ -99,7 +103,7 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
                   <TextField
                     label="RUC *"
                     value={values.companyId}
-                    onChange={(e) => handleChange (e,[noBlanks])}
+                    onChange={ (e) => { handleChange (e,[noBlanks])}}
                     variant="filled"
                     fullWidth
                     name="companyId"
@@ -114,7 +118,8 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
                 <Grid item xs={12} md={9} > 
                   <TextField id="companyName" label="Nombre de la Empresa *" 
                   variant ="filled"  fullWidth  
-                  name="companyName" value={values.companyName} onChange={ (e) => handleChange (e,[noBlanks])}
+                  name="companyName" value={values.companyName} 
+                  onChange={ (e) => { handleChange (e,[noBlanks])}}
                   error={formErrors.companyName} ></TextField>
                   {formErrors.companyName ? <div className="error-helper-text">{formErrors.companyName}</div> : null}
                 </Grid>
@@ -126,7 +131,7 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
                   <TextField
                     label="Linea Baja *"
                     value={values.companyPhone}
-                    onChange={(e) => handleChange (e,[noBlanks])}
+                    onChange={ (e) => { handleChange (e,[noBlanks])}}
                     variant="filled"
                     fullWidth
                     name="companyPhone"
@@ -140,7 +145,7 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
 
                 {/* <Grid item container xs={12} md={6} spacing={1} >  */}
                 <Grid item xs={4} md={3} >
-                  <MobilePrefixSelect value={values.companyMobilePrefix} onChange={(e) => handleChange (e,[noBlanks])} name="companyMobilePrefix"/> 
+                  <MobilePrefixSelect value={values.companyMobilePrefix} onChange={ (e) => { handleChange (e,[noBlanks])}} name="companyMobilePrefix"/> 
                   {formErrors.companyMobilePrefix ? <div className="error-helper-text">{formErrors.companyMobilePrefix}</div> : null}
                 </Grid>
 
@@ -148,7 +153,7 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
                   <TextField
                     label="Celular *"
                     value={values.companyMobile}
-                    onChange={(e) => handleChange (e,[noBlanks])}
+                    onChange={ (e) => { handleChange (e,[noBlanks])}}
                     variant="filled"
                     fullWidth
                     name="companyMobile"
@@ -165,7 +170,8 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
                 <Grid item xs={12} md={9}> 
                   <TextField id="companyAddress" label="Direccion *"
                   variant ="filled" type="companyAddress" fullWidth
-                  name="companyAddress" value={values.companyAddress} onChange={(e) => handleChange (e,[noBlanks])}
+                  name="companyAddress" value={values.companyAddress} 
+                  onChange={ (e) => { handleChange (e,[noBlanks])}}
                   error={formErrors.companyAddress}></TextField>
                   {formErrors.companyAddress ? <div className="error-helper-text">{formErrors.companyAddress}</div> : null}
                 </Grid>  
@@ -178,6 +184,7 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
           </Paper>
         </Grid>
       </Grid>
+      {Prompt}
       </div>
     )
 }

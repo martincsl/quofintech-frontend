@@ -1,11 +1,13 @@
 import React from 'react';
+
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { Typography } from '@material-ui/core';
 
-export default function MyComponent (){
+export default function Carousel () {
 
   const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+  
   return(
   <AutoPlaySwipeableViews>
     <Typography align="center" variant="h3" gutterBottom>Aumente sus ventas Hoy!</Typography>

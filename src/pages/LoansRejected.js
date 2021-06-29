@@ -60,17 +60,17 @@ const useStyles = makeStyles({
 
 export default function LoansRejected () {
 
-  const [isDialogOpen,setIsDialogOpen]=useState(false);
-  const [dialogMessage,setDialogMessage]=useState({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:""});
+  const [ isDialogOpen,setIsDialogOpen ] = useState (false);
+  const [ dialogMessage,setDialogMessage ] = useState ({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:""});
   const dialogButtons = {button1:"Volver",button2:"Confirmar"}
 
   const handleDeleteLoan = (incident) => {
     setDialogMessage ({ 
-      severity:"warning",
+      severity: "warning",
       title: "Solicitud de Exclusión", 
-      messageLine1:`${incident.customerName}`, 
-      messageLine2:`Monto Solicitado: ${Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(incident.loanCapital)}`, 
-      messageLine3:"Confirma la exclusón de la solicitud ?"});
+      messageLine1: `${incident.customerName}`, 
+      messageLine2: `Monto Solicitado: ${Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(incident.loanCapital)}`, 
+      messageLine3: "Confirma la exclusón de la solicitud ?"});
     setIsDialogOpen(true);   
   }
 

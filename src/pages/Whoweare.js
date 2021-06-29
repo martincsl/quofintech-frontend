@@ -15,8 +15,8 @@ const useStyles = makeStyles( (mainTheme) => ({
     top: '65px'
   },
   titleStyle:{
-    width: "100%",   
-    padding: "15px",   
+    width: "100%",
+    padding: "15px",
     color: mainTheme.palette.secondary.main,
     backgroundColor: "white",
     marginBottom: "0px",
@@ -26,15 +26,15 @@ const useStyles = makeStyles( (mainTheme) => ({
     paddingRight:"10px",
   },
   bannerStyle:{
-    width: "100%",   
-    padding: "15px",   
+    width: "100%",
+    padding: "15px",
     color: "white",
     backgroundColor: mainTheme.palette.secondary.main,
     marginBottom: "10px",
   },
   boxStyle:{
-    width: "100%",   
-    padding: "1px",   
+    width: "100%",
+    padding: "1px",
     color: "white",
     backgroundColor: mainTheme.palette.primary.main,
     marginBottom: "10px",
@@ -44,7 +44,7 @@ const useStyles = makeStyles( (mainTheme) => ({
     [mainTheme.breakpoints.up('md')]: {
       "&:hover": {
         marginTop:"-5px",
-      },   
+      },
     },
   },
   photoStyle:{
@@ -70,9 +70,10 @@ const useStyles = makeStyles( (mainTheme) => ({
 
 export default function Whoweare () {
 
-  const classes  =useStyles();
+  const classes = useStyles();
+
   return (
-    <div>
+    <>
     <Header />
 
     <Grid container direction="column" alignItems="center" className={classes.contentStyle} >
@@ -142,7 +143,7 @@ export default function Whoweare () {
     </Grid>
 
     <Footer />
-    </div>
+    </>
   )
 }
 

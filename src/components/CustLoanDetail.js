@@ -3,6 +3,8 @@ import React, {useEffect, useContext} from 'react';
 import { Grid, Paper, TextField, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
+import useUnsavedWarning from '../hooks/useUnsavedWarning';
+
 import TermSelect from './selects/TermSelect';
 import NumberFormatAmount from './formats/NumberFormatAmount';
 import NumberFormatDate from './formats/NumberFormatDate';
@@ -61,6 +63,7 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
   }, [values.loanCapital]);
 
     const classes = useStyles();  
+    const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
        
     function calcLoanExpireDate () {
       let today = new Date();
@@ -134,7 +137,8 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
                   <TextField id="loanProduct" label="Producto/Servicio" 
                    variant ="filled"  fullWidth  
                   
-                   name="loanProduct" value={values.loanProduct} onChange={(e) => handleChange (e,[noBlanks])}
+                   name="loanProduct" value={values.loanProduct} 
+                   onChange={(e) => { handleChange (e,[noBlanks])}}
                    error={formErrors.loanProduct} ></TextField>
                    {formErrors.loanProduct ? <div className="error-helper-text">{formErrors.loanProduct}</div> : null}
                 </Grid>
@@ -145,7 +149,7 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
                   <TextField
                     label="Monto solicitado *"
                     value={values.loanCapital}
-                    onChange={(e) => handleChange (e,[noBlanks])}
+                    onChange={(e) => { handleChange (e,[noBlanks])}}
                     variant="filled"
                     fullWidth
                     name="loanCapital"
@@ -158,7 +162,12 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
                 </Grid>
 
                 <Grid item xs={6} md={4}> 
-                  <TermSelect value={values.loanTerm} onChange={(e) => handleChange (e,[noBlanks])} name="loanTerm"/>
+                  <TermSelect value={values.loanTerm} 
+                    onChange={ (e) => {
+                      handleChange (e,[noBlanks]);
+                      setIsDirty ();
+                    }}
+                    name="loanTerm"/>
                 </Grid>  
               </Grid>  
 
@@ -166,7 +175,8 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
                   <Grid item xs={6} md={4}> 
                     <TextField id="loanTotalAmount" label="Monto del pagaré"
                       variant ="filled" margin="none" type="loanTotalAmount" disabled fullWidth
-                      name="loanTotalAmount" value={values.loanTotalAmount} onChange={(e) => handleChange (e,[isValidAmount])}
+                      name="loanTotalAmount" value={values.loanTotalAmount} 
+                      onChange={(e) => handleChange (e,[isValidAmount])}
                       error={formErrors.loanTotalAmount}
                       InputProps={{
                         inputComponent: NumberFormatAmount,
@@ -176,7 +186,8 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
                   <Grid item xs={6} md={4}> 
                     <TextField id="loanPayment" label="Monto de la cuota"
                      variant ="filled" margin="none"  type="loanPayment" disabled fullWidth
-                     name="loanPayment" value={values.loanPayment} onChange={(e) => handleChange (e,[isValidAmount])}
+                     name="loanPayment" value={values.loanPayment} 
+                     onChange={(e) => handleChange (e,[isValidAmount])}
                      error={formErrors.loanPayment}
                      InputProps={{
                       inputComponent: NumberFormatAmount,
@@ -189,7 +200,8 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
                   <Grid item xs={6} md={4}> 
                     <TextField id="loanExpireDate" label="Fecha de Vencimiento"
                       variant ="filled" margin="none"  type="loanExpireDate" disabled fullWidth
-                      name="loanExpireDate" value={values.loanExpireDate} onChange={(e) => handleChange (e,[noBlanks])}
+                      name="loanExpireDate" value={values.loanExpireDate} 
+                      onChange={(e) => handleChange (e,[noBlanks])}
                       error={formErrors.loanExpireDate}
                       InputProps={{
                         inputComponent: NumberFormatDate,
@@ -202,6 +214,7 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
           </Paper>
         </Grid>  {/* Grid formStyle    */}
       </Grid>    {/* Grid contentStyle    */}
+      {Prompt}
       </div>
     )
 }

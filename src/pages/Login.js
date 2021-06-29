@@ -10,7 +10,6 @@ import Footer from '../components/Footer.js';
 import AlertMessage from '../components/modals/AlertMessage.js';
 import useForm from '../components/useForm.js';
 import useUnsavedWarning from '../hooks/useUnsavedWarning.js';
-import { AlternateEmail } from '@material-ui/icons';
 
 const useStyles = makeStyles((mainTheme) => ({
   contentStyle: {
@@ -76,9 +75,9 @@ export default function Login () {
 
   const handleAlertClose = () => {
     setIsAlertOpen(false);
-    // if (alertMessage.severity==="success"){
-    //   history.push('/sponsor');  
-    // }
+    if (alertMessage.severity==="success"){
+      history.push('/sponsor');  
+    }
   };
 
   function submit() {
@@ -91,13 +90,13 @@ export default function Login () {
       setIsAlertOpen(true);
    
       } else {
-        // setAlertMessage(prevState => ( {...prevState, severity:"success", title: "Inicio de sesión exitosa", message:"Iniciando sesión en Quo"}));
-        // setIsAlertOpen(true);
+
         console.log("passou em submit");
-        
         setIsPristine();
+        setAlertMessage(prevState => ( {...prevState, severity:"success", title: "Iniciando Sesión en la plataforma de Quo", message:""}));
+        setIsAlertOpen(true);
         // console.log(isDirty);
-        history.push('/sponsor');  
+        // history.push('/sponsor');  
       }
   } 
 
@@ -111,40 +110,39 @@ export default function Login () {
       <Grid item container className={classes.formStyle}>
         <Paper elevation={6} spacing={2} className={classes.paperStyle}>
           <form onSubmit={handleSubmit} noValidate>
-          <Typography align="center" variant="subtitle1" style={{color:'white'}} gutterBottom>Conectarse a la Plataforma de Quo</Typography>
-          <Box className={classes.iconBox} >
-            <CastConnectedIcon className={classes.iconStyle} style={{ fontSize: 40 }}/>
-          </Box>
-        
-          <Grid item xs={12} md={12} spacing={1}> 
-            <TextField id="user" label="Nombre de usuario *" 
-              variant ="filled" margin="dense" size="small" fullWidth  
-              name="user" value={values.user} 
-              onChange={ (e) => {
-                handleChange (e,[noBlanks]);
-                setIsDirty ();
-               
-              }}
-            error={formErrors.user} ></TextField>
-            {formErrors.user ? <div className="error-helper-text">{formErrors.user}</div> : null}
-          </Grid>
+            <Typography align="center" variant="subtitle1" style={{color:'white'}} gutterBottom>Conectarse a la Plataforma de Quo</Typography>
+            <Box className={classes.iconBox} >
+              <CastConnectedIcon className={classes.iconStyle} style={{ fontSize: 40 }}/>
+            </Box>
           
-          <Grid item xs={12} md={9} spacing={1}> 
-            <TextField id="password" label="Contraseña *"
-                variant ="filled" margin="dense" size="small" type="password" fullWidth
-                name="password" value={values.password} 
+            <Grid item xs={12} md={12} spacing={1}> 
+              <TextField id="user" label="Nombre de usuario *" 
+                variant ="filled" margin="dense" size="small" fullWidth  
+                name="user" value={values.user} 
                 onChange={ (e) => {
-                handleChange (e,[noBlanks]);
-                setIsDirty ();
-                console.log(setIsDirty);
-              }}
-              error={formErrors.password}></TextField>
-              {formErrors.password ? <div className="error-helper-text">{formErrors.password}</div> : null}
-        
-          </Grid>
-          <Grid container direction="row" alignItems="center" justify="center"> 
-            <Button type="submit" className={classes.buttonStyle} variant="outlined" disableRipple >Iniciar Sesión</Button>
-          </Grid>
+                  handleChange (e,[noBlanks]);
+                  setIsDirty ();
+                }}
+              error={formErrors.user} ></TextField>
+              {formErrors.user ? <div className="error-helper-text">{formErrors.user}</div> : null}
+            </Grid>
+            
+            <Grid item xs={12} md={9} spacing={1}> 
+              <TextField id="password" label="Contraseña *"
+                  variant ="filled" margin="dense" size="small" type="password" fullWidth
+                  name="password" value={values.password} 
+                  onChange={ (e) => {
+                  handleChange (e,[noBlanks]);
+                  setIsDirty ();
+                
+                }}
+                error={formErrors.password}></TextField>
+                {formErrors.password ? <div className="error-helper-text">{formErrors.password}</div> : null}
+          
+            </Grid>
+            <Grid container direction="row" alignItems="center" justify="center"> 
+              <Button type="submit" className={classes.buttonStyle} variant="outlined" disableRipple >Iniciar Sesión</Button>
+            </Grid>
           </form>
         </Paper>
       </Grid>

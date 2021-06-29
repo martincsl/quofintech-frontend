@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Main from './Main.js';
 import Whoweare from './pages/Whoweare.js';
@@ -7,7 +7,6 @@ import Howitworks from './pages/Howitworks.js';
 import Benefits from './pages/Benefits.js';
 import Contact from './pages/Contact.js';
 import Login from './pages/Login.js';
-
 import Sponsor from './pages/Sponsor';
 import LoanRequest from './pages/LoanRequest.js';
 import LoansInProcess from './pages/LoansInProcess.js';

@@ -193,6 +193,7 @@ export default function LoansInProcess () {
 
       <Grid container direction="column" alignItems="center" style= {{ minHeight: '90vh'}}>
         <Grid item xs={12} style= {{ minHeight: '0vh'}}/> 
+        
         <Grid item xs={12} style= {{ width: '100%'}}>
           <Box className={classes.titleStyle}>      
             <Typography align="center" variant="h6" ><b>Solicitudes en Proceso de Analisis</b></Typography>
@@ -216,8 +217,8 @@ export default function LoansInProcess () {
                 <Grid container direction="rows" alignItems="center" justify="center"> 
                   <Button variant="outlined" size="small" disableRipple startIcon={<DeleteForeverIcon />} className={classes.buttonStyle} style={{justifyContent: 'center'},{width:'150px'}} onClick={() => handleDeleteLoan(incident)}>Excluir Solicitud</Button>
                 </Grid>
-                </Paper>  
-               </Grid> 
+              </Paper>  
+            </Grid> 
            ))}
         </Grid>   
         <Grid style={{height:'8vh'}} />

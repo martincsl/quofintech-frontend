@@ -10,7 +10,7 @@ function App() {
   return (
 
     <ThemeProvider theme={mainTheme}>
-         <Routes />
+      <Routes />
     </ThemeProvider>
   )
 }

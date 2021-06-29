@@ -16,7 +16,7 @@ export default function AlertMessage ({open, onClose, severity, title, children 
  
    return (
      <>
-      <Snackbar open={open} autoHideDuration={6000} onClose={onClose} className={classes.alertStyle}> 
+      <Snackbar open={open} autoHideDuration={3000} onClose={onClose} className={classes.alertStyle}> 
         <Alert onClose={onClose} severity={severity} variant ="filled">
           <AlertTitle>{title}</AlertTitle>
             {children}

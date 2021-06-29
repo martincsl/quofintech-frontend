@@ -91,7 +91,7 @@ export default function Sponsor() {
       </Grid>
     </Grid>
     
-    <Grid container direction="column" alignItems="center" style= {{ minHeight: '5vh'}}/>
+    <Grid container direction="column" alignItems="center" style= {{ minHeight: '5vh'}} />
     <Footer />
     </>
   );

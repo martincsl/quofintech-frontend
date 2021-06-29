@@ -1,23 +1,19 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import Context from './helper/Context';
-
-import { Grid, Button, Box, Typography, Paper, Grow, Slide } from '@material-ui/core';
+import { Grid, Button, Box, Typography, Slide } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Block, Translate } from '@material-ui/icons';
+
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 
 import mainVideo from './assets/videoQuoWeb.mp4';
-//import mainPicture from'./assets/FotoQuoReduc.jpg';
-//import mobilePicture from'./assets/FotoQuoMobile3.jpg';
 
-import Header from './components/Header.js'
-import Footer from './components/Footer.js'
-import MyComponent from './MyComponent';
+import Header from './components/Header'
+import Footer from './components/Footer'
+import Carousel from './Carousel';
 
 const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
@@ -78,7 +74,7 @@ export default function Main () {
          <Grid container direction="row" alignItems="center" justify="center" style={{minHeight:'35px'}}>
            <div style={{backgroundColor:'white'},{height:'20vh'}}></div>
              <Grid item container direction="column" alignItems="center" justify="center" spacing={2} >
-               <MyComponent />
+               <Carousel />
              </Grid>
              <Slide in direction = "up" timeout = {1000}>
              <Grid item container direction="row" alignItems="center" justify="center" spacing={2} xs={12} sm={6}> 

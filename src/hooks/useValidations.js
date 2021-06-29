@@ -1,4 +1,3 @@
-
 export default function useValidations (value) {
 
     function noBlanks (value) {
