@@ -2,20 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
 
-export default function NumberFormatAmount(props) {
+export default function NumberFormatPositive (props) {
     const { inputRef, onChange, ...other } = props;
   
     return (
-      <NumberFormat
+        <NumberFormat
         {...other}
         getInputRef={inputRef}
         onValueChange={(values) => {
-          onChange({
+            onChange({
             target: {
-              name: props.name,
-              value: values.value,
+                name: props.name,
+                value: values.value,
             },
-          });
+            });
         }}
         decimalSeparator=","
         thousandSeparator="."
@@ -23,12 +23,12 @@ export default function NumberFormatAmount(props) {
         decimalScale={0}
         allowLeadingZeros={false}
         isNumericString
-        prefix="Gs. "
-      />
+        prefix=""
+        />
     );
   }
   
-  NumberFormatAmount.propTypes = {
+  NumberFormatPositive.propTypes = {
     inputRef: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,

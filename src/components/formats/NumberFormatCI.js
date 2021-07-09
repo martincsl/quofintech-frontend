@@ -19,9 +19,11 @@ export default function NumberFormatCI(props) {
         }}
         decimalSeparator=","
         thousandSeparator="."
-        allowNegative="false"
+        allowNegative={false}
+        // allowLeadingZeros={false}
+        decimalScale={0}
         isNumericString
-        prefix="CI "
+        // prefix="CI "
       />
     );
   }

@@ -1,12 +1,23 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
-import { AppBar, Toolbar, Box, Button, IconButton, Hidden } from '@material-ui/core';
+import { AppBar, Toolbar, Box, Typography, Button, IconButton, Avatar, Hidden } from '@material-ui/core';
 import { Drawer, List, ListItem, ListItemText, ListItemIcon, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import CancelIcon from '@material-ui/icons/Cancel';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+// import ErrorIcon from '@material-ui/icons/Error';
 
+
+import ReportProblemIcon from '@material-ui/icons/ReportProblem';
+
+import { LoginContext } from '../helper/Context.js';
 import mainLogo from '../assets/LogoQuo.png';
+import picMcl from '../assets/mcl.jpg';
 
 const useStyles = makeStyles( (mainTheme) => ({
   buttonMenuStyle:{
@@ -41,6 +52,7 @@ export default function HeaderStore() {
 
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
+  const { userName, setUserName} = useContext (LoginContext);
 
   const handleDrawerOpen = () => {
     setIsOpen(true);
@@ -57,14 +69,18 @@ export default function HeaderStore() {
         <img src={mainLogo} style={{ height: '45px' }}/>
         <Hidden smDown>
           <Box style={{ width: '20px' }}/>
-          <Button component={Link} to={'/loanrequest'} className={classes.buttonMenuStyle} size="large" disableRipple>Cargar Nueva Solicitud</Button>
-          <Button component={Link} to={'/inprocess'} className={classes.buttonMenuStyle} size="large" disableRipple>Solicitudes En Analisis</Button>
-          <Button component={Link} to={'/pending'} className={classes.buttonMenuStyle} size="large" disableRipple>Solicitudes Pendientes</Button>
-          <Button component={Link} to={'/approved'} className={classes.buttonMenuStyle} size="large" disableRipple>Solicitudes Aprobadas</Button>
-          <Button component={Link} to={'/rejected'} className={classes.buttonMenuStyle} size="large" disableRipple>Solicitudes Rechazadas</Button>
+          <Button component={Link} to={'/loanrequest'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<AddCircleIcon />} >Nueva Solicitud</Button>
+          <Button component={Link} to={'/inprocess'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<AccountBalanceWalletIcon />} >Solicitudes En Analisis</Button>
+          <Button component={Link} to={'/pending'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<ReportProblemIcon />} >Solicitudes Pendientes</Button>
+          <Button component={Link} to={'/approved'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<CheckCircleIcon />} >Solicitudes Aprobadas</Button>
+          <Button component={Link} to={'/rejected'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<CancelIcon />} >Solicitudes Rechazadas</Button>
           
           <div className={classes.grow} />
-          <Button component={Link} to={'/'} className={classes.buttonMenuStyle} size="large" disableRipple>Desconectarse</Button>
+          <Button component={Link} to={'/'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<ExitToAppIcon />} >Desconectarse</Button>
+          {/* <Typography variant="caption" style={{color:"gray"}}>Hola, {userName}</Typography> */}
+     
+          <Typography variant="caption" style={{color:"gray"}}>Hola, {userName} </Typography>
+          <Avatar alt="admin" src={picMcl} />
         </Hidden>
 
         <div className={classes.toolbarButtons}> 

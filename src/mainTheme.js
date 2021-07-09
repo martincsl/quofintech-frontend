@@ -9,7 +9,7 @@ const mainTheme = createMuiTheme({
       main: "#FF4500"    //orangered  "#FF4500"  "#F9AA33" "#F57F17"
     }
   },
-  overrides:{
+  overrides: {
     MuiTextField: {
       root:{
         variant:'filled',
@@ -23,12 +23,13 @@ const mainTheme = createMuiTheme({
         "&$focused": {    // increase the specificity for the pseudo class
           color: "#1C1C49"
         },
-        fontSize:'11px',
+        fontSize:'9px',
       },
     },   //MuiInputLabel
     MuiFilledInput:{
       root: { // Name of the rule
         color: "#1C1C49", //#1C1C49
+        fontSize:'14px',
         backgroundColor: "white",
         "&:hover": {
           color:"#1C1C49",
@@ -48,6 +49,7 @@ const mainTheme = createMuiTheme({
         root: { // Name of the rule
           color: "#1C1C49", //#1C1C49
           backgroundColor: "white",
+         
           "&:hover": {
             color:"#1C1C49",
             backgroundColor:"#D3D3D3",

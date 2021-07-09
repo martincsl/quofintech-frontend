@@ -123,10 +123,10 @@ export default function LoanRequest (){
   const [formErrors, setFormErrors] = useState(inicialFormErrorsState);
   const {customerId, customerName, customerBirthDate,customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary,customerLaborSeniority,companyId,companyName,companyPhone, companyMobile, companyAddress, customerHiringType, loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount,loanExpireDate,loanRequestStatus,loanDocStatus,persReference1Id,persReference1Name,persReference1MobilePrefix,persReference1Mobile,persReference2Id,persReference2Name,persReference2MobilePrefix,persReference2Mobile,comReference1Id,comReference1Name,comReference1MobilePrefix,comReference1Mobile,comReference2Id,comReference2Name,comReference2MobilePrefix,comReference2Mobile } = values;
 
-  const {isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks} = useValidations ();
+  const {isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks} = useValidations ();
 
   const [activeStep, setActiveStep] = useState(0);
-  const {handleBack, handleNext, handleReset} = useStepper(activeStep,setActiveStep, submit);
+  const {handleBack, handleNext, handleReset} = useStepper(setActiveStep, submit);
   const steps = getSteps();
 
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
@@ -143,6 +143,8 @@ export default function LoanRequest (){
     setIsAlertOpen(false);
     if (alertMessage.severity==="success"){
       setActiveStep(0); 
+    } else {
+      handleNext(activeStep);
     }
   };
 
@@ -163,6 +165,7 @@ export default function LoanRequest (){
   };
 
   const handleExit = () => {
+    setIsPristine();
     setValues(inicialValuesState);
     setFormErrors(inicialFormErrorsState);
     localStorage.clear();
@@ -191,17 +194,23 @@ export default function LoanRequest (){
     return isError;
   }
 
-  const handleChange = (e, validators) =>{
-    const target=e.target;
+  const handleBlur = (e, validators) => {
+    const target = e.target;
+    setValues (prevState => ({...prevState, [target.name]:target.value }))
+    handleValidators(target, validators);
+  }
+
+  const handleChange = (e, validators) => {
+    const target = e.target;
     setValues (prevState => ({...prevState, [target.name]:target.value }))
     handleValidators(target, validators);
   }
 
   const handleValidators = (target, validators) => {
 
-    validators.forEach(validation => {         // array 
-    const result= validation (target.value)    // value="martin" ou "0985 290979"...
-    const errors= formErrors [target.name]     // le os erros do "vetor"
+    validators.forEach (validation => {         // array 
+    const result = validation (target.value)    // value="martin" ou "0985 290979"...
+    const errors = formErrors [target.name]     // le os erros do "vetor"
       if (result.valid) {                      // se o retorno da funcao eh true, ou seja se o input eh valido.....
  //       if (errors.includes (result.message)){   //"limpa" as mesgs de erro
           setFormErrors (prevState => ( {...prevState, [target.name]: ""}))
@@ -234,7 +243,7 @@ export default function LoanRequest (){
     switch (stepIndex) {
       case 0:
         return (
-          <CustPersonalDetail handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> );
+          <CustPersonalDetail handleChange={handleChange} handleBlur={handleBlur} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidCustomerId={isValidCustomerId} isValidName={isValidName} isValidDay={isValidDay} isValidDate={isValidDate} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> );
       case 1:
          return (
           <CustLoanDetail handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> );
@@ -243,7 +252,7 @@ export default function LoanRequest (){
           <CustWorkDetail handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> );
       case 3:
         return (
-          <CustLoanAnalisys isLoanPreApproved={isLoanPreApproved} setIsLoanPreApproved={setIsLoanPreApproved} /> );
+          <CustLoanAnalisys values={values} isLoanPreApproved={isLoanPreApproved} setIsLoanPreApproved={setIsLoanPreApproved} /> );
       case 4:
           return (
            <CustPersReferences handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> );
@@ -291,13 +300,13 @@ function getIsButtonDisabled () {
       </Grid>
      
       <Grid item xs={6} md={1} style={{textAlign:"right"}} >
-        <Button disabled={activeStep === 0} onClick={handleBack} className={classes.buttonStyle} disableRipple>
+        <Button disabled={activeStep === 0} onClick={() => handleBack(activeStep)} className={classes.buttonStyle} disableRipple>
           Anterior
         </Button>
       </Grid>
      
       <Grid item xs={6} md={2} >
-        <Button className={classes.buttonStyle} disabled={getIsButtonDisabled()} variant="contained" onClick={handleNext} disableRipple >
+        <Button className={classes.buttonStyle} disabled={getIsButtonDisabled()} variant="contained" onClick={() => handleNext(activeStep)} disableRipple >
           {activeStep === steps.length - 1 ? 'Enviar Solicitud' : 'Próximo'}
         </Button>
       </Grid>

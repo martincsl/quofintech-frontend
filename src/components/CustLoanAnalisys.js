@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import { Grid, Paper, Box, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,6 +37,10 @@ const useStyles = makeStyles( (mainTheme) => ({
     maxWidth: 550,
     height: 400,
     backgroundColor:"#4caf50",
+    [mainTheme.breakpoints.down('sm')]: {
+      marginLeft:5,
+      marginRight: 5,
+    },
     //backgroundColor:mainTheme.palette.secondary.main,  
   },
   iconBox: {
@@ -55,9 +59,9 @@ const useStyles = makeStyles( (mainTheme) => ({
 }))
 
 // export default function CustLoanAnalisys ({handleChange, values, setValues, formErrors, setFormErrors, isLoanPreApproved, setIsLoanPreApproved, isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
-export default function CustLoanAnalisys ({isLoanPreApproved, setIsLoanPreApproved}) {
+export default function CustLoanAnalisys ({values, isLoanPreApproved, setIsLoanPreApproved}) {
   
-  const {isValidAge, isValidLaborSeniority, isValidSalaryPaymentRatio} = usePreliminaryLoanValidation();
+  const {isValidAge, isValidLaborSeniority, isValidSalaryPaymentRatio} = usePreliminaryLoanValidation(values);
   const classes = useStyles();  
 
   function isLoanApproved (){

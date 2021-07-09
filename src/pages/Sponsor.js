@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 import { Grid, Paper, Box, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import HeaderStore from '../components/HeaderStore';
 import Footer from '../components/Footer';
 import TableCollatDocs from '../components/TableCollatDocs';
+import { LoginContext } from '../helper/Context.js';
 
 const useStyles = makeStyles( (mainTheme) => ({
     contentStyle: {
@@ -55,6 +56,7 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function Sponsor() {
 
   const classes = useStyles();
+  const { userName, setUserName} = useContext (LoginContext);
   localStorage.clear();
 
   return (

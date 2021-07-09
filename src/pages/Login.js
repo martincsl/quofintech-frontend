@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {useHistory} from 'react-router-dom';
 
 import { Grid, Paper, Typography, TextField, Button, Box, Grow } from '@material-ui/core'
@@ -10,6 +10,7 @@ import Footer from '../components/Footer.js';
 import AlertMessage from '../components/modals/AlertMessage.js';
 import useForm from '../components/useForm.js';
 import useUnsavedWarning from '../hooks/useUnsavedWarning.js';
+import { LoginContext } from '../helper/Context.js';
 
 const useStyles = makeStyles((mainTheme) => ({
   contentStyle: {
@@ -68,13 +69,16 @@ export default function Login () {
   const [ isAlertOpen, setIsAlertOpen ] = useState(false);
   const [ alertMessage, setAlertMessage ] = useState({severity:"", title:"", message:""});
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
-  // const [Prompt, setIsDirty] = useUnsavedWarning();
+  const { userName, setUserName} = useContext (LoginContext);
+
 
   //  const {user, password} = values
   const history = useHistory();
 
   const handleAlertClose = () => {
     setIsAlertOpen(false);
+    setUserName(values.user);
+    // alert (userName);
     if (alertMessage.severity==="success"){
       history.push('/sponsor');  
     }
@@ -91,10 +95,10 @@ export default function Login () {
    
       } else {
 
-        console.log("passou em submit");
         setIsPristine();
         setAlertMessage(prevState => ( {...prevState, severity:"success", title: "Iniciando Sesión en la plataforma de Quo", message:""}));
         setIsAlertOpen(true);
+        
         // console.log(isDirty);
         // history.push('/sponsor');  
       }

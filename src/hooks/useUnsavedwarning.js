@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Prompt } from "react-router-dom";
 
-const useUnsavedWarning = (message = "Desea realmente salir del formulario?")  => {
+const useUnsavedWarning = (message = "Desea realmente salir del formulario antes de finalizar la solicitud ?")  => {
 
     const [isDirty, setIsDirty] = useState(false);
 

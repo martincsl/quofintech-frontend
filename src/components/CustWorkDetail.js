@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 
-import { Grid, Paper, TextField, Typography, Grow, Slide } from '@material-ui/core'
+import { Grid, Paper, TextField, Typography, Box, Grow, Slide } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
 import useUnsavedWarning from '../hooks/useUnsavedWarning';
@@ -11,6 +11,7 @@ import HireTypeSelect from './selects/HireTypeSelect';
 import NumberFormatAmount from './formats/NumberFormatAmount';
 import NumberFormatRUC from './formats/NumberFormatRUC';
 import NumberFormatPhone from './formats/NumberFormatPhone';
+import NumberFormatPositive from './formats/NumberFormatPositive';
 
 const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
@@ -41,6 +42,10 @@ const useStyles = makeStyles( (mainTheme) => ({
     minWidth: 350,
     maxWidth: 550,
     minHeight: 400,
+    [mainTheme.breakpoints.down('sm')]: {
+      marginLeft:5,
+      marginRight: 5,
+    },
     backgroundColor:mainTheme.palette.secondary.main,  
   },
 
@@ -50,6 +55,10 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
 
   const classes = useStyles();
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
+
+  useEffect(() => {
+    setIsDirty()
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("stateData", JSON.stringify(values));
@@ -67,10 +76,12 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
               <Grid item container direction="row" spacing={1}>
 
                 <Grid item xs={12} md={6} >
+
                   <HireTypeSelect value={values.customerHiringType} onChange={(e) => handleChange (e,[noBlanks])} name="customerHiringType"/>
+                  <Box style={{height:5}}/>
                 </Grid>
 
-                <Grid item xs={9} md={4} >
+                <Grid item xs={6} md={4} >
                   <TextField
                     label="Salario mensual *"
                     value={values.customerSalary}
@@ -86,12 +97,17 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
                   {formErrors.customerSalary ? <div className="error-helper-text">{formErrors.customerSalary}</div> : null}
                 </Grid>
 
-                <Grid item xs={3} md={2} > 
+                <Grid item xs={6} md={2} > 
                   <TextField id="customerLaborSeniority" label="Antiguedad (meses) *"
-                    variant ="filled" type="customerLaborSeniority" type="number" fullWidth
+                    variant ="filled" type="customerLaborSeniority" fullWidth
                     name="customerLaborSeniority" value={values.customerLaborSeniority} 
+
                     onChange={ (e) => { handleChange (e,[noBlanks])}}
-                    inputProps={{ maxLength: 3 }}
+                    // inputProps={{ maxLength: 3 }}
+                    id="formatted-numberformat-input"
+                    InputProps={{
+                      inputComponent: NumberFormatPositive,
+                    }} 
                     error={formErrors.customerLaborSeniority}></TextField>
                     {formErrors.customerLaborSeniority ? <div className="error-helper-text">{formErrors.customerLaborSeniority}</div> : null}
                 </Grid>
@@ -99,7 +115,7 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
 
               <Grid item container direction="row" spacing={1}>
 
-                <Grid item xs={9} md={3} > 
+                <Grid item xs={4} md={3} > 
                   <TextField
                     label="RUC *"
                     value={values.companyId}
@@ -115,7 +131,7 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
                   {formErrors.companyId ? <div className="error-helper-text">{formErrors.companyId}</div> : null} 
                 </Grid>
 
-                <Grid item xs={12} md={9} > 
+                <Grid item xs={8} md={9} > 
                   <TextField id="companyName" label="Nombre de la Empresa *" 
                   variant ="filled"  fullWidth  
                   name="companyName" value={values.companyName} 
@@ -167,6 +183,12 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
               </Grid>  
 
               <Grid item container direction="row" spacing={1}>
+                
+                <Grid item xs={12} md={3} > 
+                  <CitiesSelect value={values.companyCity} onChange={(e) => handleChange (e,[noBlanks])} name="companyCity"/> 
+                  <Box style={{height:5}}/>
+                </Grid>  
+               
                 <Grid item xs={12} md={9}> 
                   <TextField id="companyAddress" label="Direccion *"
                   variant ="filled" type="companyAddress" fullWidth
@@ -175,9 +197,7 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
                   error={formErrors.companyAddress}></TextField>
                   {formErrors.companyAddress ? <div className="error-helper-text">{formErrors.companyAddress}</div> : null}
                 </Grid>  
-                <Grid item xs={12} md={3} > 
-                  <CitiesSelect value={values.companyCity} onChange={(e) => handleChange (e,[noBlanks])} name="companyCity"/> 
-                </Grid>  
+
               </Grid>
 
             </form>

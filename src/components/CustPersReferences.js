@@ -3,6 +3,8 @@ import React, {useEffect} from 'react';
 import { Grid, Paper, TextField, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+import useUnsavedWarning from '../hooks/useUnsavedWarning';
+
 import MobilePrefixSelect from './selects/MobilePrefixSelect';
 import NumberFormatCI from './formats/NumberFormatCI.js';
 import NumberFormatPhone from './formats/NumberFormatPhone.js';
@@ -44,6 +46,10 @@ const useStyles = makeStyles( (mainTheme) => ({
       minWidth: 350,
       maxWidth: 550,
       height: 400,
+      [mainTheme.breakpoints.down('sm')]: {
+        marginLeft:5,
+        marginRight: 5,
+      },
       backgroundColor:mainTheme.palette.secondary.main,  
     },
     input: {
@@ -54,6 +60,11 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function CustPersReferences ({handleChange, values, setValues, formErrors, setFormErrors,isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }){
 
   const classes = useStyles();  
+  const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
+
+  useEffect(() => {
+    setIsDirty()
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("stateData", JSON.stringify(values));

@@ -19,7 +19,7 @@ const useStyles = makeStyles( (mainTheme) => ({
     backgroundColor:"white",
     textTransform:"none",
     margin: "10px",
-    minWidth:"140px",
+    minWidth:"130px",
     "&:hover": {
       color:mainTheme.palette.primary.main,
       backgroundColor:"white",
@@ -91,7 +91,7 @@ const AlertDialog = ({open, onClose, severity, title, buttons, children}) => {
            <Grid container direction="row" xs={12} style={{textAlign:'center'}}>
            {Object.keys(buttons).map( key => {
              return (
-             <Grid item direction="row" xs={gridSpace} style={{textAlign:'center'}}>  
+             <Grid item direction="row" xs={gridSpace} >  
                <Button type="submit" className={classes.buttonStyle} style={{color:bkColor}} onClick={() => onClose (buttons[key])} variant="outlined" disableRipple>{buttons[key]}</Button>
              </Grid>
              )

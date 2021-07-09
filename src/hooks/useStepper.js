@@ -1,13 +1,13 @@
-
-export default function useStepper (activeStep, setActiveStep, submit) {
-
+export default function useStepper (setActiveStep, submit) {
+  
   const handleNext = (activeStep) => {
+
     if (activeStep < 6) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1); 
 
     } else if (activeStep===6) {
-       submit();
-    }
+        submit();
+      }
   };
 
   const handleBack = (activeStep) => {
@@ -17,5 +17,6 @@ export default function useStepper (activeStep, setActiveStep, submit) {
   const handleReset = () => {
     setActiveStep(0);
   };
+
   return {handleNext, handleBack, handleReset}
 }

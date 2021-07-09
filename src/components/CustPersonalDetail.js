@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 // import { useHistory } from 'react-router-dom';
-import { Redirect, Route } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Grid, Paper, TextField, Typography, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
-// import useFormCustomer from '../components/useFormCustomer';
-import usePreliminaryLoanValidation from '../hooks/usePreliminaryLoanValidation';
 import useUnsavedWarning from '../hooks/useUnsavedWarning';
 
-// import AlertMessage from './modals/AlertMessage';
 import AlertDialog from './modals/AlertDialog';
 import CitiesSelect from './selects/CitiesSelect';
 import OccupationSelect from './selects/OccupationSelect';
@@ -22,11 +19,11 @@ const useStyles = makeStyles( (mainTheme) => ({
   root: {
     flexGrow: 1,
   },
-  formControl: {
-    marginTop: mainTheme.spacing(1),
-    minWidth: 260,
-    maxHeight: 36,
-  },
+  // formControl: {
+  //   marginTop: mainTheme.spacing(1),
+  //   minWidth: 260,
+  //   maxHeight: 36,
+  // },
   contentStyle: {
     position: 'absolute',
     top: '100px',
@@ -35,7 +32,7 @@ const useStyles = makeStyles( (mainTheme) => ({
     position:'absolute',
     top: '60px',
     width: '100%',
-    height: '60px',
+    height: '800px',
  },
   buttonStyle:{
     color: "white",
@@ -53,7 +50,14 @@ const useStyles = makeStyles( (mainTheme) => ({
     padding:'10px',
     minWidth: 350,
     maxWidth: 550,
-    height: 400,
+    minHeight: 400,
+    maxHeigth:800,
+    [mainTheme.breakpoints.down('sm')]: {
+      marginLeft:5,
+      marginRight: 5,
+    },
+    paddingLeft:5,
+    paddingRight: 5,
     backgroundColor:mainTheme.palette.secondary.main,  
   },
   input: {
@@ -61,18 +65,18 @@ const useStyles = makeStyles( (mainTheme) => ({
   },
 }))
 
-export default function CustPersonalDetail ({handleChange, values, setValues, formErrors, setFormErrors,isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
+export default function CustPersonalDetail ({handleChange, handleBlur, values, setValues, formErrors, setFormErrors,isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
 
   const classes = useStyles();  
-  //const {handleChange, handleChangeStorage, bulkHandleChange, handleChangeSalary, handleSubmit,  chkBlankFormCustomer, chkFormErrors, isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks,  values, formErrors} =  useFormCustomer ();
-  const {isValidAge} = usePreliminaryLoanValidation({values, setValues, formErrors, setFormErrors});
-  const [isAlertOpen,setIsAlertOpen]=useState(false);
-  const [alertMessage,setAlertMessage]=useState({severity:"",title:"",message:""});
   const [isDialogOpen,setIsDialogOpen]=useState(false);
   const [dialogMessage,setDialogMessage]=useState({title:"",message:""});
   const dialogButtons = {button1:"Salir",button2:"Nueva  Solicitud"};
   const dialogBtnsUnmount = {button1:"Salir",button2:"Seguir cargando"};
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
+
+  useEffect(() => {
+    setIsDirty()
+  }, []);
 
   // useEffect(() => {
   //   const formData = localStorage.getItem(JSON.parse("customerData"));
@@ -88,43 +92,27 @@ export default function CustPersonalDetail ({handleChange, values, setValues, fo
   const handleDialogClose = (value) => {
     setIsDialogOpen(false);
     setDialogMessage( {title: "", message:""});
-   if (value==="Seguir Cargando"){
-        <Redirect to = "/loanrequest" />
-    } else {
-      alert ("else que hago?");
-    } 
-  };
-
-{/*} 
-  useEffect(() => {
-    //  if (values.loanCapital > 0 && values.loanTerm > 0) {
-
-      if (values.customerBirthDate !=="") {
-        const result = isValidAge();
-        const valid = result.valid;
-        
-        if (! result.valid) {
-          setIsAlertOpen(true);
-          setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Atencion", message:result.message}));
-        }
-      }
-      }, [values.customerBirthDate] );
-    */} 
+    if (value==="Seguir Cargando"){
+          <Redirect to = "/loanrequest" />
+      } else {
+        alert ("else que hago?");
+      } 
+    };
 
   return (
-    <div className={classes.root}>
-    <Grid container direction="row" alignItems="center" justify="center" className={classes.contentStyle} style={{ minHeight:'70vh'}}>
-      <Grid className={classes.formStyle}>
+    <div className={classes.root} >
+    <Grid container direction="row" alignItems="center" justify="center" className={classes.contentStyle} style={{ minHeight:'90vh'}}>
+      <Grid className={classes.formStyle} >
       
-        <Paper elevation={6} spacing={2} className={classes.paperStyle}> 
+        <Paper elevation={6} spacing={2} className={classes.paperStyle} > 
           <Typography align="center" variant="subtitle1" style={{color:'white'}} gutterBottom>Datos Personales</Typography>
 
           <Grid item container direction="row" spacing={1}>
-            <Grid item xs={6} md={3} > 
+            <Grid item xs={4} md={3} > 
               <TextField
                 label="Numero de Cedula *"
                 value={values.customerId}
-                onChange={(e) => { handleChange (e,[noBlanks])}}
+                onChange={(e) => { handleChange (e,[isValidCustomerId])}}
                 variant="filled"
                 fullWidth
                 name="customerId"
@@ -133,62 +121,64 @@ export default function CustPersonalDetail ({handleChange, values, setValues, fo
                   inputComponent: NumberFormatCI,
                 }}
               />
-              {formErrors.customerId ? <div className="error-helper-text">{formErrors.customerId}</div> : null} 
+              {formErrors.customerId ? <div className="error-helper-text">{formErrors.customerId}</div> : null } 
             </Grid>
                 
-            <Grid item xs={6} md={9} > 
+            <Grid item xs={8} md={9} > 
               <TextField id="customerName" label="Nombre del cliente *" 
                 variant ="filled" margin="none"  fullWidth
                 name="customerName" value={values.customerName} 
                 onChange={(e) => { handleChange (e,[isValidName])}}
                 error={formErrors.customerName} ></TextField>
-                {formErrors.customerName ? <div className="error-helper-text">{formErrors.customerName}</div> : null} 
+                {formErrors.customerName ? <div className="error-helper-text">{formErrors.customerName}</div> : null } 
             </Grid>
           </Grid>
             
-            <Grid item container direction="row" spacing={1}> 
+            <Grid item container direction="row" spacing={1} > 
               <Grid item xs={4} md={3} > 
               
                 <TextField
-                  label="Fecha Nacimiento *"
-                  value={values.customerBirthDate}
-                  onChange={(e) => { handleChange (e,[noBlanks])}}
-                  variant="filled"
+                  label = "Fecha Nacimiento"
+                  value = {values.customerBirthDate}
+                  onChange = {(e) => { handleChange (e,[isValidDay])}}
+                  // onBlur = {(e) => { handleBlur (e,[isValidDate])}}
+                  variant = "filled"
                   fullWidth
-                  name="customerBirthDate"
-                  id="formatted-numberformat-input"
-                  InputProps={{
+                  name = "customerBirthDate"
+                  id = "formatted-numberformat-input"
+                  InputProps = {{
                     inputComponent: NumberFormatDate,
                   }}
                 />
-                {formErrors.customerBirthDate ? <div className="error-helper-text">{formErrors.customerBirthDate}</div> : null} 
+                {formErrors.customerBirthDate ? <div className="error-helper-text">{formErrors.customerBirthDate}</div> : null } 
               </Grid>
               <Grid item xs={8} md={6} > 
-                  <OccupationSelect value={values.customerOccupation} onChange={(e) => handleChange (e,[noBlanks])} name="customerOccupation"/>
-              </Grid>
-            </Grid>
-
-            <Grid item container direction="row" spacing={1}>
-              <Grid item xs={12} md={9}> 
-                <TextField id="customerAddress" label="Dirección *"
-                variant ="filled" margin="none"  type="customerAddress" fullWidth
-                name="customerAddress" value={values.customerAddress} 
-                onChange={ (e) => { handleChange (e,[noBlanks])}}
-                error={formErrors.customerAddress}></TextField>
-                {formErrors.customerAddress ? <div className="error-helper-text">{formErrors.customerAddress}</div> : null}
-              </Grid>
-
-              <Grid item xs={12} md={3}>
-                <CitiesSelect value={values.customerCity} onChange={ (e) => { handleChange (e,[noBlanks])}} name="customerCity"/> 
+                  <OccupationSelect value={values.customerOccupation} onChange={(e) => handleChange (e,[noBlanks])} name="customerOccupation" />
               </Grid>
             </Grid>
 
             <Grid item container direction="row" spacing={1} >
-              <Grid item xs={4} md={3}>
+              <Grid item xs={12} md={3} > 
+                <CitiesSelect value={values.customerCity} onChange={ (e) => { handleChange (e,[noBlanks])}} name="customerCity"/> 
+                 <Box style={{height:5}}/>
+              </Grid>
+
+              <Grid item xs={12} md={9} >
+                <TextField id="customerAddress" label="Dirección *"
+                  variant ="filled" margin="none"  type="customerAddress" fullWidth
+                  name="customerAddress" value={values.customerAddress} 
+                  onChange={ (e) => { handleChange (e,[noBlanks])}}
+                  error={formErrors.customerAddress}></TextField>
+                  {formErrors.customerAddress ? <div className="error-helper-text">{formErrors.customerAddress}</div> : null}
+              </Grid>
+            </Grid>
+
+            <Grid item container direction="row" spacing={1} >
+              <Grid item xs={4} md={3} >
                 <MobilePrefixSelect value={values.customerMobilePrefix} onChange={ (e) => { handleChange (e,[noBlanks])}} name="customerMobilePrefix"/> 
               </Grid>
 
-              <Grid item xs={4} md={3}>
+              <Grid item xs={4} md={3} >
                 <TextField
                   label="Celular *"
                   value={values.customerMobile}
@@ -204,16 +194,16 @@ export default function CustPersonalDetail ({handleChange, values, setValues, fo
                 {formErrors.customerMobile ? <div className="error-helper-text">{formErrors.customerMobile}</div> : null}
               </Grid>
 
-              <Grid item xs={9} md={6}> 
+              <Grid item xs={9} md={6} > 
                 <TextField id="customerEmail" label="E-mail *"
                 variant ="filled" margin="none"  type="customerEmail" fullWidth
                 name="customerEmail" value={values.customerEmail} 
-                onChange={ (e) => { handleChange (e,[noBlanks])}}
+                onChange = { (e) => { handleChange (e,[noBlanks])}}
+                onBlur = { (e) => { handleChange (e,[isValidEmail])}}
                 error={formErrors.customerEmail}></TextField>
                 {formErrors.customerEmail ? <div className="error-helper-text">{formErrors.customerEmail}</div> : null}
               </Grid>
             </Grid>
-
         </Paper> 
       </Grid>
     </Grid>

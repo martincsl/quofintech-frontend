@@ -1,9 +1,8 @@
 
-export default function usePreliminaryLoanValidation({values, setValues, formErrors, setFormErrors}) {
- 
-  const {customerId, customerName, customerBirthDate,customerMobilePrefix,customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary,customerLaborSeniority,companyId,companyName,companyPhone, companyMobilePrefix, companyMobile, companyAddress, companyCity, customerHiringType, loanId, loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount,loanExpireDate,loanRequestStatus,loanRequestDenialMsg, loanDocStatus} = values
-
+export default function usePreliminaryLoanValidation(values) {
+  
   function isValidAge () {
+    if (values.customerBirthDate !== "" || values.customerBirthDate == null ) {
     let yearBorn=values.customerBirthDate.slice(values.customerBirthDate.length - 4);
     let today = new Date();
     let currentYear=today.getFullYear()
@@ -14,9 +13,9 @@ export default function usePreliminaryLoanValidation({values, setValues, formErr
     //mayor que 65
     if (yearBorn==="") {
       return {valid:false, message:"Fecha de Nacimiento no fue informada"}  
-    }
-    else if (age < 21) {
-      return {valid:false, message:"Solicitante tiene que tener mas de 21 anos"}  
+
+    } else if (age < 21) {
+        return {valid:false, message:"Solicitante tiene que tener mas de 21 anos"}  
 
     } else if ( age> 20 && age < 23 && values.customerLaborSeniority < 19){
         return {valid:false, message:"Entre 21 y 23 anos, antiguedad debe ser al menos de 18 meses"}
@@ -26,6 +25,9 @@ export default function usePreliminaryLoanValidation({values, setValues, formErr
 
     } else
         return {valid: true, message:"Edad de acuerdo a la política de créditos"}
+    } else{
+      return {valid:false, message:"Fecha de Nacimiento no fue informada"}  
+    }
   }  
  
   function isValidLaborSeniority () {
@@ -33,22 +35,23 @@ export default function usePreliminaryLoanValidation({values, setValues, formErr
     // 1=contratado con ips, 2=contratado c/ factura 3=funacionario publico, 4=profesional independiente
     if (values.customerLaborSeniority==="") {
       return {valid:false, message:"Antiguedad no fue informada"}
-    }
-    else if (values.customerHiringType < 4) {
+
+    } else if (values.customerHiringType < 4) {
       if (values.customerLaborSeniority < 12) {
         return {valid:false, message:"Antiguedad tiene que ser de al menos 12 meses"}
       }  
+
     } else if (values.customerLaborSeniority < 18) {
         return {valid:false, message:"Antiguedad de profesional independiente tiene que ser de al menos 18 meses"}
     }
+
     return {valid:true, message:"Antiguedad de acuerdo a la política de créditos"}
   }
 
   function isValidSalaryPaymentRatio () {
     if (values.customerSalary===""){
       return {valid: false, message:"Salario no fue informado"}
-    }
-    else if (values.customerSalary < 2500001) {
+    } else if (values.customerSalary < 2500001) {
       if ((values.customerSalary * 0.2) < values.loanPayment){
         return {valid: false, message:"Cuota no puede ser mayor a 20% del salario"}
       }
