@@ -4,6 +4,7 @@ import { Grid, Paper, TextField, Typography, Box, Grow, Slide } from '@material-
 import { makeStyles } from '@material-ui/core/styles';
 
 import useUnsavedWarning from '../hooks/useUnsavedWarning';
+import useValidations from '../hooks/useValidations.js';
 
 import MobilePrefixSelect from './selects/MobilePrefixSelect';
 import CitiesSelect from './selects/CitiesSelect';
@@ -17,11 +18,13 @@ const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
     position: 'absolute',
     top: '100px',
+    // backgroundColor: 'green',
     /*    backgroundColor:'blue',*/
   },
   formStyle : {
     position:'absolute',
     top: '60px',
+    // backgroundColor: 'blue',
     width: '100%',
     height: '60px',
  },
@@ -37,25 +40,29 @@ const useStyles = makeStyles( (mainTheme) => ({
     },
   },
   paperStyle: {
-    margin: 'auto',
+    position:'absolute',
     padding:'10px',
-    minWidth: 350,
+    top: '60px',
+    width: '100%',
     maxWidth: 550,
     minHeight: 400,
     [mainTheme.breakpoints.down('sm')]: {
+      top: '0px',
+      minWidth: 350,
       marginLeft:5,
       marginRight: 5,
+      height: 500,
     },
     backgroundColor:mainTheme.palette.secondary.main,  
   },
-
 }))
 
-export default function CustWorkDetail ({handleChange, values, setValues, formErrors, setFormErrors,isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
+export default function CustWorkDetail ({handleChange, values, setValues, formErrors, setFormErrors }) {
 
   const classes = useStyles();
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
-
+  const {isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks} = useValidations ();
+  
   useEffect(() => {
     setIsDirty()
   }, []);
@@ -67,7 +74,7 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
     return (
       <div>
       <Grid container direction="row" alignItems="center" justify="center" className={classes.contentStyle} style={{ minHeight:'70vh'}}>
-        <Grid className={classes.formStyle}>
+        {/* <Grid className={classes.formStyle}> */}
        
           <Paper elevation={6} spacing={2} className={classes.paperStyle}>
             <form noValidate>
@@ -202,7 +209,7 @@ export default function CustWorkDetail ({handleChange, values, setValues, formEr
 
             </form>
           </Paper>
-        </Grid>
+        {/* </Grid> */}
       </Grid>
       {Prompt}
       </div>

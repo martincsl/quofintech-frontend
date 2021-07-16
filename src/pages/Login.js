@@ -21,7 +21,7 @@ const useStyles = makeStyles((mainTheme) => ({
     margin: 'auto',
     padding:'10px',
     minWidth: 350,
-    maxWidth:500,
+    maxWidth: 500,
     backgroundColor:mainTheme.palette.secondary.main,  
   },
   paperAlertStyle: {

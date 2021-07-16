@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import useUnsavedWarning from '../hooks/useUnsavedWarning';
 import { useLoanCalculations } from '../hooks/useLoanCalculations';
+import useValidations from '../hooks/useValidations.js';
 
 import TermSelect from './selects/TermSelect';
 import NumberFormatAmount from './formats/NumberFormatAmount';
@@ -13,45 +14,45 @@ import NumberFormatDate from './formats/NumberFormatDate';
 const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
     position: 'absolute',
+    // backgroundColor: 'green',
     top: '100px',
   },
   formStyle : {
     position:'absolute',
     top: '60px',
     width: '100%',
-    height: '80px',
+    // backgroundColor: 'blue',
+    height: '60px',
  },
-  buttonStyle:{
-    color: "white",
-    backgroundColor:mainTheme.palette.primary.main,
-    textTransform:"none",
-    margin: "10px",
-    //marginTop: "15px",
-    "&:hover": {
-    color:mainTheme.palette.secondary.main,
-    backgroundColor:mainTheme.palette.primary.main,
-    },
-  },
-  paperStyle: {
-    margin: 'auto',
-    padding:'10px',
+ paperStyle: {
+  position:'absolute',
+  padding:'10px',
+  top: '60px',
+  width: '100%',
+  maxWidth: 550,
+  height: 400,
+  [mainTheme.breakpoints.down('sm')]: {
+    top: '0px',
     minWidth: 350,
-    maxWidth: 550,
-    height: 400,
-    [mainTheme.breakpoints.down('sm')]: {
-      marginLeft:5,
-      marginRight: 5,
-    },
+    height: 500,
+    marginLeft:5,
+    marginRight: 5,
+  },
     backgroundColor:mainTheme.palette.secondary.main,  
+    paddingLeft:10,
+    paddingRight: 10,
+    paddingTop: 10,
   },
 }))
 
-export default function CustLoanDetail ({handleChange, values, setValues, formErrors, setFormErrors,isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
+export default function CustLoanDetail ({ handleChange, values, setValues, formErrors, setFormErrors }) {
   
   const classes = useStyles();  
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
   const { calcLoanExpireDate, calcLoanPayment } = useLoanCalculations({values, setValues});
   // const { handleBack, handleNext, handleReset } = useStepper (setActiveStep, submit);
+  const {isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks} = useValidations ();
+
 
   useEffect(() => {
     setIsDirty()
@@ -75,7 +76,7 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
     return (
       <div>
       <Grid container direction="row" alignItems="center" justify="center" className={classes.contentStyle} style={{ minHeight:'70vh'}}>
-        <Grid className={classes.formStyle}>
+        {/* <Grid className={classes.formStyle}> */}
        
           <Paper elevation={6} spacing={2} className={classes.paperStyle}>
             <form noValidate>
@@ -162,7 +163,7 @@ export default function CustLoanDetail ({handleChange, values, setValues, formEr
                 </Grid>
             </form>
           </Paper>
-        </Grid>  {/* Grid formStyle    */}
+        {/* </Grid>  Grid formStyle    */}
       </Grid>    {/* Grid contentStyle    */}
       {Prompt}
       </div>

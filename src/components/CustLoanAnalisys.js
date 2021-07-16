@@ -31,13 +31,16 @@ const useStyles = makeStyles( (mainTheme) => ({
     },
   },
   paperStyle: {
-    margin: 'auto',
+    position:'absolute',
     padding:'10px',
-    minWidth: 350,
+    top: '60px',
+    width: '100%',
     maxWidth: 550,
     height: 400,
-    backgroundColor:"#4caf50",
     [mainTheme.breakpoints.down('sm')]: {
+      top: '0px',
+      minWidth: 350,
+      height: 500,
       marginLeft:5,
       marginRight: 5,
     },
@@ -85,7 +88,7 @@ export default function CustLoanAnalisys ({values, isLoanPreApproved, setIsLoanP
   return (
     <>
     <Grid container direction="row" alignItems="center" justify="center" className={classes.contentStyle} style={{ minHeight:'70vh'}}>
-      <Grid className={classes.formStyle}>
+      {/* <Grid className={classes.formStyle}> */}
         <Paper elevation={6} spacing={2} className={classes.paperStyle} style={{ backgroundColor: isLoanApproved().valid ? "#4caf50" : "#f44336" }}> 
           <form noValidate>
           
@@ -140,7 +143,7 @@ export default function CustLoanAnalisys ({values, isLoanPreApproved, setIsLoanP
             <Box style={{height:15}}/>
           </form>
         </Paper>
-      </Grid>
+      {/* </Grid> */}
     </Grid>
     </>
   )

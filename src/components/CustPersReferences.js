@@ -4,6 +4,7 @@ import { Grid, Paper, TextField, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import useUnsavedWarning from '../hooks/useUnsavedWarning';
+import useValidations from '../hooks/useValidations.js';
 
 import MobilePrefixSelect from './selects/MobilePrefixSelect';
 import NumberFormatCI from './formats/NumberFormatCI.js';
@@ -47,8 +48,10 @@ const useStyles = makeStyles( (mainTheme) => ({
       maxWidth: 550,
       height: 400,
       [mainTheme.breakpoints.down('sm')]: {
+        top: '0px',
         marginLeft:5,
         marginRight: 5,
+        height: 500,
       },
       backgroundColor:mainTheme.palette.secondary.main,  
     },
@@ -57,10 +60,11 @@ const useStyles = makeStyles( (mainTheme) => ({
     },
   }))
 
-export default function CustPersReferences ({handleChange, values, setValues, formErrors, setFormErrors,isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }){
+export default function CustPersReferences ({handleChange, values, setValues, formErrors, setFormErrors }){
 
   const classes = useStyles();  
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
+  const {isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks} = useValidations ();
 
   useEffect(() => {
     setIsDirty()

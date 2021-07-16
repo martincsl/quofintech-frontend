@@ -139,7 +139,7 @@ export default function Whoweare () {
     
       </Grid>
       </Grow>
-
+      <Grid style={{height:'8vh'}} />
     </Grid>
 
     <Footer />

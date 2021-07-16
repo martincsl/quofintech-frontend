@@ -269,5 +269,27 @@ export default function useValidations (value) {
     }
   }
 
-  return { isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidEmail, isValidAmount, noBlanks }  
+  function chkFormErrors (formErrors) {
+    let isError = false;
+    Object.keys(formErrors).forEach( (key) => {   // key es el nombre del key
+      if (formErrors[key] != ""){                //errors[key] es el contenido del key
+        isError=true;
+      }
+    })
+    return isError;
+  }
+
+  function chkBlankFormCustomer (setFormErrors, values) {
+    const {customerId, customerName, customerBirthDate,customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary,customerLaborSeniority,companyId,companyName,companyPhone, companyMobile, companyAddress, customerHiringType, loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount,loanExpireDate,loanRequestStatus,loanDocStatus,persReference1Id,persReference1Name,persReference1MobilePrefix,persReference1Mobile,persReference2Id,persReference2Name,persReference2MobilePrefix,persReference2Mobile,comReference1Id,comReference1Name,comReference1MobilePrefix,comReference1Mobile,comReference2Id,comReference2Name,comReference2MobilePrefix,comReference2Mobile } = values;
+    let isError = false;
+    const valuesToCheck={customerId, customerName, customerBirthDate,customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary,customerLaborSeniority,companyId,companyName, companyMobile, customerHiringType, loanCapital, loanTerm, loanPayment, loanTotalAmount,loanExpireDate,persReference1Id,persReference1Name,persReference1MobilePrefix,persReference1Mobile,persReference2Id,persReference2Name,persReference2MobilePrefix,persReference2Mobile,comReference1Id,comReference1Name,comReference1MobilePrefix,comReference1Mobile,comReference2Id,comReference2Name,comReference2MobilePrefix,comReference2Mobile}
+    Object.keys(valuesToCheck).forEach( (key) => {   // key es el nombre del key
+      if (values [key] === ""){                //values[key] es el contenido del key
+        setFormErrors(prevState => ( {...prevState, [key]:  "Esta informacion es requerida"}));
+        isError=true;
+      }
+    })
+    return isError;
+  }
+  return { isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidEmail, isValidAmount, noBlanks, chkFormErrors, chkBlankFormCustomer }  
 }

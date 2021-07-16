@@ -23,7 +23,7 @@ const mainTheme = createMuiTheme({
         "&$focused": {    // increase the specificity for the pseudo class
           color: "#1C1C49"
         },
-        fontSize:'9px',
+        fontSize:'12px',
       },
     },   //MuiInputLabel
     MuiFilledInput:{

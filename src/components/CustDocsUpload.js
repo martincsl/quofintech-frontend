@@ -34,8 +34,10 @@ const useStyles = makeStyles( (mainTheme) => ({
     maxWidth: 550,
     height: 400,
     [mainTheme.breakpoints.down('sm')]: {
+      top: '0px',
       marginLeft:5,
       marginRight: 5,
+      height: 500,
     },
     backgroundColor:mainTheme.palette.secondary.main,  
   },

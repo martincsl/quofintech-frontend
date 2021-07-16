@@ -130,6 +130,7 @@ export default function Benefits (){
             </Slide>
           </Grid>
        </Grid>
+       <Grid style={{height:'8vh'}} />
       
       </Grid>
       <Footer />

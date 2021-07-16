@@ -12,7 +12,7 @@ import PdfDialog from '../components/modals/PdfDialog.js';
 
 const useStyles = makeStyles({
   titleStyle:{
-    width: "100%",   
+    width: "100%",
     padding: "15px",   
     color: "#1C1C49",
     backgroundColor: "white",
