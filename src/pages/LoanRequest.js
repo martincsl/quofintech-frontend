@@ -50,7 +50,7 @@ const useStyles = makeStyles( (mainTheme) => ({
     margin: 'auto',
     padding:'5px',
     [mainTheme.breakpoints.down('sm')]: {
-      top:'320px',
+      // top:'320px',
       minWidth: 350,
       height: 500,
       marginLeft:5,
@@ -74,11 +74,11 @@ function getSteps() {
 
 export default function LoanRequest (){
 
-  const classes = useStyles();  
-  const history = useHistory();
+  const classes = useStyles ();  
+  const history = useHistory ();
 
-  const inicialValuesState={ customerId: "", customerName: "", customerBirthDate:"",customerMobilePrefix:"",customerMobile: "", customerEmail: "", customerCity:"", customerAddress:"", customerOccupation:"",customerSalary:"",customerLaborSeniority:"",companyId:"",companyName:"",companyPhone:"", companyMobilePrefix:"",companyMobile:"", companyAddress:"", companyCity:"",customerHiringType:"", loanId:"",loanProduct:"", loanCapital:"", loanTerm:"", loanPayment:"", loanTotalAmount:"",loanExpireDate:"",loanRequestStatus:"",loanRequestDenialMsg:"",loanDocStatus:"",customerIdFile1:"",customerIdFile2:"",customerInvoiceFile:"",customerTaxFile1:"",customerTaxFile2:"",customerTaxFile3:"",persReference1Id:"",persReference1Name:"",persReference1MobilePrefix:"",persReference1Mobile:"",persReference2Id:"",persReference2Name:"",persReference2MobilePrefix:"",persReference2Mobile:"",comReference1Id:"",comReference1Name:"",comReference1MobilePrefix:"",comReference1Mobile:"",comReference2Id:"",comReference2Name:"",comReference2MobilePrefix:"",comReference2Mobile:"" };
-  const inicialFormErrorsState={ customerId: "", customerName: "", customerBirthDate:"",customerMobilePrefix:"",customerMobile: "", customerEmail: "", customerCity:"", customerAddress:"", customerOccupation:"",customerSalary:"",customerLaborSeniority:"",companyId:"",companyName:"",companyPhone:"", companyMobilePrefix:"",companyMobile:"", companyAddress:"", companyCity:"",customerHiringType:"", loanId:"",loanProduct:"", loanCapital:"", loanTerm:"", loanPayment:"", loanTotalAmount:"",loanExpireDate:"",loanRequestStatus:"",loanRequestDenialMsg:"",loanDocStatus:"",customerIdFile1:"",customerIdFile2:"",customerInvoiceFile:"",customerTaxFile1:"",customerTaxFile2:"",customerTaxFile3:"",persReference1Id:"",persReference1Name:"",persReference1MobilePrefix:"",persReference1Mobile:"",persReference2Id:"",persReference2Name:"",persReference2MobilePrefix:"",persReference2Mobile:"",comReference1Id:"",comReference1Name:"",comReference1MobilePrefix:"",comReference1Mobile:"",comReference2Id:"",comReference2Name:"",comReference2MobilePrefix:"",comReference2Mobile:"" };
+  const inicialValuesState = { customerId: "", customerName: "", customerBirthDate:"",customerMobilePrefix:"",customerMobile: "", customerEmail: "", customerCity:"", customerAddress:"", customerOccupation:"",customerSalary:"",customerLaborSeniority:"",companyId:"",companyName:"",companyPhone:"", companyMobilePrefix:"",companyMobile:"", companyAddress:"", companyCity:"",customerHiringType:"", loanId:"",loanProduct:"", loanCapital:"", loanTerm:"", loanPayment:"", loanTotalAmount:"",loanExpireDate:"",loanRequestStatus:"",loanRequestDenialMsg:"",loanDocStatus:"",customerIdFile1:"",customerIdFile2:"",customerInvoiceFile:"",customerTaxFile1:"",customerTaxFile2:"",customerTaxFile3:"",persReference1Id:"",persReference1Name:"",persReference1MobilePrefix:"",persReference1Mobile:"",persReference2Id:"",persReference2Name:"",persReference2MobilePrefix:"",persReference2Mobile:"",comReference1Id:"",comReference1Name:"",comReference1MobilePrefix:"",comReference1Mobile:"",comReference2Id:"",comReference2Name:"",comReference2MobilePrefix:"",comReference2Mobile:"" };
+  const inicialFormErrorsState = { customerId: "", customerName: "", customerBirthDate:"",customerMobilePrefix:"",customerMobile: "", customerEmail: "", customerCity:"", customerAddress:"", customerOccupation:"",customerSalary:"",customerLaborSeniority:"",companyId:"",companyName:"",companyPhone:"", companyMobilePrefix:"",companyMobile:"", companyAddress:"", companyCity:"",customerHiringType:"", loanId:"",loanProduct:"", loanCapital:"", loanTerm:"", loanPayment:"", loanTotalAmount:"",loanExpireDate:"",loanRequestStatus:"",loanRequestDenialMsg:"",loanDocStatus:"",customerIdFile1:"",customerIdFile2:"",customerInvoiceFile:"",customerTaxFile1:"",customerTaxFile2:"",customerTaxFile3:"",persReference1Id:"",persReference1Name:"",persReference1MobilePrefix:"",persReference1Mobile:"",persReference2Id:"",persReference2Name:"",persReference2MobilePrefix:"",persReference2Mobile:"",comReference1Id:"",comReference1Name:"",comReference1MobilePrefix:"",comReference1Mobile:"",comReference2Id:"",comReference2Name:"",comReference2MobilePrefix:"",comReference2Mobile:"" };
   const [values, setValues] = useState(inicialValuesState);
   const [formErrors, setFormErrors] = useState(inicialFormErrorsState);
 
@@ -91,7 +91,8 @@ export default function LoanRequest (){
   const [dialogMessage,setDialogMessage] = useState({title:"",message:""});
   
   const { chkFormErrors,chkBlankFormCustomer } = useValidations();
-  const [ setIsPristine ] = useUnsavedWarning();
+  const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
+
   const { handleBack, handleNext, handleReset } = useStepper(setActiveStep, submit);
 
   const steps = getSteps();
@@ -129,71 +130,49 @@ export default function LoanRequest (){
     setValues(inicialValuesState);
     setFormErrors(inicialFormErrorsState);
     localStorage.clear();
-  }
-
-  const handleChange = (e, validators) => {
-    const target = e.target;
-    setValues (prevState => ({...prevState, [target.name]:target.value }))
-    handleValidators(target, validators);
-  }
-
-  const handleValidators = (target, validators) => {
-
-    validators.forEach (validation => {         // array 
-    const result = validation (target.value)    // value="martin" ou "0985 290979"...
-    const errors = formErrors [target.name]     // le os erros do "vetor"
-      if (result.valid) {                      // se o retorno da funcao eh true, ou seja se o input eh valido.....
- //       if (errors.includes (result.message)){   //"limpa" as mesgs de erro
-          setFormErrors (prevState => ( {...prevState, [target.name]: ""}))
- //       }
-      } else { 
-          if (!errors.includes(result.message)) {   // se ja existe a mensagem, nao inclui novamente
-            setFormErrors (prevState => ( {...prevState, [target.name]: result.message}))
-          }
-        }
-    })
+    history.push('/sponsor');
   }
 
   function submit() {
 
-    if (chkBlankFormCustomer (setFormErrors, values)){
-      setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias!"}));
-      setIsAlertOpen(true);
+    // if (chkBlankFormCustomer (setFormErrors, values)){
+    //   setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias!"}));
+    //   setIsAlertOpen(true);
 
-    } else if (chkFormErrors(formErrors)) {
-        setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor corregir los dados marcados como incorrectos, gracias!"}));
-        setIsAlertOpen(true);
+    // } else if (chkFormErrors(formErrors)) {
+    //     setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor corregir los dados marcados como incorrectos, gracias!"}));
+    //     setIsAlertOpen(true);
 
-      } else {
+    //   } else {
           setDialogMessage( {title: "Solicitud cargada con exito !", message:"Desea cargar una nueva solicitud ?"});
           setIsDialogOpen(true);   
-      } 
+      // } 
   } //submit
 
   function getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
         return (
-          <CustPersonalDetail handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} step={activeStep}/> );
+          <CustPersonalDetail values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} step={activeStep}/> );
       case 1:
          return (
-          <CustLoanDetail handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );
+          <CustLoanDetail values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );
       case 2:
         return (
-          <CustWorkDetail handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );
-          // <CustWorkDetail handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> );
+          <CustWorkDetail values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );
+          // <CustWorkDetail values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> );
       case 3:
         return (
           <CustLoanAnalisys values={values} isLoanPreApproved={isLoanPreApproved} setIsLoanPreApproved={setIsLoanPreApproved} /> );
       case 4:
         return (
-           <CustPersReferences handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );
+           <CustPersReferences values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );
       case 5:
         return (
-          <CustComReferences handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );   
+          <CustComReferences values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );   
       case 6:
         return (
-          <CustDocsUpload handleChange={handleChange} values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> ); 
+          <CustDocsUpload values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> ); 
     } 
   }
 
@@ -201,7 +180,7 @@ export default function LoanRequest (){
     <>
     <HeaderStore />
 
-    <Hidden xsDown>
+    {/* <Hidden xsDown> */}
       {/* <Grid container direction="row" alignItems="center" justify="center" className={classes.stepperStyle}> */}
       <Grid container direction="row" className={classes.stepperStyle}>
     
@@ -215,12 +194,12 @@ export default function LoanRequest (){
 
       </Grid> 
 
-    </Hidden>
+    {/* </Hidden> */}
     <Typography>
       {getStepContent(activeStep)}
     </Typography>
 
-    <Grid container direction="row" alignItems="center" justify="center" className={classes.paperStyleBtn} > 
+    <Grid container direction="row" alignItems="center" justify="center" className={classes.paperStyleBtn} style={{backgroundColor:'red'}} > 
 
       <Grid item xs={0} sm={2} md={4} />
      

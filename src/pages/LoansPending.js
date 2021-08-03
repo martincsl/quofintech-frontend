@@ -60,7 +60,7 @@ const useStyles = makeStyles({
   input: {
     display: 'none',
   },
-})  
+})
 
 export default function LoansPending () {
   const [ isDialogOpen,setIsDialogOpen ] = useState (false);
@@ -88,13 +88,15 @@ export default function LoansPending () {
   function handleDeleteIncident(id) {
     alert ("handleDeleteIncident");
   }
-    function handleUpdateLoanRequest (){
-       alert ('handleUpdateLoanRequest');
-    } 
 
-    function handleDeleteLoanRequest (){
-      alert ('handleDeleteLoanRequest');
-    } 
+  function handleUpdateLoanRequest (){
+    alert ('handleUpdateLoanRequest');
+  } 
+
+  function handleDeleteLoanRequest (){
+    alert ('handleDeleteLoanRequest');
+  } 
+
     const incidents = [
         { loanId:1,
           customerId:"456289",

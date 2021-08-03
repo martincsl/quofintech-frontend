@@ -194,7 +194,7 @@ export default function LoansRejected () {
                 <Typography variant="subtitle2" gutterBottom><b>Compra: </b>{incident.loanProduct}</Typography>
                 <Typography variant="subtitle2" gutterBottom><b>Monto: </b>{Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(incident.loanCapital)}<b>  Cuotas: </b>{incident.loanTerm}</Typography>
                 <Typography variant="subtitle2" ><b>Motivo de Rechazo: </b></Typography>
-                <Typography variant="subtitle2" gutterBottom style={{color:"red"}}>{incident.loanRequestDenialMsg}</Typography>
+                <Typography variant="caption" gutterBottom style={{color:"red"}}>{incident.loanRequestDenialMsg}</Typography>
               </Box>
               <Grid container direction="rows" alignItems="center" justify="center"> 
                 <Button variant="outlined" size="small" disableRipple startIcon={<DeleteForeverIcon />} className={classes.buttonStyle} style={{justifyContent: 'center', width:'150px'}} onClick={() => handleDeleteLoan(incident)}>Excluir Solicitud</Button>

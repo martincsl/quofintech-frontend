@@ -7,7 +7,6 @@ const useUnsavedWarning = (message = "Desea realmente salir del formulario antes
 
     useEffect(() => {
         //Detecting browser closing
-        // console.log(isDirty);
         window.onbeforeunload = isDirty && (() => message);
 
         return () => {
@@ -17,7 +16,6 @@ const useUnsavedWarning = (message = "Desea realmente salir del formulario antes
 
     const routerPrompt = <Prompt when={isDirty} message={message} />;
 
-    // return [routerPrompt, setIsDirty];
     return [ routerPrompt, () => setIsDirty(true), () => setIsDirty(false)];
 };
 

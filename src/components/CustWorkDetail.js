@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import useUnsavedWarning from '../hooks/useUnsavedWarning';
 import useValidations from '../hooks/useValidations.js';
+import useFormHandlers from '../hooks/useFormHandlers';
 
 import MobilePrefixSelect from './selects/MobilePrefixSelect';
 import CitiesSelect from './selects/CitiesSelect';
@@ -47,21 +48,24 @@ const useStyles = makeStyles( (mainTheme) => ({
     maxWidth: 550,
     minHeight: 400,
     [mainTheme.breakpoints.down('sm')]: {
-      top: '0px',
+      // top: '0px',
       minWidth: 350,
       marginLeft:5,
       marginRight: 5,
       height: 500,
     },
-    backgroundColor:mainTheme.palette.secondary.main,  
+    // backgroundColor:mainTheme.palette.secondary.main, 
+    backgroundColor:"green",  
+
   },
 }))
 
-export default function CustWorkDetail ({handleChange, values, setValues, formErrors, setFormErrors }) {
+export default function CustWorkDetail ({ values, setValues, formErrors, setFormErrors }) {
 
   const classes = useStyles();
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
-  const {isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks} = useValidations ();
+  const { handleChange } = useFormHandlers ({values, setValues, formErrors, setFormErrors});
+  const { isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks} = useValidations ();
   
   useEffect(() => {
     setIsDirty()

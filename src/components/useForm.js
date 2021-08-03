@@ -1,10 +1,10 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
 export default function useForm (callback) {
 
-  const [values, setValues] = useState({ name: "", phone: "", email: "", message:"", user:"",password:"" });
-  const [formErrors, setFormErrors] = useState({ name: "", phone: "", email: "", message:"", user:"",password:"" });
-  const {name, email, message, user, password} = values
+  const [ values, setValues ] = useState ({ contactName: "", contactMobile: "", contactEmail: "", contactMsg:"", userId:"", userPassword:"" });
+  const [ formErrors, setFormErrors ] = useState({ contactName: "", contactMobile: "", contactEmail: "", contactMsg:"", userId:"", userPassword:"" });
+  const { contactName, contactMobile, contactEmail, contactMsg, userId, userPassword } = values
 
   function noBlanks (value) {
     if (value === "") {
@@ -101,7 +101,7 @@ export default function useForm (callback) {
   
   function chkBlankFormContact () {
     let isError = false;
-    const valuesToCheck={name, email, message}
+    const valuesToCheck={ contactName, contactEmail, contactMsg }
     Object.keys(valuesToCheck).forEach( (key) => {   // key es el nombre del key
       if (values [key] === ""){                      //values[key] es el contenido del key
         setFormErrors(prevState => ( {...prevState, [key]:  "Esta información es requerida"}));
@@ -113,7 +113,7 @@ export default function useForm (callback) {
 
   function chkBlankFormLogin () {
     let isError = false;
-    const valuesToCheck={user,password}
+    const valuesToCheck={ userId,userPassword }
     Object.keys(valuesToCheck).forEach( (key) => {   // key es el nombre del key
       if (values [key] === "") {                     //values[key] es el contenido del key
         setFormErrors(prevState => ( {...prevState, [key]:  "Esta información es requerida"}));

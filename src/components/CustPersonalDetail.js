@@ -5,6 +5,7 @@ import { Grid, Paper, TextField, Typography, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
 import useUnsavedWarning from '../hooks/useUnsavedWarning';
+import useFormHandlers from '../hooks/useFormHandlers';
 import useValidations from '../hooks/useValidations.js';
 
 import AlertDialog from './modals/AlertDialog';
@@ -40,7 +41,7 @@ const useStyles = makeStyles((mainTheme) => ({
   },
 }))
 
-export default function CustPersonalDetail ({handleChange, handleBlur, values, setValues, formErrors, setFormErrors }) {
+export default function CustPersonalDetail ({ values, setValues, formErrors, setFormErrors }) {
   // export default function CustPersonalDetail ({handleChange, handleBlur, values, setValues, formErrors, setFormErrors,isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
 
   const classes = useStyles();
@@ -49,7 +50,8 @@ export default function CustPersonalDetail ({handleChange, handleBlur, values, s
   const dialogButtons = {button1:"Salir",button2:"Nueva  Solicitud"};
   const dialogBtnsUnmount = {button1:"Salir",button2:"Seguir cargando"};
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
-  const {isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks} = useValidations ();
+  const { handleChange } = useFormHandlers ({values, setValues, formErrors, setFormErrors});
+  const { isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks } = useValidations ();
 
   useEffect(() => {
     setIsDirty()
@@ -107,7 +109,6 @@ export default function CustPersonalDetail ({handleChange, handleBlur, values, s
               label = "Fecha Nacimiento"
               value = {values.customerBirthDate}
               onChange = {(e) => { handleChange (e,[isValidDay])}}
-              // onBlur = {(e) => { handleBlur (e,[isValidDate])}}
               variant = "filled"
               fullWidth
               name = "customerBirthDate"
@@ -127,7 +128,7 @@ export default function CustPersonalDetail ({handleChange, handleBlur, values, s
         <Grid item container direction="row" spacing={1} >
 
           <Grid item xs={12} md={3} > 
-            <CitiesSelect value={values.customerCity} onChange={ (e) => { handleChange (e,[noBlanks])}} name="customerCity"/> 
+            <CitiesSelect value={values.customerCity} onChange={(e) => { handleChange (e,[noBlanks])}} name="customerCity"/> 
               <Box style={{height:5}}/>
           </Grid>
 

@@ -13,22 +13,13 @@ export default function useValidations (value) {
 
   function isValidCustomerId (value){
     if (value === "" ) {
-        return {
-          valid: false,
-          message: "Información requerida"
-        }
+        return { valid: false, message: "Información requerida" }
       }
     if (value==="0"){
-      return {
-        valid: false,
-        message: "Numero no incluido"
-      }
+      return { valid: false, message: "Numero no incluido" }
     }  
     if (value.length > 7){
-      return {
-        valid: false,
-        message: "Numero de CI inválido"
-      }
+      return { valid: false, message: "Numero de CI inválido" }
     } 
     return {valid: true}
     // return {
@@ -39,10 +30,7 @@ export default function useValidations (value) {
 
   function isValidName (value) {
     if (value === "") {
-      return {
-        valid: false,
-        message: "Esta información es requerida"
-      }
+      return { valid: false, message: "Esta información es requerida" }
     }
     return {
       valid: new RegExp(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u).test(value),
@@ -67,10 +55,7 @@ export default function useValidations (value) {
   function isValidEmail (value) {
    
     if (value === "") {
-      return {
-        valid: false, 
-        message: "Esta información es requerida"
-      }
+      return { valid: false, message: "Esta información es requerida" }
     }
     return {
       valid: new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(value), 
@@ -80,10 +65,7 @@ export default function useValidations (value) {
 
   function isValidAddress (value) {
     if (value === "") {
-      return {
-        valid: false, 
-        message: "Esta información es requerida"
-      }
+      return { valid: false, message: "Esta información es requerida" }
     }
     return {
 //      valid: new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(value), 
@@ -93,10 +75,7 @@ export default function useValidations (value) {
 
   function isValidCompanyId (value) {
     if (value === "") {
-      return {
-        valid: false, 
-        message: "Esta información es requerida"
-      }
+      return { valid: false, message: "Esta información es requerida" }
     }
     return {
 //      valid: new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(value), 
@@ -106,10 +85,7 @@ export default function useValidations (value) {
 
   function isValidCompanyName (value) {
     if (value === "") {
-      return {
-        valid: false, 
-        message: "Esta información es requerida"
-      }
+      return { valid: false, message: "Esta información es requerida" }
     }
     return {
 //      valid: new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(value), 
@@ -119,87 +95,53 @@ export default function useValidations (value) {
 
   function lastDayOfMonth (month, year) {
 
-    if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
-    {
-      return 31;
+  if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+    { return 31; }
+  else if (month == 4 || month == 6 || month == 9 || month == 11)
+    { return 30; }
+    else if (year === undefined) {
+      return 29;
     }
-    else if (month == 4 || month == 6 || month == 9 || month == 11)
-    {
-      return 30;
-    }
-      else if (year === undefined) {
-        return 29;
-      }
-        else {
-          if ((year % 4 == 0) || (year % 400 == 0 && year % 100 != 0)) {
-            return 29;
-          }
-          else {
-            return 28;
-          }
+      else {
+        if ((year % 4 == 0) || (year % 400 == 0 && year % 100 != 0)) {
+          return 29;
         }
+        else {
+          return 28;
+        }
+      }
   }
 
   function isValidDate(value) {
-    // console.log("isValidDate");
-    // console.log(value);
-    console.log(value);
     const dateLength = value.length ;
-    console.log(dateLength);
     if (dateLength < 8) {
-      // console.log("lenght menor que 8");
-      return {
-        valid: false, 
-        message: "Fecha incompleta"
-      }
+      return { valid: false, message: "Fecha incompleta" }
     }
     return {valid: true}; 
   }
 
   function isValidDay (value) {
-    // console.log("entrou isvalidDay");
-    // console.log(value);
     const dayLength = value.length;
-
     const day = parseInt(value.slice(0,2),10);
     const month = parseInt(value.slice(2,4),10);
     const year = parseInt(value.slice(4,8),10);
-
     if (day > 31) {
-      return {
-        valid: false, 
-        message: "Dia inválido"
-      }
+      return { valid: false, message: "Dia inválido" }
     } 
     if (month > 12) {
-      return {
-        valid: false, 
-        message: "Mes inválido"
-      } 
+      return { valid: false, message: "Mes inválido" } 
     }
     if (dayLength >= 4 && day > lastDayOfMonth (month)) {
-      return {
-        valid: false, 
-        message: "Dia inválido"
-      }
+      return { valid: false, message: "Dia inválido" }
     } 
     if (dayLength === 6 && (year > 20)) {
-      return {
-        valid: false, 
-        message: "Año inválido"
-      }
+      return { valid: false, message: "Año inválido" }
     }   
     if (dayLength >= 8 && day > lastDayOfMonth (month, year)) {
-      return {
-        valid: false, 
-        message: "Dia inválido"
-      }
+      return { valid: false, message: "Dia inválido" }
     } 
     if (dayLength === 8 && (year > 2021)) {
-      return {
-        valid: false, 
-        message: "Año inválido"
-      }
+      return { valid: false, message: "Año inválido" }
     }
     return {valid: true};
   }
@@ -252,21 +194,12 @@ export default function useValidations (value) {
 
   function isValidAmount (value) {
     if (value === "") {
-      return {
-        valid: false, 
-        message: "Esta información es requerida"
-      }
+      return { valid: false, message: "Esta información es requerida" }
     }
     if (value < 0){
-      return {
-        valid: false, 
-        message: "Numero debe ser mayor a 0"
-      }
+      return { valid: false, message: "Numero debe ser mayor a 0" }
     }
-    return {
-      valid: new RegExp(/^\d*$/).test(value),
-      message: "Solamente numeros son permitidos"
-    }
+    return { valid: new RegExp(/^\d*$/).test(value), message: "Solamente numeros son permitidos" }
   }
 
   function chkFormErrors (formErrors) {

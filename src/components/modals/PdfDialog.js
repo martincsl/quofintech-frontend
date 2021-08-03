@@ -16,6 +16,7 @@ const useStyles = makeStyles((mainTheme) => ({
     color:"white",
     backgroundColor:mainTheme.palette.primary.main,
     textTransform:"none",
+    fontSize: 12,
     margin: "10px",
     minWidth:"140px",
     "&:hover": {

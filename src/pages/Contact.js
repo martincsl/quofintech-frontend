@@ -28,6 +28,7 @@ const useStyles = makeStyles( (mainTheme) => ({
     color: "white",
     backgroundColor:mainTheme.palette.primary.main,
     textTransform:"none",
+    fontSize:12,
     margin: "10px",
     //marginTop: "15px",
     "&:hover": {
@@ -125,6 +126,7 @@ export default function Contact () {
                 handleChange (e,[noBlanks]);
                 setIsDirty();
               }}
+              onBlur = { (e) => { handleChange (e,[isValidEmail])}}
               error={formErrors.email}></TextField>
               {formErrors.email ? <div className="error-helper-text">{formErrors.email}</div> : null}
             </Grid>

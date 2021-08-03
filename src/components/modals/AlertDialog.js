@@ -18,6 +18,7 @@ const useStyles = makeStyles( (mainTheme) => ({
   buttonStyle:{
     backgroundColor:"white",
     textTransform:"none",
+    fontSize: 11,
     margin: "10px",
     minWidth:"130px",
     "&:hover": {

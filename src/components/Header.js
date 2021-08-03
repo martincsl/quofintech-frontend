@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { AppBar, Toolbar, IconButton, Box, Button, Hidden } from '@material-ui/core';
 import { Drawer, List, ListItem, ListItemText, ListItemIcon, Divider } from '@material-ui/core';
@@ -27,6 +27,7 @@ const useStyles = makeStyles( (mainTheme) => ({
   },
   logoStyle: {
     position: "relative",
+    // padding: "24px",
     top:"5px"
   },
   grow:{
@@ -67,8 +68,8 @@ export default function Header() {
 
   return (
     <>
-    <AppBar position="fixed" style={{top:'0px'}}>
-      <Toolbar style={{minWidth:'360'}}>
+    <AppBar position="fixed" style={{top:'0px', height: '64px'}}>
+      <Toolbar style={{minWidth:'360',height: '64px',paddingLeft:'24px'}}>
 
         <Link to={'/main'}>
           <img src={mainLogo} className={classes.logoStyle} style={{ height: '45px'}}/>

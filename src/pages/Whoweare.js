@@ -40,7 +40,8 @@ const useStyles = makeStyles( (mainTheme) => ({
     marginBottom: "10px",
   },
   paperStyle:{
-    minHeight: '45vh',
+    // minHeight: '45vh',
+    height: '100%',
     [mainTheme.breakpoints.up('md')]: {
       "&:hover": {
         marginTop:"-5px",
@@ -102,8 +103,8 @@ export default function Whoweare () {
       </Grid>
       
       <Grow in timeout = {2000}>
-      <Grid item container xs={12} spacing={2}>
-        <Grid item direction="row" xs={12} md={4}>
+      <Grid item container xs={12} spacing={2} >
+        <Grid item direction="row" xs={12} sm={12} md={4}>
           <Paper elevation={6} className={classes.paperStyle} >
             <Typography variant="subtitle1" align="center" gutterBottom className={classes.boxStyle}>Martin Calcena Simoes Lopes</Typography>   
             <img src={picMcl} alt="Martin" className={classes.photoStyle} /> 
@@ -114,7 +115,7 @@ export default function Whoweare () {
             </Box>
           </Paper>  
         </Grid>
-        <Grid item direction="row" xs={12} md={4}>
+        <Grid item direction="row" xs={12}  sm={12} md={4}>
           <Paper elevation={6} className={classes.paperStyle}  >    
             <Typography variant="subtitle1" align="center" gutterBottom className={classes.boxStyle}>Monica Arguello Zerba</Typography>   
             <img src={picMaz} className={classes.photoStyle} />  
@@ -125,7 +126,7 @@ export default function Whoweare () {
             </Box>
           </Paper>
         </Grid>
-        <Grid item direction="row" xs={12} md={4}>
+        <Grid item direction="row" xs={12}  sm={12} md={4}>
           <Paper elevation={6} className={classes.paperStyle} >    
             <Typography variant="subtitle1" align="center" gutterBottom className={classes.boxStyle}>Ezequiel Lopez Hernandez</Typography>   
             <img src={picElh} className={classes.photoStyle} />  

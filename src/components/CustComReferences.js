@@ -4,6 +4,7 @@ import { Grid, Paper, TextField, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import useUnsavedWarning from '../hooks/useUnsavedWarning';
+import useFormHandlers from '../hooks/useFormHandlers';
 import useValidations from '../hooks/useValidations.js';
 
 import MobilePrefixSelect from './selects/MobilePrefixSelect';
@@ -60,10 +61,11 @@ const useStyles = makeStyles((mainTheme) => ({
   },
   }))
 
-export default function CustComReferences ({handleChange, values, setValues, formErrors, setFormErrors }){
+export default function CustComReferences ({ values, setValues, formErrors, setFormErrors }){
   
   const classes = useStyles();  
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
+  const { handleChange } = useFormHandlers ({values, setValues, formErrors, setFormErrors});
   const {isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks} = useValidations ();
 
   useEffect(() => {

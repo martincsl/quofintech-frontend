@@ -30,11 +30,11 @@ export default function Footer() {
           </Grid>
         </Hidden>
         <Grid item xs={12} md={4} align="center">
-            <Typography variant="caption" align="center">Celular: (0983) 672-450    E-mail: info@quofintech.com.py</Typography>
+            <Typography variant="caption" align="center">Celular: (0983) 672-450 - E-mail: info@quofintech.com.py</Typography>
         </Grid>
         <Hidden smDown>
           <Grid item xs={12} md={4} align="right">
-            <Typography variant="caption" align="right">@Copyright Quo Fintech S.A. Todos los derechos reservados.</Typography>
+            <Typography variant="caption" align="right">@Copyright Quo Fintech S.A.</Typography>
           </Grid>
         </Hidden>
       </Grid>

@@ -51,8 +51,8 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function HeaderStore() {
 
   const classes = useStyles();
-  const [isOpen, setIsOpen] = useState(false);
-  const { userName, setUserName} = useContext (LoginContext);
+  const [ isOpen, setIsOpen ] = useState(false);
+  const { userName, setUserName } = useContext (LoginContext);
 
   const handleDrawerOpen = () => {
     setIsOpen(true);

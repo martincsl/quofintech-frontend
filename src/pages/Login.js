@@ -1,16 +1,18 @@
 import React, {useState, useContext} from 'react';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { Grid, Paper, Typography, TextField, Button, Box, Grow } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import CastConnectedIcon from '@material-ui/icons/CastConnected';
 
-import Header from '../components/Header.js';
-import Footer from '../components/Footer.js';
-import AlertMessage from '../components/modals/AlertMessage.js';
+import api from '../services/api';
 import useForm from '../components/useForm.js';
 import useUnsavedWarning from '../hooks/useUnsavedWarning.js';
 import { LoginContext } from '../helper/Context.js';
+
+import Header from '../components/Header.js';
+import Footer from '../components/Footer.js';
+import AlertMessage from '../components/modals/AlertMessage.js';
 
 const useStyles = makeStyles((mainTheme) => ({
   contentStyle: {
@@ -65,44 +67,77 @@ const useStyles = makeStyles((mainTheme) => ({
 export default function Login () {
 
   const classes = useStyles();  
-  const { handleChange, handleSubmit, chkBlankFormLogin, chkFormErrors, noBlanks, values, formErrors } = useForm (submit);
+  // const { handleChange, handleSubmit, chkBlankFormLogin, chkFormErrors, noBlanks, values, formErrors } = useForm (submit);
+  const { handleChange, handleSubmit, chkBlankFormLogin, chkFormErrors, noBlanks, values, formErrors } = useForm (handleLogon);
+  const { contactName, contactMobile, contactEmail, contactMsg, userId, userPassword } = values;
+  const data = { userId, userPassword } ;
   const [ isAlertOpen, setIsAlertOpen ] = useState(false);
   const [ alertMessage, setAlertMessage ] = useState({severity:"", title:"", message:""});
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
   const { userName, setUserName} = useContext (LoginContext);
 
-
-  //  const {user, password} = values
+  // const [id, setId]=useState();
   const history = useHistory();
+
+
+  // async function handleLogon (e) {
+  async function handleLogon () {
+
+    // e.preventDefault();
+    setIsPristine();
+    try {
+      alert(userId);
+      alert(userPassword);
+      // const response = await api.post('sessions', {'userId':userId, 'userPassword': userPassword});
+      const response = await api.post('sessions', { userId, userPassword });
+      
+      // const response = await api.post('sessions', data);
+      
+      // console.log(response.data.name);
+
+      localStorage.setItem('userId',userId);
+      // localStorage.setItem('userPassword',response.data.userPassword);
+  
+      history.push ('/sponsor')
+
+    } catch {
+        // alert('Falha no Login. nao existe ONG cadastrada com essa Id')
+        alert('Error de Login. No existe este usuario')
+
+    }
+
+  }
+  //  const {user, password} = values
+  
 
   const handleAlertClose = () => {
     setIsAlertOpen(false);
     setUserName(values.user);
     // alert (userName);
-    if (alertMessage.severity==="success"){
-      history.push('/sponsor');  
+    if ( alertMessage.severity === "success" ) {
+      history.push('/sponsor');
     }
   };
 
-  function submit() {
-    if (chkBlankFormLogin ()){
-      setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias!"}));
-      setIsAlertOpen(true);
+  // function submit() {
+  //   if (chkBlankFormLogin ()){
+  //     setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias!"}));
+  //     setIsAlertOpen(true);
  
-    } else if (chkFormErrors()) {
-      setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor corregir los dados marcados como incorrectos, gracias!"}));
-      setIsAlertOpen(true);
+  //   } else if (chkFormErrors()) {
+  //     setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor corregir los dados marcados como incorrectos, gracias!"}));
+  //     setIsAlertOpen(true);
    
-      } else {
+  //     } else {
 
-        setIsPristine();
-        setAlertMessage(prevState => ( {...prevState, severity:"success", title: "Iniciando Sesión en la plataforma de Quo", message:""}));
-        setIsAlertOpen(true);
+  //       setIsPristine();
+  //       setAlertMessage(prevState => ( {...prevState, severity:"success", title: "Iniciando Sesión en la plataforma de Quo", message:""}));
+  //       setIsAlertOpen(true);
         
-        // console.log(isDirty);
-        // history.push('/sponsor');  
-      }
-  } 
+  //       // console.log(isDirty);
+  //       // history.push('/sponsor');  
+  //     }
+  // } 
 
   return (
     <>
@@ -113,35 +148,36 @@ export default function Login () {
       <Grow in timeout = {1000}>
       <Grid item container className={classes.formStyle}>
         <Paper elevation={6} spacing={2} className={classes.paperStyle}>
-          <form onSubmit={handleSubmit} noValidate>
+          {/* <form onSubmit={handleSubmit} noValidate> */}
+          <form onSubmit={handleLogon} noValidate>
+
             <Typography align="center" variant="subtitle1" style={{color:'white'}} gutterBottom>Conectarse a la Plataforma de Quo</Typography>
             <Box className={classes.iconBox} >
               <CastConnectedIcon className={classes.iconStyle} style={{ fontSize: 40 }}/>
             </Box>
           
             <Grid item xs={12} md={12} spacing={1}> 
-              <TextField id="user" label="Nombre de usuario *" 
+              <TextField id="userId" label="Nombre de usuario *" 
                 variant ="filled" margin="dense" size="small" fullWidth  
-                name="user" value={values.user} 
+                name="userId" value={values.userId} 
                 onChange={ (e) => {
                   handleChange (e,[noBlanks]);
                   setIsDirty ();
                 }}
-              error={formErrors.user} ></TextField>
-              {formErrors.user ? <div className="error-helper-text">{formErrors.user}</div> : null}
+              error={formErrors.userId} ></TextField>
+              {formErrors.userId ? <div className="error-helper-text">{formErrors.userId}</div> : null}
             </Grid>
             
             <Grid item xs={12} md={9} spacing={1}> 
-              <TextField id="password" label="Contraseña *"
-                  variant ="filled" margin="dense" size="small" type="password" fullWidth
-                  name="password" value={values.password} 
+              <TextField id="userPassword" label="Contraseña *"
+                  variant ="filled" margin="dense" size="small" type="userPassword" fullWidth
+                  name="userPassword" value={values.userPassword} 
                   onChange={ (e) => {
                   handleChange (e,[noBlanks]);
                   setIsDirty ();
-                
                 }}
-                error={formErrors.password}></TextField>
-                {formErrors.password ? <div className="error-helper-text">{formErrors.password}</div> : null}
+                error={formErrors.userPassword}></TextField>
+                {formErrors.userPassword ? <div className="error-helper-text">{formErrors.userPassword}</div> : null}
           
             </Grid>
             <Grid container direction="row" alignItems="center" justify="center"> 

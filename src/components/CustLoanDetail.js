@@ -4,6 +4,7 @@ import { Grid, Paper, TextField, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
 import useUnsavedWarning from '../hooks/useUnsavedWarning';
+import useFormHandlers from '../hooks/useFormHandlers';
 import { useLoanCalculations } from '../hooks/useLoanCalculations';
 import useValidations from '../hooks/useValidations.js';
 
@@ -45,13 +46,14 @@ const useStyles = makeStyles( (mainTheme) => ({
   },
 }))
 
-export default function CustLoanDetail ({ handleChange, values, setValues, formErrors, setFormErrors }) {
+export default function CustLoanDetail ({ values, setValues, formErrors, setFormErrors }) {
   
   const classes = useStyles();  
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
   const { calcLoanExpireDate, calcLoanPayment } = useLoanCalculations({values, setValues});
   // const { handleBack, handleNext, handleReset } = useStepper (setActiveStep, submit);
-  const {isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks} = useValidations ();
+  const { handleChange } = useFormHandlers ({values, setValues, formErrors, setFormErrors});
+  const { isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks} = useValidations ();
 
 
   useEffect(() => {

@@ -10,6 +10,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@unicef/material-ui-currency-textfield": "^0.8.6",
+    "axios": "^0.21.1",
     "numero-a-letras": "^1.0.6",
     "react": "^17.0.1",
     "react-datepicker": "^4.1.1",
