@@ -11,8 +11,6 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // import ErrorIcon from '@material-ui/icons/Error';
-
-
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
 
 import { LoginContext } from '../helper/Context.js';
@@ -52,7 +50,8 @@ export default function HeaderStore() {
 
   const classes = useStyles();
   const [ isOpen, setIsOpen ] = useState(false);
-  const { userName, setUserName } = useContext (LoginContext);
+  const { userName, setUserName, sponsorName, setSponsorName } = useContext (LoginContext);
+  let avatar = `Hola, ${userName}`;
 
   const handleDrawerOpen = () => {
     setIsOpen(true);
@@ -77,9 +76,7 @@ export default function HeaderStore() {
           
           <div className={classes.grow} />
           <Button component={Link} to={'/'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<ExitToAppIcon />} >Desconectarse</Button>
-          {/* <Typography variant="caption" style={{color:"gray"}}>Hola, {userName}</Typography> */}
-     
-          <Typography variant="caption" style={{color:"gray"}}>Hola, {userName} </Typography>
+          <Typography variant="caption" style={{color:"gray",fontSize:9}}>{avatar}</Typography>
           <Avatar alt="admin" src={picMcl} />
         </Hidden>
 
@@ -104,7 +101,7 @@ export default function HeaderStore() {
         classes={{
           paper: classes.drawerPaper,
         }}
-       >
+      >
         <div className={classes.drawerContainer}>
           <List>
             <ListItem button component={Link} to={'/loanrequest'} disableRipple className={classes.buttonDrawerStyle}>

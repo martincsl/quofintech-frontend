@@ -56,7 +56,9 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function Sponsor() {
 
   const classes = useStyles();
-  const { userName, setUserName} = useContext (LoginContext);
+  const { userName, setUserName, sponsorName, setSponsorName} = useContext (LoginContext);
+  let title=`Resumen de Pagarés - ${sponsorName}`;
+
   localStorage.clear();
 
   return (
@@ -70,7 +72,7 @@ export default function Sponsor() {
 
       <Grid item xs={12} style= {{ width: '100%'}} >
         <Box className={classes.titleStyle}>      
-          <Typography align="center" variant="h6" ><b>Resumen de Pagarés</b></Typography>
+          <Typography align="center" variant="h6" ><b>{title}</b></Typography>
         </Box>
       </Grid>
     

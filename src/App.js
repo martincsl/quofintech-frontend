@@ -9,10 +9,11 @@ import './global.css';
 function App() {
 
   const [ userName, setUserName ] = useState("");
+  const [ sponsorName, setSponsorName ] = useState("");
   
   return (
-    <LoginContext.Provider value={{userName, setUserName}} >
-      <ThemeProvider theme={mainTheme}>
+    <LoginContext.Provider value = {{ userName, setUserName },{ sponsorName, setSponsorName }} >
+      <ThemeProvider theme ={ mainTheme }>
         <Routes />
       </ThemeProvider>
     </LoginContext.Provider>
