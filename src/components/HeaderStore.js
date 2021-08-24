@@ -43,6 +43,12 @@ const useStyles = makeStyles( (mainTheme) => ({
   },
   drawerContainer: {
     overflow: 'auto',
+  },
+  avatarStyle: {
+    display: 'inline-block',
+
+    // marginLeft: 'auto',
+    // marginRight: 'auto'
   }
 })); 
 
@@ -51,14 +57,15 @@ export default function HeaderStore() {
   const classes = useStyles();
   const [ isOpen, setIsOpen ] = useState(false);
   const { userName, setUserName, sponsorName, setSponsorName } = useContext (LoginContext);
+  
   let avatar = `Hola, ${userName}`;
-
+   
   const handleDrawerOpen = () => {
-    setIsOpen(true);
+    setIsOpen (true);
   };
 
   const handleDrawerClose = () => {
-    setIsOpen(false);
+    setIsOpen (false);
   };
 
   return (
@@ -76,8 +83,10 @@ export default function HeaderStore() {
           
           <div className={classes.grow} />
           <Button component={Link} to={'/'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<ExitToAppIcon />} >Desconectarse</Button>
-          <Typography variant="caption" style={{color:"gray",fontSize:9}}>{avatar}</Typography>
-          <Avatar alt="admin" src={picMcl} />
+          <Box className = {classes.avatarStyle} style={{width:'40px'}} >
+            <Avatar alt="admin" src={picMcl} />
+            {/* <Typography variant="caption" style={{color:"gray",fontSize:9}}>{avatar}</Typography> */}
+          </Box>
         </Hidden>
 
         <div className={classes.toolbarButtons}> 

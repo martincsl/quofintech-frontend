@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Redirect } from "react-router-dom";
 
@@ -19,6 +19,8 @@ import AlertMessage from '../components/modals/AlertMessage';
 import AlertDialog from '../components/modals/AlertDialog.js';
 import CustomerStepper from '../components/CustomerStepper';
 
+import { LoginContext } from '../helper/Context.js';
+import api from '../services/api';
 import useValidations from '../hooks/useValidations.js';
 import useUnsavedWarning from '../hooks/useUnsavedWarning';
 import useStepper from '../hooks/useStepper';
@@ -77,7 +79,7 @@ export default function LoanRequest (){
   const classes = useStyles ();  
   const history = useHistory ();
 
-  const inicialValuesState = { customerId: "", customerName: "", customerBirthDate:"",customerMobilePrefix:"",customerMobile: "", customerEmail: "", customerCity:"", customerAddress:"", customerOccupation:"",customerSalary:"",customerLaborSeniority:"",companyId:"",companyName:"",companyPhone:"", companyMobilePrefix:"",companyMobile:"", companyAddress:"", companyCity:"",customerHiringType:"", loanId:"",loanProduct:"", loanCapital:"", loanTerm:"", loanPayment:"", loanTotalAmount:"",loanExpireDate:"",loanRequestStatus:"",loanRequestDenialMsg:"",loanDocStatus:"",customerIdFile1:"",customerIdFile2:"",customerInvoiceFile:"",customerTaxFile1:"",customerTaxFile2:"",customerTaxFile3:"",persReference1Id:"",persReference1Name:"",persReference1MobilePrefix:"",persReference1Mobile:"",persReference2Id:"",persReference2Name:"",persReference2MobilePrefix:"",persReference2Mobile:"",comReference1Id:"",comReference1Name:"",comReference1MobilePrefix:"",comReference1Mobile:"",comReference2Id:"",comReference2Name:"",comReference2MobilePrefix:"",comReference2Mobile:"" };
+  const inicialValuesState = { customerId: "", customerName: "", customerBirthDate:"",customerMobilePrefix:"",customerMobile: "", customerEmail: "", customerCity:"", customerAddress:"", customerOccupation:"",customerSalary:"",customerLaborSeniority:"",companyId:"",companyName:"",companyPhone:"", companyMobilePrefix:"",companyMobile:"", companyAddress:"", companyCity:"", customerHiringType:"", loanId:"",loanProduct:"", loanCapital:"", loanTerm:"", loanPayment:"", loanTotalAmount:"",loanExpireDate:"",loanRequestStatus:"",loanRequestDenialMsg:"",loanDocStatus:"",customerIdFile1:"",customerIdFile2:"",customerInvoiceFile:"",customerTaxFile1:"",customerTaxFile2:"",customerTaxFile3:"",persReference1Id:"",persReference1Name:"",persReference1MobilePrefix:"",persReference1Mobile:"",persReference2Id:"",persReference2Name:"",persReference2MobilePrefix:"",persReference2Mobile:"",comReference1Id:"",comReference1Name:"",comReference1MobilePrefix:"",comReference1Mobile:"",comReference2Id:"",comReference2Name:"",comReference2MobilePrefix:"",comReference2Mobile:"" };
   const inicialFormErrorsState = { customerId: "", customerName: "", customerBirthDate:"",customerMobilePrefix:"",customerMobile: "", customerEmail: "", customerCity:"", customerAddress:"", customerOccupation:"",customerSalary:"",customerLaborSeniority:"",companyId:"",companyName:"",companyPhone:"", companyMobilePrefix:"",companyMobile:"", companyAddress:"", companyCity:"",customerHiringType:"", loanId:"",loanProduct:"", loanCapital:"", loanTerm:"", loanPayment:"", loanTotalAmount:"",loanExpireDate:"",loanRequestStatus:"",loanRequestDenialMsg:"",loanDocStatus:"",customerIdFile1:"",customerIdFile2:"",customerInvoiceFile:"",customerTaxFile1:"",customerTaxFile2:"",customerTaxFile3:"",persReference1Id:"",persReference1Name:"",persReference1MobilePrefix:"",persReference1Mobile:"",persReference2Id:"",persReference2Name:"",persReference2MobilePrefix:"",persReference2Mobile:"",comReference1Id:"",comReference1Name:"",comReference1MobilePrefix:"",comReference1Mobile:"",comReference2Id:"",comReference2Name:"",comReference2MobilePrefix:"",comReference2Mobile:"" };
   const [values, setValues] = useState(inicialValuesState);
   const [formErrors, setFormErrors] = useState(inicialFormErrorsState);
@@ -98,7 +100,100 @@ export default function LoanRequest (){
   const steps = getSteps();
   const dialogButtons = {button1:"Salir",button2:"Nueva Solicitud"};
   const dialogBtnsUnmount = {button1:"Salir",button2:"Seguir cargando"};
-  const {customerId, customerName, customerBirthDate,customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary,customerLaborSeniority,companyId,companyName,companyPhone, companyMobile, companyAddress, customerHiringType, loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount,loanExpireDate,loanRequestStatus,loanDocStatus,persReference1Id,persReference1Name,persReference1MobilePrefix,persReference1Mobile,persReference2Id,persReference2Name,persReference2MobilePrefix,persReference2Mobile,comReference1Id,comReference1Name,comReference1MobilePrefix,comReference1Mobile,comReference2Id,comReference2Name,comReference2MobilePrefix,comReference2Mobile } = values;
+  const { customerId, customerName, customerBirthDate,customerMobilePrefix,customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary,customerLaborSeniority,companyId,companyName,companyPhone, companyMobilePrefix,companyMobile, companyAddress, companyCity, customerHiringType, loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount,loanExpireDate,loanRequestStatus,loanRequestDenialMsg,loanDocStatus,persReference1Id,persReference1Name,persReference1MobilePrefix,persReference1Mobile,persReference2Id,persReference2Name,persReference2MobilePrefix,persReference2Mobile,comReference1Id,comReference1Name,comReference1MobilePrefix,comReference1Mobile,comReference2Id,comReference2Name,comReference2MobilePrefix,comReference2Mobile } = values;
+  const { userIdGlobal, setUserIdGlobal, userName, setUserName, sponsorIdGlobal, setSponsorIdGlobal, sponsorName, setSponsorName} = useContext (LoginContext);
+
+  async function handleCustomer() {
+    
+    try {
+    const response = await api.get ('/customers', { headers:{Authorization: customerId}})
+      try {
+        const data = {customerId, customerMobilePrefix, customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary, customerHiringType, customerLaborSeniority } ;
+        const response = await api.put ('/customers', data);
+      } catch (err) {
+          const errorMsg = Object.values(err.response.data);
+          setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en alteración de solcitud", message: errorMsg }));
+          setIsAlertOpen(true);
+        }
+    } catch (err) {
+      if (err.response.status == 404) {
+        try {
+          const data = { customerId, customerName, customerBirthDate, customerMobilePrefix, customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary, customerHiringType, customerLaborSeniority } ;
+          const response = await api.post('/customers', data );
+        } catch (err) {
+            const errorMsg = Object.values(err.response.data);
+            setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusión de solcitud", message: errorMsg }));
+            setIsAlertOpen(true);
+          }
+      } else {
+          const errorMsg = Object.values(err.response.data);
+          setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inicio de sessión", message: errorMsg }));
+          setIsAlertOpen(true);
+        }
+      }
+  }
+  
+  async function handleLoan (){
+    alert("handleLoan");  
+    // setValues (prevState => ({...prevState, "userId":userIdGlobal }));
+    // setValues (prevState => ({...prevState, "sponsorId":sponsorIdGlobal }));
+    try {
+      const data = { loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount, loanExpireDate, loanRequestStatus,loanRequestDenialMsg, loanDocStatus, customerId, userIdGlobal, sponsorIdGlobal } ;
+      const response = await api.post('/loans', data );
+    } catch (err) {
+        const errorMsg = Object.values(err.response.data);
+        setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusión de solcitud", message: errorMsg }));
+        setIsAlertOpen(true);
+      }
+  }
+
+
+  async function handleCompany() {
+    alert("handleCompany");
+    try {
+    const response = await api.get ('/companies', { headers:{Authorization: companyId}})
+      try {
+        alert("update");
+        alert(companyId);
+        const data = { companyId, companyPhone, companyMobilePrefix, companyMobile, companyAddress, companyCity} ;
+        const response = await api.put ('/companies', data);
+      } catch (err) {
+          const errorMsg = Object.values(err.response.data);
+          setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en alteración de solcitud", message: errorMsg }));
+          setIsAlertOpen(true);
+        }
+    } catch (err) {
+      if (err.response.status == 404) {
+        try {
+          const data = { companyId, companyName,companyPhone, companyMobilePrefix, companyMobile, companyAddress, companyCity } ;
+          const response = await api.post('/companies', data );
+        } catch (err) {
+            const errorMsg = Object.values(err.response.data);
+            setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusión de solcitud", message: errorMsg }));
+            setIsAlertOpen(true);
+          }
+      } else {
+          const errorMsg = Object.values(err.response.data);
+          setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inicio de sessión", message: errorMsg }));
+          setIsAlertOpen(true);
+        }
+      }
+  }
+        // else {
+    //     const errorMsg = Object.values(err.response.data);
+    //     setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inicio de sessión", message: errorMsg }));
+    //     setIsAlertOpen(true);
+    //   }
+    // }
+    // try {
+    //   const data = { customerId, customerName, customerBirthDate,customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary, customerLaborSeniority } ;
+    //   const response = await api.post('/customers', data );
+    // } catch (err) {
+    //     const errorMsg = Object.values(err.response.data);
+    //     setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusion de solcitud", message: errorMsg }));
+    //     setIsAlertOpen(true);
+    //   }
+
 
   const handleAlertClose = () => {
     setIsAlertOpen(false);
@@ -125,12 +220,19 @@ export default function LoanRequest (){
     } 
   };
 
+  //testear aca grabacion de customer
   const handleExit = () => {
+    // alert ("passou em handleexit");
+    // setIsPristine();
+    // setValues(inicialValuesState);
+    // setFormErrors(inicialFormErrorsState);
+    // localStorage.clear();
+    // history.push('/sponsor');
     setIsPristine();
-    setValues(inicialValuesState);
-    setFormErrors(inicialFormErrorsState);
-    localStorage.clear();
-    history.push('/sponsor');
+    // handleCustomer();
+    // handleCompany();
+    handleLoan();
+
   }
 
   function submit() {

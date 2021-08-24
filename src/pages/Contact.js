@@ -9,8 +9,11 @@ import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 import AlertMessage from '../components/modals/AlertMessage';
 
+import api from '../services/api';
 import useForm from '../components/useForm.js';
 import useUnsavedWarning from '../hooks/useUnsavedWarning';
+import { LoginContext } from '../helper/Context.js';
+
 
 const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
@@ -52,7 +55,9 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function Contact () {
 
   const classes = useStyles();  
-  const { handleChange, handleSubmit, chkBlankFormContact, chkFormErrors, isValidName, isValidPhone, isValidEmail, noBlanks, isValidUser, isValidPassword,values, formErrors} = useForm (submit);
+  const { handleChange, handleSubmit, chkBlankFormContact, chkFormErrors, isValidName, isValidPhone, isValidEmail, noBlanks, isValidUser, isValidPassword,values, formErrors} = useForm (handleLogon);
+  const { contactName, contactMobile, contactEmail, contactMsg, userId, userPassword } = values;
+
   const [ isAlertOpen, setIsAlertOpen ] = useState(false);
   const [ alertMessage, setAlertMessage ] = useState({severity:"",title:"",message:""});
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
@@ -66,19 +71,43 @@ export default function Contact () {
     }
   };
 
-  function submit() {
+  async function handleLogon() {
     if (chkBlankFormContact ()){
       setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias!"}));
       setIsAlertOpen(true);
-    } else if (chkFormErrors()) {
-        setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor corregir los dados marcados como incorrectos, gracias!"}));
-        setIsAlertOpen(true);
-      } else {
-          setIsPristine();
-          setAlertMessage(prevState => ( {...prevState, severity:"success", title: "Mensaje enviado con exito", message:"Nuestro equipo estara revisando para darle una respuesta, gracias!"}));
+    }  else if (chkFormErrors()) {
+         setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor corregir los dados marcados como incorrectos, gracias!"}));
+         setIsAlertOpen(true);
+       }  
+       else {
+        setIsPristine();
+        try {
+          const data = { contactName, contactMobile, contactEmail, contactMsg } ;
+          const response = await api.post('/messages', data );
+          setAlertMessage(prevState => ( {...prevState, severity:"success", title: "Mensaje enviado con exito", message: "En la brevedad nos comunicaremos con usted" }));
           setIsAlertOpen(true);
-        }
-  } 
+      
+        } catch (err) {
+            const errorMsg = Object.values(err.response.data);
+            setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inicio de sessión", message: errorMsg }));
+            setIsAlertOpen(true);
+          }
+      }
+  }
+
+  // function submit() {
+  //   if (chkBlankFormContact ()){
+  //     setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias!"}));
+  //     setIsAlertOpen(true);
+  //   } else if (chkFormErrors()) {
+  //       setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor corregir los dados marcados como incorrectos, gracias!"}));
+  //       setIsAlertOpen(true);
+  //     } else {
+  //         setIsPristine();
+  //         setAlertMessage(prevState => ( {...prevState, severity:"success", title: "Mensaje enviado con exito", message:"Nuestro equipo estara revisando para darle una respuesta, gracias!"}));
+  //         setIsAlertOpen(true);
+  //       }
+  // } 
 
   return (
     <>
@@ -96,50 +125,50 @@ export default function Contact () {
               <ContactMailIcon className={classes.iconStyle} style={{ fontSize: 40 }}/>
             </Box>
             <Grid item xs={12}> 
-              <TextField id="name" label="Nombre *" 
+              <TextField id="contactName" label="Nombre *" 
                 variant ="filled" margin="dense" size="small" fullWidth  
-                name="name" value={values.name} 
+                name="contactName" value={contactName} 
                 onChange={ (e) => {
                   handleChange (e,[noBlanks]);
                   setIsDirty();
                 }}
 
-                error={formErrors.name} ></TextField>
-                {formErrors.name ? <div className="error-helper-text">{formErrors.name}</div> : null}
+                error={formErrors.contactName} ></TextField>
+                {formErrors.contactName ? <div className="error-helper-text">{formErrors.contactName}</div> : null}
             </Grid>
             <Grid item xs={12} md={9}> 
-              <TextField id="phone" label="Celular"
+              <TextField id="contactMobile" label="Celular"
                 variant ="filled" margin="dense" size="small" fullWidth
-                name="phone" value={values.phone} 
+                name="contactMobile" value={values.contactMobile} 
                 onChange={ (e) => {
                   handleChange (e,[noBlanks]);
                   setIsDirty();
                 }}
-                error={formErrors.phone}></TextField>
-                {formErrors.phone ? <div className="error-helper-text">{formErrors.phone}</div> : null}
+                error={formErrors.contactMobile}></TextField>
+                {formErrors.contactMobile ? <div className="error-helper-text">{formErrors.contactMobile}</div> : null}
             </Grid>  
             <Grid item xs={12}>
-            <TextField id="email" label="E-mail *" 
+            <TextField id="contactEmail" label="E-mail *" 
               variant ="filled" margin="dense" size="small" fullWidth 
-              name="email" value={values.email} 
+              name="contactEmail" value={values.contactEmail} 
               onChange={ (e) => {
                 handleChange (e,[noBlanks]);
                 setIsDirty();
               }}
               onBlur = { (e) => { handleChange (e,[isValidEmail])}}
-              error={formErrors.email}></TextField>
-              {formErrors.email ? <div className="error-helper-text">{formErrors.email}</div> : null}
+              error={formErrors.contactEmail}></TextField>
+              {formErrors.contactEmail ? <div className="error-helper-text">{formErrors.contactEmail}</div> : null}
             </Grid>
             <Grid item xs={12}>
               <Typography align="left" variant="subtitle1" style={{color:'white'}} gutterBottom>Mensaje *</Typography>
               <div>
-                <textarea name="message" placeholder="Escriba su mensaje" rows="4" 
+                <textarea name="contactMsg" placeholder="Escriba su mensaje" rows="4" 
                   onChange={ (e) => {
                     handleChange (e,[noBlanks]);
                     setIsDirty();
                   }}
                 ></textarea>
-                {formErrors.message ? <div className="error-helper-text">{formErrors.message}</div> : null}
+                {formErrors.contactMsg ? <div className="error-helper-text">{formErrors.contactMsg}</div> : null}
               </div>
             </Grid>
             <Grid container direction="row" alignItems="center" justify="center"> 

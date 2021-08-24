@@ -5,10 +5,10 @@ import { Grid, Paper, Typography, TextField, Button, Box, Grow } from '@material
 import { makeStyles } from '@material-ui/core/styles';
 import CastConnectedIcon from '@material-ui/icons/CastConnected';
 
+import { LoginContext } from '../helper/Context.js';
 import api from '../services/api';
 import useForm from '../components/useForm.js';
 import useUnsavedWarning from '../hooks/useUnsavedWarning.js';
-import { LoginContext } from '../helper/Context.js';
 
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
@@ -72,28 +72,27 @@ const useStyles = makeStyles((mainTheme) => ({
     const [ isAlertOpen, setIsAlertOpen ] = useState(false);
     const [ alertMessage, setAlertMessage ] = useState({severity:"", title:"", message:""});
     const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
-    const { userName, setUserName, sponsorName, setSponsorName} = useContext (LoginContext);
-  
+    const { userIdGlobal, setUserIdGlobal, userName, setUserName, sponsorIdGlobal, setSponsorIdGlobal, sponsorName, setSponsorName} = useContext (LoginContext);
     const history = useHistory();
   
     async function handleLogon () {
-      
+
     if (chkBlankFormLogin ()){
-      setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias!"}));
+      setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias !"}));
       setIsAlertOpen(true);
-    }  
+    } 
       else {
         setIsPristine();
         try {
           const data = { userId, userPassword } ;
           const response = await api.post('/sessions', data );
-
-            setSponsorName (response.data.sponsorName);
-            //  setUserName (response.data.userName);
-
-            // localStorage.setItem('userName',response.data.userName);
-            // localStorage.setItem('userPassword',response.data.userPassword);
-            history.push ('/sponsor')
+          setUserIdGlobal (response.data.userId);
+          setUserName (response.data.userName);
+          setSponsorIdGlobal(response.data.sponsorId);
+          setSponsorName (response.data.sponsorName);
+          // localStorage.setItem('userName',response.data.userName);
+          // localStorage.setItem('userPassword',response.data.userPassword);
+          history.push ('/sponsor')
       
         } catch (err) {
             const errorMsg = Object.values(err.response.data);
@@ -191,7 +190,6 @@ const useStyles = makeStyles((mainTheme) => ({
     <AlertMessage open={isAlertOpen} onClose={handleAlertClose} severity={alertMessage.severity} title={alertMessage.title}>
       {alertMessage.message}
     </AlertMessage>
-
     <Footer />
     </>
   )
