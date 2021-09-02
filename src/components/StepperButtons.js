@@ -37,11 +37,11 @@ export default function StepperButton ({ handleExit, handleBack, handleNext, act
       } 
   }
 
-   return (
+  return (
     <>
     <Grid item xs={4} md={4}  >
       <Button onClick={handleExit} className={classes.buttonStyle} style={{margin: '0 auto', display: "flex"}} disableRipple >
-        Salir
+        Grabar
       </Button>
     </Grid>
 
@@ -58,5 +58,4 @@ export default function StepperButton ({ handleExit, handleBack, handleNext, act
     </Grid>
     </>
    )
-
 }

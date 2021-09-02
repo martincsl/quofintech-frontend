@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((mainTheme) => ({
   
   stepperFontSize: {
-    fontSize: 12,
+    fontSize: 9,
     [mainTheme.breakpoints.down('md')]: {
       fontSize: 9,
     },
@@ -22,9 +22,7 @@ const useStyles = makeStyles((mainTheme) => ({
 export default function CustomerStepper ({activeStep, steps}) {
 
   const classes = useStyles();  
-
   return (
-
     <Stepper activeStep = {activeStep} style = {{height:100}} alternativeLabel>
       {steps.map((label) => (
         <Step key = {label}>
@@ -32,6 +30,5 @@ export default function CustomerStepper ({activeStep, steps}) {
         </Step>
       ))}
     </Stepper>
-
   )
 }

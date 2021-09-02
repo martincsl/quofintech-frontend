@@ -55,7 +55,7 @@ const useStyles = makeStyles( (mainTheme) => ({
       height: 500,
     },
     // backgroundColor:mainTheme.palette.secondary.main, 
-    backgroundColor:"green",  
+    backgroundColor:mainTheme.palette.secondary.main,  
 
   },
 }))

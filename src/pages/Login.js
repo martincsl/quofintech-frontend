@@ -72,7 +72,7 @@ const useStyles = makeStyles((mainTheme) => ({
     const [ isAlertOpen, setIsAlertOpen ] = useState(false);
     const [ alertMessage, setAlertMessage ] = useState({severity:"", title:"", message:""});
     const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
-    const { userIdGlobal, setUserIdGlobal, userName, setUserName, sponsorIdGlobal, setSponsorIdGlobal, sponsorName, setSponsorName} = useContext (LoginContext);
+    const { userIdGlobal, setUserIdGlobal, userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName} = useContext (LoginContext);
     const history = useHistory();
   
     async function handleLogon () {
@@ -86,19 +86,26 @@ const useStyles = makeStyles((mainTheme) => ({
         try {
           const data = { userId, userPassword } ;
           const response = await api.post('/sessions', data );
-          setUserIdGlobal (response.data.userId);
+          setUserIdGlobal(response.data.userId);
           setUserName (response.data.userName);
-          setSponsorIdGlobal(response.data.sponsorId);
+          setSponsorId(response.data.sponsorId);
           setSponsorName (response.data.sponsorName);
           // localStorage.setItem('userName',response.data.userName);
           // localStorage.setItem('userPassword',response.data.userPassword);
           history.push ('/sponsor')
       
         } catch (err) {
+          if (err.response) {
             const errorMsg = Object.values(err.response.data);
-            setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inicio de sessión", message: errorMsg }));
+            setAlertMessage(prevState => ({...prevState, severity:"warning", title: "Error en inicio de sessión", message: errorMsg }));
             setIsAlertOpen(true);
-            // alert(errorMsg);
+          } else if(err.request) {
+              setAlertMessage(prevState => ({...prevState, severity:"warning", title: "Error en inicio de sessión", message: "Servidor no disponible. Favor intentar nuevamente en unos minutos." }));
+              setIsAlertOpen(true);
+            } else {
+                setAlertMessage(prevState => ({...prevState, severity:"warning", title: "Error en inicio de sessión", message: "Servidor no disponible. Favor intentar nuevamente en unos minutos." }));
+                setIsAlertOpen(true);
+              }
           }
       }
     }

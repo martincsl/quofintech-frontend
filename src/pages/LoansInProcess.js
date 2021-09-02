@@ -1,8 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 import { Grid, Paper, Box, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+
+import { LoginContext } from '../helper/Context.js';
+import api from '../services/api';
 
 import HeaderStore from '../components/HeaderStore.js';
 import Footer from '../components/Footer.js';
@@ -67,8 +70,23 @@ export default function LoansInProcess () {
   const classes = useStyles();  
   const [ isDialogOpen,setIsDialogOpen ] = useState(false);
   const [ dialogMessage,setDialogMessage ] = useState({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:""});
-  const dialogButtons = {button1:"Volver",button2:"Confirmar"};
+  const { userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName} = useContext (LoginContext);
+  const [ loansList, setLoansList] = useState ([]);
+
+  const dialogButtons = {button1:"Volver",button2:"Confirmar"};  
   
+  useEffect ( ()=> {
+    const data = { sponsorId }
+    api.get('profile', { headers :{
+      Authorization: sponsorId,
+    }
+    
+    }).then (response => {
+       setLoansList(response.data);
+    })
+  },[sponsorId])
+
+
   function handleDeleteLoan (incident){
   //  let messageText= `Confirma la anulación de la solicitud de ${incident.customerName} ?`
     setDialogMessage( {severity:"warning", title: "Solicitud de Anulación", messageLine1:`${incident.customerName}`, messageLine2:`Monto Solicitado: ${Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(incident.loanCapital)}`, messageLine3:"Confirma la anulación de la solicitud ?"});
@@ -93,99 +111,99 @@ export default function LoansInProcess () {
     function handleDeleteLoanRequest (){
       alert ('handleDeleteLoanRequest');
     } 
-    const incidents = [
-        { loanId:1,
-          customerId:"456289",
-          customerName: "Thiago Nigro",
-          loanProduct: "Heladera 360lts",
-          loanTerm: 12,
-          loanRequestStatus: "ap",
-          loanRequestDenialMsg:"",
-          loanTotalAmount: 2000000,
-          loanCapital: 1000000 },
-        { loanId:2,
-          customerId:"1786345",
-          customerName: "Luis Stulbergher",
-          loanProduct: "Celular Iphone",
-          loanTerm: 24,
-          loanRequestStatus: "ap",
-          loanRequestDenialMsg:"",
-          loanTotalAmount: 10000000,
-          loanCapital: 5000000 },
-        { loanId:3,
-          customerId:"2789432",
-          customerName: "Luis Alvez",
-          loanProduct: "Viaje Cancun",
-          loanTerm: 36,
-          loanRequestStatus: "ap",
-          loanRequestDenialMsg:"",
-          loanTotalAmount: 14000000,
-          loanCapital: 7000000 },
-        { loanId:4,
-          customerId:"6065699",
-          customerName: "Renoir Vieira",
-          loanProduct: "Heladera 360lts",
-          loanTerm: 12,
-          loanRequestStatus: "ap",
-          loanRequestDenialMsg:"",
-          loanTotalAmount: 20000000,
-          loanCapital: 1000000 },
-        { loanId:5,
-          customerId:"7075699",
-          customerName: "Heloisa Cruz",
-          loanProduct:" Ipad Pro",
-          loanTerm: 18,
-          loanRequestStatus: "ap",
-          loanRequestDenialMsg:"",
-          loanTotalAmount: 2000000,
-          loanCapital: 1000000 },
-        { loanId:6,
-          customerId:"6065699",
-          customerName: "Juliana Santos",
-          loanProduct: "Heladera 360lts",
-          loanRequestStatus: "ap",
-          loanTerm: 6,
-          loanRequestDenialMsg:"",
-          loanTotalAmount: 2000000,
-          loanCapital: 1000000 },
-        { loanId:7,
-          customerId:"6065699",
-          customerName: "Luciana Gallardo",
-          loanProduct: "Heladera 360lts",
-          loanRequestStatus: "ap",
-          loanTerm: 24,
-          loanRequestDenialMsg:"",
-          loanTotalAmount: 2000000,
-          loanCapital: 1000000 },
-        { loanId:8,
-          customerId:"6065699",
-          customerName: "Marilia Fontes",
-          loanProduct: "Heladera 360lts",
-          loanTerm: 12,
-          loanRequestStatus: "ap",
-          loanRequestDenialMsg:"",
-          loanTotalAmount: 2000000,
-          loanCapital: 1000000 },
+    // const incidents = [
+    //     { loanId:1,
+    //       customerId:"456289",
+    //       customerName: "Thiago Nigro",
+    //       loanProduct: "Heladera 360lts",
+    //       loanTerm: 12,
+    //       loanRequestStatus: "ap",
+    //       loanRequestDenialMsg:"",
+    //       loanTotalAmount: 2000000,
+    //       loanCapital: 1000000 },
+    //     { loanId:2,
+    //       customerId:"1786345",
+    //       customerName: "Luis Stulbergher",
+    //       loanProduct: "Celular Iphone",
+    //       loanTerm: 24,
+    //       loanRequestStatus: "ap",
+    //       loanRequestDenialMsg:"",
+    //       loanTotalAmount: 10000000,
+    //       loanCapital: 5000000 },
+    //     { loanId:3,
+    //       customerId:"2789432",
+    //       customerName: "Luis Alvez",
+    //       loanProduct: "Viaje Cancun",
+    //       loanTerm: 36,
+    //       loanRequestStatus: "ap",
+    //       loanRequestDenialMsg:"",
+    //       loanTotalAmount: 14000000,
+    //       loanCapital: 7000000 },
+    //     { loanId:4,
+    //       customerId:"6065699",
+    //       customerName: "Renoir Vieira",
+    //       loanProduct: "Heladera 360lts",
+    //       loanTerm: 12,
+    //       loanRequestStatus: "ap",
+    //       loanRequestDenialMsg:"",
+    //       loanTotalAmount: 20000000,
+    //       loanCapital: 1000000 },
+    //     { loanId:5,
+    //       customerId:"7075699",
+    //       customerName: "Heloisa Cruz",
+    //       loanProduct:" Ipad Pro",
+    //       loanTerm: 18,
+    //       loanRequestStatus: "ap",
+    //       loanRequestDenialMsg:"",
+    //       loanTotalAmount: 2000000,
+    //       loanCapital: 1000000 },
+    //     { loanId:6,
+    //       customerId:"6065699",
+    //       customerName: "Juliana Santos",
+    //       loanProduct: "Heladera 360lts",
+    //       loanRequestStatus: "ap",
+    //       loanTerm: 6,
+    //       loanRequestDenialMsg:"",
+    //       loanTotalAmount: 2000000,
+    //       loanCapital: 1000000 },
+    //     { loanId:7,
+    //       customerId:"6065699",
+    //       customerName: "Luciana Gallardo",
+    //       loanProduct: "Heladera 360lts",
+    //       loanRequestStatus: "ap",
+    //       loanTerm: 24,
+    //       loanRequestDenialMsg:"",
+    //       loanTotalAmount: 2000000,
+    //       loanCapital: 1000000 },
+    //     { loanId:8,
+    //       customerId:"6065699",
+    //       customerName: "Marilia Fontes",
+    //       loanProduct: "Heladera 360lts",
+    //       loanTerm: 12,
+    //       loanRequestStatus: "ap",
+    //       loanRequestDenialMsg:"",
+    //       loanTotalAmount: 2000000,
+    //       loanCapital: 1000000 },
 
-        { loanId:9,
-          customerId:"6065699",
-          customerName: "Ricardo Szveiter",
-          loanProduct: "Heladera 360lts",
-          loanTerm: 24,
-          loanRequestStatus: "ap",
-          loanRequestDenialMsg:"",
-          loanTotalAmount: 2000000,
-          loanCapital: 1000000 },
-        { loanId:10,
-          customerId:"989699",
-          customerName: "Enrique Bredda",
-          loanProduct: "Heladera 360lts",
-          loanTerm: 18,
-          loanRequestStatus: "ap",
-          loanRequestDenialMsg:"",
-          loanTotalAmount: 2000000,
-          loanCapital: 1000000 },
-    ] ;
+    //     { loanId:9,
+    //       customerId:"6065699",
+    //       customerName: "Ricardo Szveiter",
+    //       loanProduct: "Heladera 360lts",
+    //       loanTerm: 24,
+    //       loanRequestStatus: "ap",
+    //       loanRequestDenialMsg:"",
+    //       loanTotalAmount: 2000000,
+    //       loanCapital: 1000000 },
+    //     { loanId:10,
+    //       customerId:"989699",
+    //       customerName: "Enrique Bredda",
+    //       loanProduct: "Heladera 360lts",
+    //       loanTerm: 18,
+    //       loanRequestStatus: "ap",
+    //       loanRequestDenialMsg:"",
+    //       loanTotalAmount: 2000000,
+    //       loanCapital: 1000000 },
+    // ] ;
 
   return (
     <>
@@ -196,26 +214,26 @@ export default function LoansInProcess () {
         
         <Grid item xs={12} style= {{ width: '100%'}}>
           <Box className={classes.titleStyle}>      
-            <Typography align="center" variant="h6" ><b>Solicitudes en Proceso de Analisis</b></Typography>
+            <Typography align="center" variant="h6" ><b>Solicitudes en Proceso de Analisis - {sponsorName}</b></Typography>
           </Box>
         </Grid>
 
         <Grid item container direction="row" spacing={2} xs={12}>
              
-          {incidents.map(incident => (
+          {loansList.map (loan => (
 
             <Grid item direction="row" spacing={1} xs={12} sm={6} md={3}>
               <Paper elevation={9} className={classes.paperStyle} style={{minHeight:'30vh'}}>
-                <Typography align="center" variant="subtitle2" className={classes.boxStyle}>{incident.customerName}</Typography>              
-                <Typography align="center" variant="subtitle2" className={classes.boxStyle}>Cedula: {Intl.NumberFormat('es-PY',{style:'decimal'}).format(incident.customerId)}</Typography>
+                <Typography align="center" variant="subtitle2" className={classes.boxStyle}>{loan.customerName}</Typography>              
+                <Typography align="center" variant="subtitle2" className={classes.boxStyle}>Cedula: {Intl.NumberFormat('es-PY',{style:'decimal'}).format(loan.customerId)}</Typography>
                 <Box className={classes.innerBoxStyle}> 
-                  <Typography variant="subtitle2" gutterBottom><b>Compra: </b>{incident.loanProduct}</Typography>
-                  <Typography variant="subtitle2" gutterBottom><b>Monto: </b>{Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(incident.loanCapital)}<b>  Cuotas: </b>{incident.loanTerm}</Typography>
+                  <Typography variant="subtitle2" gutterBottom><b>Compra: </b>{loan.loanProduct}</Typography>
+                  <Typography variant="subtitle2" gutterBottom><b>Monto: </b>{Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(loan.loanCapital)}<b>  Cuotas: </b>{loan.loanTerm}</Typography>
                   <Typography variant="subtitle2" gutterBottom><b>Fecha de Inclusión:</b> 25/05/21</Typography>
-                  <Typography variant="subtitle2" gutterBottom><b>Monto Pagaré: </b>{Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(incident.loanTotalAmount)}</Typography>
+                  <Typography variant="subtitle2" gutterBottom><b>Monto Pagaré: </b>{Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(loan.loanTotalAmount)}</Typography>
                 </Box>
                 <Grid container direction="rows" alignItems="center" justify="center"> 
-                  <Button variant="outlined" size="small" disableRipple startIcon={<DeleteForeverIcon />} className={classes.buttonStyle} style={{justifyContent: 'center'},{width:'150px'}} onClick={() => handleDeleteLoan(incident)}>Excluir Solicitud</Button>
+                  <Button variant="outlined" size="small" disableRipple startIcon={<DeleteForeverIcon />} className={classes.buttonStyle} style={{justifyContent: 'center'},{width:'150px'}} onClick={() => handleDeleteLoan(loan)}>Excluir Solicitud</Button>
                 </Grid>
               </Paper>  
             </Grid> 
@@ -229,7 +247,6 @@ export default function LoansInProcess () {
       {dialogMessage.messageLine2}
       <br />
       {dialogMessage.messageLine3}
-
     </AlertDialog> 
     <Footer />
     </>

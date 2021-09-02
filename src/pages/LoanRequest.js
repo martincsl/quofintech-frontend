@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Redirect } from "react-router-dom";
 
@@ -83,7 +83,7 @@ export default function LoanRequest (){
   const inicialFormErrorsState = { customerId: "", customerName: "", customerBirthDate:"",customerMobilePrefix:"",customerMobile: "", customerEmail: "", customerCity:"", customerAddress:"", customerOccupation:"",customerSalary:"",customerLaborSeniority:"",companyId:"",companyName:"",companyPhone:"", companyMobilePrefix:"",companyMobile:"", companyAddress:"", companyCity:"",customerHiringType:"", loanId:"",loanProduct:"", loanCapital:"", loanTerm:"", loanPayment:"", loanTotalAmount:"",loanExpireDate:"",loanRequestStatus:"",loanRequestDenialMsg:"",loanDocStatus:"",customerIdFile1:"",customerIdFile2:"",customerInvoiceFile:"",customerTaxFile1:"",customerTaxFile2:"",customerTaxFile3:"",persReference1Id:"",persReference1Name:"",persReference1MobilePrefix:"",persReference1Mobile:"",persReference2Id:"",persReference2Name:"",persReference2MobilePrefix:"",persReference2Mobile:"",comReference1Id:"",comReference1Name:"",comReference1MobilePrefix:"",comReference1Mobile:"",comReference2Id:"",comReference2Name:"",comReference2MobilePrefix:"",comReference2Mobile:"" };
   const [values, setValues] = useState(inicialValuesState);
   const [formErrors, setFormErrors] = useState(inicialFormErrorsState);
-
+  const [ userId, setUserId ] = useState("");
   const [activeStep, setActiveStep] = useState(0);
   const [isLoanPreApproved, setIsLoanPreApproved] = useState(false);
 
@@ -101,7 +101,12 @@ export default function LoanRequest (){
   const dialogButtons = {button1:"Salir",button2:"Nueva Solicitud"};
   const dialogBtnsUnmount = {button1:"Salir",button2:"Seguir cargando"};
   const { customerId, customerName, customerBirthDate,customerMobilePrefix,customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary,customerLaborSeniority,companyId,companyName,companyPhone, companyMobilePrefix,companyMobile, companyAddress, companyCity, customerHiringType, loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount,loanExpireDate,loanRequestStatus,loanRequestDenialMsg,loanDocStatus,persReference1Id,persReference1Name,persReference1MobilePrefix,persReference1Mobile,persReference2Id,persReference2Name,persReference2MobilePrefix,persReference2Mobile,comReference1Id,comReference1Name,comReference1MobilePrefix,comReference1Mobile,comReference2Id,comReference2Name,comReference2MobilePrefix,comReference2Mobile } = values;
-  const { userIdGlobal, setUserIdGlobal, userName, setUserName, sponsorIdGlobal, setSponsorIdGlobal, sponsorName, setSponsorName} = useContext (LoginContext);
+  const { userIdGlobal, setUserIdGlobal, userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName} = useContext (LoginContext);
+
+  useEffect(() => {
+    // alert(userIdGlobal);
+    setUserId(userIdGlobal);
+}, [ ]);
 
   async function handleCustomer() {
     
@@ -135,10 +140,9 @@ export default function LoanRequest (){
   
   async function handleLoan (){
     alert("handleLoan");  
-    // setValues (prevState => ({...prevState, "userId":userIdGlobal }));
-    // setValues (prevState => ({...prevState, "sponsorId":sponsorIdGlobal }));
+
     try {
-      const data = { loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount, loanExpireDate, loanRequestStatus,loanRequestDenialMsg, loanDocStatus, customerId, userIdGlobal, sponsorIdGlobal } ;
+      const data = { loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount, loanExpireDate, loanRequestStatus,loanRequestDenialMsg, loanDocStatus, customerId, userId, sponsorId } ;
       const response = await api.post('/loans', data );
     } catch (err) {
         const errorMsg = Object.values(err.response.data);
@@ -146,7 +150,6 @@ export default function LoanRequest (){
         setIsAlertOpen(true);
       }
   }
-
 
   async function handleCompany() {
     alert("handleCompany");
@@ -288,7 +291,7 @@ export default function LoanRequest (){
     
         <Grid item xs={12} sm={1} md={2} /> 
 
-        <Grid item xs={12} sm={10} md={8} style={{backgroundColor:'red'}}>
+        <Grid item xs={12} sm={10} md={8} >
           <CustomerStepper activeStep={activeStep} steps={steps} />
         </Grid>
         
@@ -301,7 +304,7 @@ export default function LoanRequest (){
       {getStepContent(activeStep)}
     </Typography>
 
-    <Grid container direction="row" alignItems="center" justify="center" className={classes.paperStyleBtn} style={{backgroundColor:'red'}} > 
+    <Grid container direction="row" alignItems="center" justify="center" className={classes.paperStyleBtn}  > 
 
       <Grid item xs={0} sm={2} md={4} />
      
