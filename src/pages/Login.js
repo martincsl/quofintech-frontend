@@ -26,13 +26,13 @@ const useStyles = makeStyles((mainTheme) => ({
     maxWidth: 500,
     backgroundColor:mainTheme.palette.secondary.main,  
   },
-  paperAlertStyle: {
-    margin: 'auto',
-    padding:'10px',
-    minWidth: 350,
-    maxWidth:500,
-    backgroundColor:"red",  
-  },
+  // paperAlertStyle: {
+  //   margin: 'auto',
+  //   padding:'10px',
+  //   minWidth: 350,
+  //   maxWidth:500,
+  //   backgroundColor:"red",  
+  // },
   buttonStyle:{
     color: "white",
     backgroundColor:mainTheme.palette.primary.main,
@@ -67,18 +67,19 @@ const useStyles = makeStyles((mainTheme) => ({
   export default function Login () {
 
     const classes = useStyles();  
-    const { handleChange, handleSubmit, chkBlankFormLogin, chkFormErrors, noBlanks, values, formErrors } = useForm (handleLogon);
-    const { contactName, contactMobile, contactEmail, contactMsg, userId, userPassword } = values;
+    const { handleChange, handleSubmit, chkBlankFormLogin, noBlanks, values, formErrors } = useForm (handleLogon);
+    const { userId, userPassword } = values;
     const [ isAlertOpen, setIsAlertOpen ] = useState(false);
     const [ alertMessage, setAlertMessage ] = useState({severity:"", title:"", message:""});
     const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
-    const { userIdGlobal, setUserIdGlobal, userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName} = useContext (LoginContext);
+    const { setUserIdGlobal, setUserName, setSponsorId, setSponsorName} = useContext (LoginContext);
     const history = useHistory();
   
     async function handleLogon () {
 
     if (chkBlankFormLogin ()){
-      setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias !"}));
+      // setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias !"}));
+      setAlertMessage({severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias !"});
       setIsAlertOpen(true);
     } 
       else {
@@ -90,10 +91,8 @@ const useStyles = makeStyles((mainTheme) => ({
           setUserName (response.data.userName);
           setSponsorId(response.data.sponsorId);
           setSponsorName (response.data.sponsorName);
-          // localStorage.setItem('userName',response.data.userName);
-          // localStorage.setItem('userPassword',response.data.userPassword);
-          history.push ('/sponsor')
-      
+          setAlertMessage(prevState => ({...prevState, severity:"success", title: "Sesión iniciada con exito", message: "Iniciando la sesión en la plataforma de Quo" }));
+          setIsAlertOpen(true);
         } catch (err) {
           if (err.response) {
             const errorMsg = Object.values(err.response.data);
@@ -108,36 +107,16 @@ const useStyles = makeStyles((mainTheme) => ({
               }
           }
       }
+      alert ("fin de handleLogon")
     }
  
   const handleAlertClose = () => {
+    setAlertMessage(prevState => ({...prevState, severity:"", title: "", message: "" }));
     setIsAlertOpen(false);
-    // setUserName(values.user);
-    // alert (userName);
     if ( alertMessage.severity === "success" ) {
       history.push('/sponsor');
     }
   };
-
-  // function submit() {
-  //   if (chkBlankFormLogin ()){
-  //     setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias!"}));
-  //     setIsAlertOpen(true);
- 
-  //   } else if (chkFormErrors()) {
-  //     setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor corregir los dados marcados como incorrectos, gracias!"}));
-  //     setIsAlertOpen(true);
-   
-  //     } else {
-
-  //       setIsPristine();
-  //       setAlertMessage(prevState => ( {...prevState, severity:"success", title: "Iniciando Sesión en la plataforma de Quo", message:""}));
-  //       setIsAlertOpen(true);
-        
-  //       // console.log(isDirty);
-  //       // history.push('/sponsor');  
-  //     }
-  // } 
 
   return (
     <>
@@ -165,7 +144,6 @@ const useStyles = makeStyles((mainTheme) => ({
                   handleChange (e,[noBlanks]);
                   setIsDirty ();
                 }}
-                // onChange={e => setId(e.target.value)}
               error={formErrors.userId} 
               ></TextField>
               {formErrors.userId ? <div className="error-helper-text">{formErrors.userId}</div> : null}
@@ -200,4 +178,23 @@ const useStyles = makeStyles((mainTheme) => ({
     <Footer />
     </>
   )
+    // function submit() {
+  //   if (chkBlankFormLogin ()){
+  //     setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias!"}));
+  //     setIsAlertOpen(true);
+ 
+  //   } else if (chkFormErrors()) {
+  //     setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor corregir los dados marcados como incorrectos, gracias!"}));
+  //     setIsAlertOpen(true);
+   
+  //     } else {
+
+  //       setIsPristine();
+  //       setAlertMessage(prevState => ( {...prevState, severity:"success", title: "Iniciando Sesión en la plataforma de Quo", message:""}));
+  //       setIsAlertOpen(true);
+        
+  //       // console.log(isDirty);
+  //       // history.push('/sponsor');  
+  //     }
+  // } 
 }

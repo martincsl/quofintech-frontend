@@ -11,7 +11,9 @@ import api from '../services/api';
 import HeaderStore from '../components/HeaderStore.js';
 import Footer from '../components/Footer.js';
 import AlertDialog from '../components/modals/AlertDialog.js';
+import AlertMessage from '../components/modals/AlertMessage';
 import PdfDialog from '../components/modals/PdfDialog.js';
+import Modal from '../components/modals/Modal';
 
 const useStyles = makeStyles({
   titleStyle:{
@@ -53,14 +55,14 @@ const useStyles = makeStyles({
     marginLeft:"auto",
     marginRight:"auto",
   },
-  iconStyle:{
-    textAlign: "center",
-    display: "block",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: "auto",
-    marginTop: "10px",
-  }
+  // iconStyle:{
+  //   textAlign: "center",
+  //   display: "block",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   margin: "auto",
+  //   marginTop: "10px",
+  // }
 })  
 
 export default function LoansApproved () {
@@ -70,11 +72,18 @@ export default function LoansApproved () {
   const [ isDialogPdfOpen,setIsDialogPdfOpen ] = useState(false);
   const [ dialogPdfProps, setDialogPdfProps ] = useState({amount:"", name:"", id:""});
   const [ isDialogOpen,setIsDialogOpen ] = useState(false);
-  const [ dialogMessage,setDialogMessage ] = useState({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:""});
+  const [ dialogMessage,setDialogMessage ] = useState({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:"",buttons:""});
+  const [ isAlertOpen, setIsAlertOpen ] = useState(false);
+  const [ alertMessage, setAlertMessage ] = useState({severity:"", title:"", message:""});
+  const [modalOpen, setModalOpen] = useState(false);
+ 
+  // const [ dialogMessage,setDialogMessage ] = useState({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:""});
+  
   // const [ loansList, setLoansList] = useState ({customerId:"", customerName:"",loanProduct:"", loanCapital:"", loanTerm:"",loanPayment:"",loanTotalAmount:"",loanExpireDate:"",loanRequestStatus:"", loanRequestDenialMsg:""});
-  const dialogButtons = {button1:"Volver",button2:"Confirmar"};
+  const dialogButtonsConfirm = {button1:"Volver",button2:"Confirmar"};
+  const dialogButtonsOk = {button1:"Ok"};
   const [ idDeleteSt, setIdDeleteSt] = useState(0);
-  let idDelete = 0;
+
   useEffect ( ()=> {
     const data = { sponsorId }
     api.get('profile', { headers :{
@@ -84,51 +93,111 @@ export default function LoansApproved () {
     }).then (response => {
        setLoansList(response.data);
     })
+
   },[sponsorId])
 
+  // useEffect ( ()=> {
+  //   if (isAlertOpen) {
+  //     setAlertMessage(prevState => ({...prevState, severity:"warning", title: "Error en exclusión de solicitud", message: "Servidor no disponible. Favor intentar nuevamente en unos minutos." }));
+  //   } else { 
+  //       setDialogMessage( {title: "", message1:"",message2:"",message3:""});
+  //   }  
+  // },[isAlertOpen])
+
+  function showMessage(severityParam, titleParam, messageParam ){
+    // alert ("entrou em showMessage");
+    // setAlertMessage(prevState => ({...prevState, severity:severityParam, title: titleParam, message: messageParam }));
+    setDialogMessage ( prevState => ( {...prevState,
+      severity:"warning", 
+      title: "Error en Solicitud de Anulacion ", 
+      messageLine1:"Servidor No disponible", 
+      messageLine2:"Favor intentar nuevamente",
+      messageLine3:"En unos minutos",
+      buttons:dialogButtonsOk,
+     }));
+    setIsDialogOpen(true); 
+  }
 
   function handleDeleteLoan ( id, name, amount ){
     setIdDeleteSt(id);
+    
     // setDialogMessage( {severity:"warning", title: "Solicitud de Anulación", messageLine1:`${loansList.customerName}`, messageLine2:`Monto Solicitado: ${Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(loansList.loanCapital)}`, messageLine3:"Confirma la anulación de la solicitud ?"});
-    setDialogMessage({ severity:"warning", 
+    setDialogMessage ( prevState => ( {...prevState,
+                       severity:"warning", 
                        title: "Solicitud de Anulación", 
                        messageLine1:`${name}`, 
                        messageLine2:`Monto Solicitado: ${Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(amount)}`,
-                       messageLine3:"Confirma la anulación de la solicitud ?"});
+                       messageLine3:"Confirma la anulación de la solicitud ?",
+                       buttons: {button1:"Volver",button2:"Confirmar"},
+                      }));
     setIsDialogOpen(true);   
+
   }
 
   function handlePdfDialog(loansList){
     setDialogPdfProps ({amount:loansList.loanTotalAmount, name:loansList.customerName, id:loansList.customerId})
     setIsDialogPdfOpen(true);
+    // setModalOpen(true);
+
   }
 
   const handleDialogClose = (value) => {
     setIsDialogOpen(false);
     setDialogMessage( {title: "", message1:"",message2:"",message3:""});
     if (value === "Confirmar"){
-      DeleteLoan(idDeleteSt); 
+      DeleteLoan (idDeleteSt); 
     } 
   }
 
+  const handleAlertClose = () => {
+    setIsAlertOpen(false);
+    // setDialogMessage( {title: "", message1:"",message2:"",message3:""});
+
+  }
   const handleDialogPdfClose = () => {
     setIsDialogPdfOpen(false);
   }
-
+ 
   async function DeleteLoan( id ) {
+    // setDialogMessage( {severity:"success", title: "Solicitud de Anulación", messageLine1:`${loansList.customerName}`, messageLine2:`Monto Solicitado: ${Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(loansList.loanCapital)}`, messageLine3:"Confirma la anulación de la solicitud ?"});
     try {
-      await api.delete (`profile/${id}`,{                // elimina registro no banco de dados
+      const response = await api.delete (`profile/${id}`,{   // elimina registro no banco de dados
         headers : {
           Authorization: sponsorId,
         }
       })
+      if (response.status === 204){
+        setLoansList(loansList.filter(loan => loan.id !== id)); // elimina no state
+        alert("Solicitud eliminada con exito");
 
-     setLoansList(loansList.filter(loan => loan.id !== id)); // elimina no state
-    //  setDialogMessage( {severity:"success", title: "Solicitud de Anulación", messageLine1:`${loansList.customerName}`, messageLine2:`Monto Solicitado: ${Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(loansList.loanCapital)}`, messageLine3:"Confirma la anulación de la solicitud ?"});
-    } catch {
-        alert("No fue posible excluir la solicitud")
+      } else if (response.dtatus === 401){
+        alert("Exlusion no fue autorizada");
       }
+     
+    } catch (err) {
+      if (err.response) {
+        const errorMsg = Object.values(err.response.data);
+        // setAlertMessage(prevState => ({...prevState, severity:"warning", title: "Error en exclusión de solicitud", message: errorMsg }));
+        // setIsAlertOpen(true);
+        showMessage("warning","Error en exclusión de solicitud",errorMsg)
+      } else if(err.request) {
+          // setAlertMessage({severity:"warning", title: "Error en exclusión de solicitud", message:"Servidor no disponible. Favor intentar nuevamente en unos minutos."});
+          // setAlertMessage(prevState => ({...prevState, severity:"warning", title: "Error en exclusión de solicitud", message: "Servidor no disponible. Favor intentar nuevamente en unos minutos." }));
+          // setIsAlertOpen(true);
+          showMessage("warning","Error en exclusión de solicitud","servidor no disponible")
+          // alert('servidor no disponible');
+        } else {
+          // setAlertMessage({severity:"warning", title: "Error en exclusión de solicitud", message:"Servidor no disponible. Favor intentar nuevamente en unos minutos."});
+            // setAlertMessage(prevState => ({...prevState, severity:"warning", title: "Error en exclusión de solicitud", message: "Servidor no disponible. Favor intentar nuevamente en unos minutos." }));
+            // setIsAlertOpen(true);
+          showMessage("warning","Error en exclusión de solicitud","servidor no disponible")
+
+            // alert('servidor no disponible');
+          }
+      }
+      console.log(isAlertOpen);
   }
+
   return (
   <>
   <HeaderStore />  
@@ -161,7 +230,9 @@ export default function LoansApproved () {
             <Grid container spacing={0} >
 
               <Grid item xs={6} style={{textAlign:'center'}} >
+                {/* <Button variant="outlined" size="small" component="span" disableRipple startIcon={<FileCopyIcon />} onClick={() => handlePdfDialog(loan)} className={classes.buttonStyle} style={{justifyContent: 'center'},{width:'150px'}}>Generar Pagaré</Button> */}
                 <Button variant="outlined" size="small" component="span" disableRipple startIcon={<FileCopyIcon />} onClick={() => handlePdfDialog(loan)} className={classes.buttonStyle} style={{justifyContent: 'center'},{width:'150px'}}>Generar Pagaré</Button>
+
               </Grid>
               <Grid item xs={6} style={{textAlign:'center'}} >
                 <Button variant="outlined" size="small" disableRipple startIcon={<DeleteForeverIcon />} className={classes.buttonStyle} style={{justifyContent: 'center'},{width:'150px'}} onClick={() => handleDeleteLoan(loan.id, loan.customerName, loan.loanCapital)}>Anular Solicitud</Button>
@@ -175,15 +246,23 @@ export default function LoansApproved () {
       <Grid style={{height:'8vh'}} />
   </Grid> 
 
-  <AlertDialog open={isDialogOpen} onClose={handleDialogClose} severity={dialogMessage.severity} title={dialogMessage.title} buttons={dialogButtons} >
+  <AlertDialog open={isDialogOpen} onClose={handleDialogClose} severity={dialogMessage.severity} title={dialogMessage.title} buttons={dialogMessage.buttons} >
+  {/* <AlertDialog open={isDialogOpen} onClose={handleDialogClose} severity={dialogMessage.severity} title={dialogMessage.title} buttons={dialogButtonsConfirm} > */}
     {dialogMessage.messageLine1}
     <br />
     {dialogMessage.messageLine2}
     <br />
     {dialogMessage.messageLine3}
   </AlertDialog> 
+
+  <AlertMessage open={isAlertOpen} onClose={handleAlertClose} severity={alertMessage.severity} title={alertMessage.title}>
+    {alertMessage.message}
+  </AlertMessage>
+
+  {/* {isDialogPdfOpen && <PdfDialog onClose={handleDialogPdfClose} amount={dialogPdfProps.amount} name={dialogPdfProps.name} id={dialogPdfProps.id}/>} */}
+  {/* {modalOpen && <Modal setOpenModal={setModalOpen} />} */}
   <PdfDialog open={isDialogPdfOpen} onClose={handleDialogPdfClose} amount={dialogPdfProps.amount} name={dialogPdfProps.name} id={dialogPdfProps.id} />
-  <Footer />
+  {/* <Footer /> */}
   </>
   )
   // const incidents = [

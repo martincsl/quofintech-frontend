@@ -118,7 +118,7 @@ export default function Whoweare () {
         <Grid item direction="row" xs={12}  sm={12} md={4}>
           <Paper elevation={6} className={classes.paperStyle}  >    
             <Typography variant="subtitle1" align="center" gutterBottom className={classes.boxStyle}>Monica Arguello Zerba</Typography>   
-            <img src={picMaz} className={classes.photoStyle} />  
+            <img src={picMaz} alt="Monica" className={classes.photoStyle} />  
             <Box className={classes.paragraphStyle}>
               <Typography variant="subtitle1" align="center" gutterBottom><b>Gerente Comercial</b></Typography>
               <Typography variant="subtitle2" align="center" gutterBottom>Experiencia comercial en empresas de electrodomésticos, callcenter y financieras como Bouncopy, Electroban, Facilandia, Financiera Paraguayo-Japonesa y Satecsa entre otras.</Typography>
@@ -129,7 +129,7 @@ export default function Whoweare () {
         <Grid item direction="row" xs={12}  sm={12} md={4}>
           <Paper elevation={6} className={classes.paperStyle} >    
             <Typography variant="subtitle1" align="center" gutterBottom className={classes.boxStyle}>Ezequiel Lopez Hernandez</Typography>   
-            <img src={picElh} className={classes.photoStyle} />  
+            <img src={picElh} alt="Ezequiel" className={classes.photoStyle} />  
             <Box className={classes.paragraphStyle}>
               <Typography variant="subtitle1" align="center" gutterBottom><b>Director de Tecnologia</b></Typography>
               <Typography variant="subtitle2" align="center" gutterBottom>Desarrollo de plataformas en sistemas Android e IOS, bases de datos y softwares para empresas de call center, financieras, entre otros rubros.</Typography>

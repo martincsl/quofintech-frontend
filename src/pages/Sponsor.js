@@ -56,7 +56,7 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function Sponsor() {
 
   const classes = useStyles();
-  const { userName, setUserName, sponsorName, setSponsorName} = useContext (LoginContext);
+  const { sponsorName } = useContext (LoginContext);
   let title=`Resumen de Pagarés - ${sponsorName}`;
 
   localStorage.clear();

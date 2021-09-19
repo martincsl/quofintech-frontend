@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box, Button, Typography, Grid } from '@material-ui/core'
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box, Button, Typography, Grid } from '@material-ui/core'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import WarningIcon from '@material-ui/icons/Warning';
@@ -29,9 +29,14 @@ const useStyles = makeStyles( (mainTheme) => ({
 }))
 
 const AlertDialog = ({open, onClose, severity, title, buttons, children}) => {
-  
+  // alert ("entrou em AlertDialog");
   const classes = useStyles();  
-
+  if (buttons===undefined){
+    buttons={button1:"Ok"}
+  }
+  // console.log(buttons);
+  // console.log(Object.keys(buttons).length);
+  
   let bkColor="#ff9800";
   if (severity==="success") {
     bkColor="#4caf50"

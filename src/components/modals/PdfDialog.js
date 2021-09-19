@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box, Button, Typography, Grid, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,11 +38,20 @@ const ref = React.createRef();
 
 const PdfDialog = ({open, onClose, amount, name, id}) => {
 
+  useEffect(() => {
+    console.log("mounted");
+    return () => {
+      console.log("unmounted");
+    }
+  }, []);
+
+  // alert("entou em pdfDialog")
   const classes = useStyles();  
   const {dateToText, ruinzinha, numberToText} = useConvertionToText();
 
   return (
     <>
+    
     <Box style={{width: 700}}> 
       <Dialog 
         open={open}

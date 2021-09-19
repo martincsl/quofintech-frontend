@@ -67,20 +67,45 @@ const useStyles = makeStyles({
 
 export default function LoansPending () {
   const classes = useStyles();   
-  const { userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName} = useContext (LoginContext);
+  const { sponsorId, sponsorName } = useContext (LoginContext);
   const [ loansList, setLoansList] = useState ([]);
   const [ isDialogOpen,setIsDialogOpen ] = useState (false);
   const [ dialogMessage,setDialogMessage ] = useState ({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:""});
   const dialogButtons = {button1:"Volver",button2:"Confirmar"}
 
   useEffect ( ()=> {
-    const data = { sponsorId }
+    
+    
     api.get('profile', { headers :{
       Authorization: sponsorId,
     }
     }).then (response => {
        setLoansList(response.data);
-    })
+    }).catch(function (error) {
+      alert("houve algum erro");
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+        // alert ("error.response.data");
+        // setAlertMessage({severity:"warning", title: "Error en acceso a base de datos", message:"Jodete !"});
+        // setIsAlertOpen(true);
+        alert ("deu merda no servidor");
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        alert ("error de acceso a la base de datos");
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        alert ("error de acceso al servidor");
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    });
   },[sponsorId])
 
   function handleDeleteLoan (incident){
@@ -104,14 +129,6 @@ export default function LoansPending () {
   function handleDeleteIncident(id) {
     alert ("handleDeleteIncident");
   }
-
-  function handleUpdateLoanRequest (){
-    alert ('handleUpdateLoanRequest');
-  } 
-
-  function handleDeleteLoanRequest (){
-    alert ('handleDeleteLoanRequest');
-  } 
 
     // const loans = [
     //     { loanId:1,

@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { Grid, Paper, Box, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,6 +11,7 @@ import api from '../services/api';
 import HeaderStore from '../components/HeaderStore.js';
 import Footer from '../components/Footer.js';
 import AlertDialog from '../components/modals/AlertDialog.js';
+import AlertMessage from '../components/modals/AlertMessage.js';
 
 //backgroundColor:"#1C1C49",
 
@@ -68,22 +70,48 @@ const useStyles = makeStyles({
 
 export default function LoansInProcess () {
   const classes = useStyles();  
-  const [ isDialogOpen,setIsDialogOpen ] = useState(false);
+  const [ isDialogOpen,setIsDialogOpen ] = useState (false);
   const [ dialogMessage,setDialogMessage ] = useState({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:""});
+  const [ isAlertOpen, setIsAlertOpen ] = useState (false);
+  const [ alertMessage, setAlertMessage ] = useState ({severity:"", title:"", message:""});
+
   const { userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName} = useContext (LoginContext);
   const [ loansList, setLoansList] = useState ([]);
 
   const dialogButtons = {button1:"Volver",button2:"Confirmar"};  
-  
+  const history = useHistory();
+
   useEffect ( ()=> {
-    const data = { sponsorId }
+    alert ("entrou em useEffect-onMount");
+    // const data = { sponsorId }
     api.get('profile', { headers :{
       Authorization: sponsorId,
     }
-    
     }).then (response => {
        setLoansList(response.data);
-    })
+    }). catch(function (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+        alert ("error.response.data");
+        setAlertMessage({severity:"warning", title: "Error en acceso a base de datos", message:"Jodete !"});
+        setIsAlertOpen(true);
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        alert ("error de acceso a la base de datos");
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        alert ("error de acceso al servidor");
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    });
   },[sponsorId])
 
 
@@ -92,6 +120,13 @@ export default function LoansInProcess () {
     setDialogMessage( {severity:"warning", title: "Solicitud de Anulación", messageLine1:`${incident.customerName}`, messageLine2:`Monto Solicitado: ${Intl.NumberFormat('es-PY',{style:'currency',currency:'PYG'}).format(incident.loanCapital)}`, messageLine3:"Confirma la anulación de la solicitud ?"});
     setIsDialogOpen(true);   
   }
+
+  const handleAlertClose = () => {
+    setIsAlertOpen(false);
+    if ( alertMessage.severity === "success" ) {
+      history.push('/sponsor');
+    }
+  };
 
   const handleDialogClose = (value) => {
     setIsDialogOpen(false);
@@ -248,6 +283,9 @@ export default function LoansInProcess () {
       <br />
       {dialogMessage.messageLine3}
     </AlertDialog> 
+    <AlertMessage open={isAlertOpen} onClose={handleAlertClose} severity={alertMessage.severity} title={alertMessage.title}>
+      {alertMessage.message}
+    </AlertMessage>
     <Footer />
     </>
   )
