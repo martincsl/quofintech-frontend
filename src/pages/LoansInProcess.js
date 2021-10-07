@@ -75,7 +75,7 @@ export default function LoansInProcess () {
   const [ isAlertOpen, setIsAlertOpen ] = useState (false);
   const [ alertMessage, setAlertMessage ] = useState ({severity:"", title:"", message:""});
 
-  const { userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName} = useContext (LoginContext);
+  const { userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName } = useContext (LoginContext);
   const [ loansList, setLoansList] = useState ([]);
 
   const dialogButtons = {button1:"Volver",button2:"Confirmar"};  

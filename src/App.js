@@ -8,10 +8,10 @@ import './global.css';
 
 function App() {
 
-  const [ userIdGlobal, setUserIdGlobal ] = useState("");
-  const [ userName, setUserName ] = useState("");
-  const [ sponsorId, setSponsorId ] = useState("");
-  const [ sponsorName, setSponsorName ] = useState("");
+  const [ userIdGlobal, setUserIdGlobal ] = useState ("");
+  const [ userName, setUserName ] = useState ("");
+  const [ sponsorId, setSponsorId ] = useState ("");
+  const [ sponsorName, setSponsorName ] = useState ("");
   
   return (
     <LoginContext.Provider value = {{ userIdGlobal, setUserIdGlobal, userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName }} >

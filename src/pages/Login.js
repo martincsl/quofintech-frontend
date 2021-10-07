@@ -75,6 +75,7 @@ const useStyles = makeStyles((mainTheme) => ({
     const { setUserIdGlobal, setUserName, setSponsorId, setSponsorName} = useContext (LoginContext);
     const history = useHistory();
   
+    // localStorage.clear();
     async function handleLogon () {
 
     if (chkBlankFormLogin ()){
@@ -93,6 +94,10 @@ const useStyles = makeStyles((mainTheme) => ({
           setSponsorName (response.data.sponsorName);
           setAlertMessage(prevState => ({...prevState, severity:"success", title: "Sesión iniciada con exito", message: "Iniciando la sesión en la plataforma de Quo" }));
           setIsAlertOpen(true);
+          localStorage.setItem('sponsorId',response.data.sponsorId);
+          localStorage.setItem('sponsorName',response.data.sponsorName);
+          localStorage.setItem('userId',response.data.userId);
+          localStorage.setItem('userName',response.data.userName);
         } catch (err) {
           if (err.response) {
             const errorMsg = Object.values(err.response.data);
@@ -107,7 +112,7 @@ const useStyles = makeStyles((mainTheme) => ({
               }
           }
       }
-      alert ("fin de handleLogon")
+
     }
  
   const handleAlertClose = () => {

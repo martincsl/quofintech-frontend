@@ -24,6 +24,7 @@ import api from '../services/api';
 import useValidations from '../hooks/useValidations.js';
 import useUnsavedWarning from '../hooks/useUnsavedWarning';
 import useStepper from '../hooks/useStepper';
+import { AllInclusiveRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles( (mainTheme) => ({
   root: {
@@ -103,34 +104,34 @@ export default function LoanRequest (){
   const { customerId, customerName, customerBirthDate,customerMobilePrefix,customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary,customerLaborSeniority,companyId,companyName,companyPhone, companyMobilePrefix,companyMobile, companyAddress, companyCity, customerHiringType, loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount,loanExpireDate,loanRequestStatus,loanRequestDenialMsg,loanDocStatus,persReference1Id,persReference1Name,persReference1MobilePrefix,persReference1Mobile,persReference2Id,persReference2Name,persReference2MobilePrefix,persReference2Mobile,comReference1Id,comReference1Name,comReference1MobilePrefix,comReference1Mobile,comReference2Id,comReference2Name,comReference2MobilePrefix,comReference2Mobile } = values;
   const { userIdGlobal, setUserIdGlobal, userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName} = useContext (LoginContext);
 
-  useEffect(() => {
-    // alert(userIdGlobal);
-    setUserId(userIdGlobal);
-}, [ ]);
-
   async function handleCustomer() {
-    
+    alert("entrou handleCustomer");
     try {
+    // busca o cliente na base de dados 
     const response = await api.get ('/customers', { headers:{Authorization: customerId}})
-      try {
-        const data = {customerId, customerMobilePrefix, customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary, customerHiringType, customerLaborSeniority } ;
-        const response = await api.put ('/customers', data);
-      } catch (err) {
-          const errorMsg = Object.values(err.response.data);
-          setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en alteración de solcitud", message: errorMsg }));
-          setIsAlertOpen(true);
-        }
+        try {
+          const data = {customerId, customerMobilePrefix, customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary, customerHiringType, customerLaborSeniority } ;
+          const response = await api.put ('/customers', data);
+        } catch (err) {
+            const errorMsg = Object.values(err.response.data);
+            setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en alteración de solcitud", message: errorMsg }));
+            setIsAlertOpen(true);
+          }
     } catch (err) {
+      // se houve algum erro na busca do cliente...
       if (err.response.status == 404) {
+        // se o cliente nao esta na base, inclui como novo registro
         try {
           const data = { customerId, customerName, customerBirthDate, customerMobilePrefix, customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary, customerHiringType, customerLaborSeniority } ;
           const response = await api.post('/customers', data );
         } catch (err) {
+            // se nao conseguiu incluir, mostra msg de erro
             const errorMsg = Object.values(err.response.data);
             setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusión de solcitud", message: errorMsg }));
             setIsAlertOpen(true);
           }
       } else {
+          // se for um erro diferente do 404 (cliente nao encontrado), mostra msg de erro 
           const errorMsg = Object.values(err.response.data);
           setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inicio de sessión", message: errorMsg }));
           setIsAlertOpen(true);
@@ -139,8 +140,7 @@ export default function LoanRequest (){
   }
   
   async function handleLoan (){
-    alert("handleLoan");  
-
+    setUserId(userIdGlobal);
     try {
       const data = { loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount, loanExpireDate, loanRequestStatus,loanRequestDenialMsg, loanDocStatus, customerId, userId, sponsorId } ;
       const response = await api.post('/loans', data );
@@ -225,17 +225,16 @@ export default function LoanRequest (){
 
   //testear aca grabacion de customer
   const handleExit = () => {
-    // alert ("passou em handleexit");
+    alert ("passou em handleexit");
     // setIsPristine();
     // setValues(inicialValuesState);
     // setFormErrors(inicialFormErrorsState);
     // localStorage.clear();
     // history.push('/sponsor');
     setIsPristine();
-    // handleCustomer();
-    // handleCompany();
+    handleCustomer();
+    handleCompany();
     handleLoan();
-
   }
 
   function submit() {
@@ -265,7 +264,6 @@ export default function LoanRequest (){
       case 2:
         return (
           <CustWorkDetail values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );
-          // <CustWorkDetail values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} isValidName={isValidName} isValidPhone={isValidPhone} isValidAmount={isValidAmount} isValidEmail={isValidEmail} noBlanks={noBlanks} step={activeStep}/> );
       case 3:
         return (
           <CustLoanAnalisys values={values} isLoanPreApproved={isLoanPreApproved} setIsLoanPreApproved={setIsLoanPreApproved} /> );

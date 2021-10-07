@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { Grid, Paper, Box, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -56,10 +56,13 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function Sponsor() {
 
   const classes = useStyles();
-  const { sponsorName } = useContext (LoginContext);
-  let title=`Resumen de Pagarés - ${sponsorName}`;
+  const { sponsorName,  setSponsorName, userIdGlobal, setUserIdGlobal, userName, setUserName } = useContext (LoginContext);
 
-  localStorage.clear();
+  setSponsorName(localStorage.getItem('sponsorName'));
+  setUserIdGlobal(localStorage.getItem('userId'));
+  setUserName(localStorage.getItem('userName'));
+
+  let title=`Resumen de Pagarés - ${sponsorName} - Hola, ${userName}`;
 
   return (
 

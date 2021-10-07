@@ -72,41 +72,38 @@ export default function LoansPending () {
   const [ isDialogOpen,setIsDialogOpen ] = useState (false);
   const [ dialogMessage,setDialogMessage ] = useState ({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:""});
   const dialogButtons = {button1:"Volver",button2:"Confirmar"}
-
+  const dialogButtonsOk = {button1:"Ok"};
+  
   useEffect ( ()=> {
-    
-    
+    const data = { sponsorId }
     api.get('profile', { headers :{
       Authorization: sponsorId,
     }
+    
     }).then (response => {
        setLoansList(response.data);
-    }).catch(function (error) {
-      alert("houve algum erro");
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-        // alert ("error.response.data");
-        // setAlertMessage({severity:"warning", title: "Error en acceso a base de datos", message:"Jodete !"});
-        // setIsAlertOpen(true);
-        alert ("deu merda no servidor");
-      } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        alert ("error de acceso a la base de datos");
-        console.log(error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        alert ("error de acceso al servidor");
-        console.log('Error', error.message);
-      }
-      console.log(error.config);
+
+    }).catch (function (err){
+      if (err.response) {
+        const errorMsg = Object.values(err.response.data);
+        showErrorMessage("warning","Error en acceso a base de datos",errorMsg)
+      } else if(err.request) {
+          showErrorMessage("warning","Error en acceso a servidor","servidor no disponible")
+        } else {
+            showErrorMessage("warning","Error en acceso a servidor","servidor no disponible")
+          }
     });
   },[sponsorId])
+
+  function showErrorMessage(severityParam, titleParam, messageParam ){
+    setDialogMessage ( prevState => ( {...prevState,
+      severity: severityParam, 
+      title: titleParam, 
+      messageLine1:messageParam, 
+      buttons:dialogButtonsOk,
+    }));
+    setIsDialogOpen(true); 
+  }
 
   function handleDeleteLoan (incident){
     setDialogMessage({
@@ -266,7 +263,7 @@ export default function LoansPending () {
       </Grid>
       <Grid style={{height:'8vh'}} />
     </Grid>
-    <AlertDialog open={isDialogOpen} onClose={handleDialogClose} severity={dialogMessage.severity} title={dialogMessage.title} buttons={dialogButtons}>
+    <AlertDialog open={isDialogOpen} onClose={handleDialogClose} severity={dialogMessage.severity} title={dialogMessage.title} buttons={dialogMessage.buttons}>
       {dialogMessage.messageLine1}
       <br />
       {dialogMessage.messageLine2}

@@ -63,22 +63,11 @@ const useStyles = makeStyles({
 
 export default function LoansRejected () {
   const classes = useStyles();  
-  const { sponsorId, sponsorName } = useContext (LoginContext);
+  const { sponsorId, setSponsorId, sponsorName } = useContext (LoginContext);
   const [ loansList, setLoansList] = useState ([]);
   const [ isDialogOpen,setIsDialogOpen ] = useState (false);
   const [ dialogMessage,setDialogMessage ] = useState ({severity:"", title:"",messageLine1:"",messageLine2:"",messageLine3:""});
   const dialogButtons = {button1:"Volver",button2:"Confirmar"}
-  
-  useEffect ( ()=> {
-    
-    api.get('profile', { headers :{
-      Authorization: sponsorId,
-    }
-    
-    }).then (response => {
-       setLoansList(response.data);
-    })
-  },[sponsorId])
 
   const handleDeleteLoan = (incident) => {
     setDialogMessage ({ 
