@@ -84,7 +84,7 @@ export default function LoanRequest (){
   const inicialFormErrorsState = { customerId: "", customerName: "", customerBirthDate:"",customerMobilePrefix:"",customerMobile: "", customerEmail: "", customerCity:"", customerAddress:"", customerOccupation:"",customerSalary:"",customerLaborSeniority:"",companyId:"",companyName:"",companyPhone:"", companyMobilePrefix:"",companyMobile:"", companyAddress:"", companyCity:"",customerHiringType:"", loanId:"",loanProduct:"", loanCapital:"", loanTerm:"", loanPayment:"", loanTotalAmount:"",loanExpireDate:"",loanRequestStatus:"",loanRequestDenialMsg:"",loanDocStatus:"",customerIdFile1:"",customerIdFile2:"",customerInvoiceFile:"",customerTaxFile1:"",customerTaxFile2:"",customerTaxFile3:"",persReference1Id:"",persReference1Name:"",persReference1MobilePrefix:"",persReference1Mobile:"",persReference2Id:"",persReference2Name:"",persReference2MobilePrefix:"",persReference2Mobile:"",comReference1Id:"",comReference1Name:"",comReference1MobilePrefix:"",comReference1Mobile:"",comReference2Id:"",comReference2Name:"",comReference2MobilePrefix:"",comReference2Mobile:"" };
   const [values, setValues] = useState(inicialValuesState);
   const [formErrors, setFormErrors] = useState(inicialFormErrorsState);
-  const [ userId, setUserId ] = useState("");
+
   const [activeStep, setActiveStep] = useState(0);
   const [isLoanPreApproved, setIsLoanPreApproved] = useState(false);
 
@@ -102,12 +102,17 @@ export default function LoanRequest (){
   const dialogButtons = {button1:"Salir",button2:"Nueva Solicitud"};
   const dialogBtnsUnmount = {button1:"Salir",button2:"Seguir cargando"};
   const { customerId, customerName, customerBirthDate,customerMobilePrefix,customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary,customerLaborSeniority,companyId,companyName,companyPhone, companyMobilePrefix,companyMobile, companyAddress, companyCity, customerHiringType, loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount,loanExpireDate,loanRequestStatus,loanRequestDenialMsg,loanDocStatus,persReference1Id,persReference1Name,persReference1MobilePrefix,persReference1Mobile,persReference2Id,persReference2Name,persReference2MobilePrefix,persReference2Mobile,comReference1Id,comReference1Name,comReference1MobilePrefix,comReference1Mobile,comReference2Id,comReference2Name,comReference2MobilePrefix,comReference2Mobile } = values;
-  const { userIdGlobal, setUserIdGlobal, userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName} = useContext (LoginContext);
+  const { sponsorId, setSponsorId, sponsorName,  setSponsorName, userId, setUserId, userName, setUserName } = useContext (LoginContext);
+
+  setSponsorId (localStorage.getItem('sponsorId'));
+  setSponsorName(localStorage.getItem('sponsorName'));
+  setUserId(localStorage.getItem('userId'));
+  setUserName(localStorage.getItem('userName'));
 
   async function handleCustomer() {
-    alert("entrou handleCustomer");
-    try {
+    alert("entrou em handleCustomer");
     // busca o cliente na base de dados 
+    try {
     const response = await api.get ('/customers', { headers:{Authorization: customerId}})
         try {
           const data = {customerId, customerMobilePrefix, customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary, customerHiringType, customerLaborSeniority } ;
@@ -138,25 +143,14 @@ export default function LoanRequest (){
         }
       }
   }
-  
-  async function handleLoan (){
-    setUserId(userIdGlobal);
-    try {
-      const data = { loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount, loanExpireDate, loanRequestStatus,loanRequestDenialMsg, loanDocStatus, customerId, userId, sponsorId } ;
-      const response = await api.post('/loans', data );
-    } catch (err) {
-        const errorMsg = Object.values(err.response.data);
-        setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusión de solcitud", message: errorMsg }));
-        setIsAlertOpen(true);
-      }
-  }
 
   async function handleCompany() {
     alert("handleCompany");
+    // busca a empresa na base de dados 
     try {
     const response = await api.get ('/companies', { headers:{Authorization: companyId}})
       try {
-        alert("update");
+        alert("update company");
         alert(companyId);
         const data = { companyId, companyPhone, companyMobilePrefix, companyMobile, companyAddress, companyCity} ;
         const response = await api.put ('/companies', data);
@@ -165,24 +159,45 @@ export default function LoanRequest (){
           setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en alteración de solcitud", message: errorMsg }));
           setIsAlertOpen(true);
         }
+      // se houve algum erro na busca da empresa...
     } catch (err) {
+     
       if (err.response.status == 404) {
+        // se a empresa nao esta na base, inclui como novo registro
         try {
+          alert("incluir nova empresa");
+          // se conseguiu,
           const data = { companyId, companyName,companyPhone, companyMobilePrefix, companyMobile, companyAddress, companyCity } ;
           const response = await api.post('/companies', data );
+          // se nao conseguiu, ve a msg de erro
         } catch (err) {
             const errorMsg = Object.values(err.response.data);
-            setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusión de solcitud", message: errorMsg }));
+            setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusión de solcitud-Empresa", message: errorMsg }));
             setIsAlertOpen(true);
           }
       } else {
+        // se...
           const errorMsg = Object.values(err.response.data);
           setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inicio de sessión", message: errorMsg }));
           setIsAlertOpen(true);
         }
       }
   }
-        // else {
+
+  async function handleLoan (){
+    try {
+
+      // alert (`sponsor: ${sponsorId} user:${userId} `);
+      const data = { loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount, loanExpireDate, loanRequestStatus,loanRequestDenialMsg, loanDocStatus, customerId, userId, sponsorId } ;
+      const response = await api.post('/loans', data );
+    } catch (err) {
+        const errorMsg = Object.values(err.response.data);
+        setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusión de solcitud-Prestamo", message: errorMsg }));
+        setIsAlertOpen(true);
+      }
+  }
+
+    // else {
     //     const errorMsg = Object.values(err.response.data);
     //     setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inicio de sessión", message: errorMsg }));
     //     setIsAlertOpen(true);
@@ -215,7 +230,7 @@ export default function LoanRequest (){
       setActiveStep(0); 
       setValues(inicialValuesState);
       setFormErrors(inicialFormErrorsState);
-      localStorage.clear();
+      // localStorage.clear();
     } else if (value==="Seguir Cargando"){
         <Redirect to="/loanrequest" />
     } else {
@@ -235,6 +250,8 @@ export default function LoanRequest (){
     handleCustomer();
     handleCompany();
     handleLoan();
+    setDialogMessage( {title: "Solicitud cargada con exito !", message:"Desea cargar una nueva solicitud ?"});
+    setIsDialogOpen(true);   
   }
 
   function submit() {
@@ -282,6 +299,7 @@ export default function LoanRequest (){
   return (
     <>
     <HeaderStore />
+    {/* <Typography>{userId}</Typography> */}
 
     {/* <Hidden xsDown> */}
       {/* <Grid container direction="row" alignItems="center" justify="center" className={classes.stepperStyle}> */}
@@ -290,6 +308,8 @@ export default function LoanRequest (){
         <Grid item xs={12} sm={1} md={2} /> 
 
         <Grid item xs={12} sm={10} md={8} >
+          {/* -------------------------------------TEMP */}
+        <Typography>{`Usuario ${userId} Sponsor: ${sponsorId}`}</Typography>
           <CustomerStepper activeStep={activeStep} steps={steps} />
         </Grid>
         

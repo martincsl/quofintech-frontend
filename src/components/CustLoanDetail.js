@@ -66,9 +66,10 @@ export default function CustLoanDetail ({ values, setValues, formErrors, setForm
 
   useEffect(() => {
   if (values.loanTerm >= 0) {
+    setValues (prevState => ({...prevState, loanRequestStatus:"pe" }));
     calcLoanPayment();
     calcLoanExpireDate();
-    setValues (prevState => ({...prevState, loanRequestDenialMsg:"" }))
+
   }
   }, [values.loanTerm]);
 

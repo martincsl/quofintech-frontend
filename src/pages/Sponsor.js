@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 
 import { Grid, Paper, Box, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -56,24 +56,23 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function Sponsor() {
 
   const classes = useStyles();
-  const { sponsorName,  setSponsorName, userIdGlobal, setUserIdGlobal, userName, setUserName } = useContext (LoginContext);
+  const { sponsorName,  setSponsorName, userId, setUserId, userName, setUserName } = useContext (LoginContext);
 
   setSponsorName(localStorage.getItem('sponsorName'));
-  setUserIdGlobal(localStorage.getItem('userId'));
+  setUserId(localStorage.getItem('userId'));
   setUserName(localStorage.getItem('userName'));
 
   let title=`Resumen de Pagarés - ${sponsorName} - Hola, ${userName}`;
 
   return (
-
     <>
     <HeaderStore />  
 
-    <Grid container direction="column" alignItems="center" style= {{ minHeight: '90vh'}} >
+    <Grid container direction="column" alignItems="center" style = {{ minHeight: '90vh'}} >
 
-      <Grid item xs={12} style= {{ minHeight: '0vh'}} /> 
+      <Grid item xs={12} style = {{ minHeight: '0vh'}} /> 
 
-      <Grid item xs={12} style= {{ width: '100%'}} >
+      <Grid item xs={12} style = {{ width: '100%'}} >
         <Box className={classes.titleStyle}>      
           <Typography align="center" variant="h6" ><b>{title}</b></Typography>
         </Box>
@@ -83,7 +82,7 @@ export default function Sponsor() {
         
         <Grid item xs={12} md={3} >
           <Paper className={classes.paperStyle} >
-            <Typography align="center" style={{color:"#1C1C49"}} gutterBottom><b>Resumen de Solicitudes</b></Typography> 
+            <Typography align="center" style = {{color:"#1C1C49"}} gutterBottom><b>Resumen de Solicitudes</b></Typography> 
             <Button className={classes.buttonStyle} size="medium" fullWidth>Enviadas: 312</Button>
             <Button className={classes.buttonStyle} size="medium"fullWidth>Aprobadas: 98</Button>
             <Button className={classes.buttonStyle} size="medium"fullWidth>Rechazadas: 199</Button>

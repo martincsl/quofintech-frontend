@@ -8,13 +8,13 @@ import './global.css';
 
 function App() {
 
-  const [ userIdGlobal, setUserIdGlobal ] = useState ("");
+  const [ userId, setUserId ] = useState ("");
   const [ userName, setUserName ] = useState ("");
   const [ sponsorId, setSponsorId ] = useState ("");
   const [ sponsorName, setSponsorName ] = useState ("");
   
   return (
-    <LoginContext.Provider value = {{ userIdGlobal, setUserIdGlobal, userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName }} >
+    <LoginContext.Provider value = {{ userId, setUserId, userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName }} >
       <ThemeProvider theme = { mainTheme } >
         <Routes />
       </ThemeProvider>

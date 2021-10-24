@@ -26,13 +26,6 @@ const useStyles = makeStyles((mainTheme) => ({
     maxWidth: 500,
     backgroundColor:mainTheme.palette.secondary.main,  
   },
-  // paperAlertStyle: {
-  //   margin: 'auto',
-  //   padding:'10px',
-  //   minWidth: 350,
-  //   maxWidth:500,
-  //   backgroundColor:"red",  
-  // },
   buttonStyle:{
     color: "white",
     backgroundColor:mainTheme.palette.primary.main,
@@ -67,14 +60,15 @@ const useStyles = makeStyles((mainTheme) => ({
   export default function Login () {
 
     const classes = useStyles();  
-    const { handleChange, handleSubmit, chkBlankFormLogin, noBlanks, values, formErrors } = useForm (handleLogon);
-    const { userId, userPassword } = values;
+    const { handleChange, handleChangeUserId, handleSubmit, chkBlankFormLogin, noBlanks, userId, values, formErrors } = useForm (handleLogon);
+    // const { userId, userPassword } = values;
+    const { userPassword } = values;
     const [ isAlertOpen, setIsAlertOpen ] = useState(false);
     const [ alertMessage, setAlertMessage ] = useState({severity:"", title:"", message:""});
     const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
-    const { setUserIdGlobal, setUserName, setSponsorId, setSponsorName} = useContext (LoginContext);
+    const { setUserId, setUserName, setSponsorId, setSponsorName} = useContext (LoginContext);
     const history = useHistory();
-  
+    localStorage.clear();
     // localStorage.clear();
     async function handleLogon () {
 
@@ -88,12 +82,12 @@ const useStyles = makeStyles((mainTheme) => ({
         try {
           const data = { userId, userPassword } ;
           const response = await api.post('/sessions', data );
-          setUserIdGlobal(response.data.userId);
+          setUserId (response.data.userId);
           setUserName (response.data.userName);
-          setSponsorId(response.data.sponsorId);
+          setSponsorId (response.data.sponsorId);
           setSponsorName (response.data.sponsorName);
-          setAlertMessage(prevState => ({...prevState, severity:"success", title: "Sesión iniciada con exito", message: "Iniciando la sesión en la plataforma de Quo" }));
-          setIsAlertOpen(true);
+          setAlertMessage (prevState => ({...prevState, severity:"success", title: "Sesión iniciada con exito", message: "Iniciando la sesión en la plataforma de Quo" }));
+          setIsAlertOpen (true);
           localStorage.setItem('sponsorId',response.data.sponsorId);
           localStorage.setItem('sponsorName',response.data.sponsorName);
           localStorage.setItem('userId',response.data.userId);
@@ -146,7 +140,7 @@ const useStyles = makeStyles((mainTheme) => ({
                 name="userId" 
                 value= { userId } 
                 onChange={ (e) => {
-                  handleChange (e,[noBlanks]);
+                  handleChangeUserId (e,[noBlanks]);
                   setIsDirty ();
                 }}
               error={formErrors.userId} 

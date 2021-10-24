@@ -59,7 +59,7 @@ const useStyles = makeStyles({
 
 export default function LoansApproved () {
   const classes = useStyles ();  
-  const { userIdGlobal, setUserIdGlobal, userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName } = useContext (LoginContext);
+  const { userId, setUserId, userName, setUserName, sponsorId, setSponsorId, sponsorName, setSponsorName } = useContext (LoginContext);
   const [ loansList, setLoansList] = useState ([]);
   const [ isDialogPdfOpen,setIsDialogPdfOpen ] = useState(false);
   const [ dialogPdfProps, setDialogPdfProps ] = useState({amount:"", name:"", id:""});
@@ -78,7 +78,7 @@ export default function LoansApproved () {
 
   setSponsorId (localStorage.getItem('sponsorId'));
   setSponsorName (localStorage.getItem('sponsorName'));
-  setUserIdGlobal (localStorage.getItem('userId'));
+  setUserId (localStorage.getItem('userId'));
   setUserName (localStorage.getItem('userName'));
 
   useEffect ( ()=> {
@@ -126,7 +126,7 @@ export default function LoansApproved () {
 
   function handlePdfDialog(loansList){
     setDialogPdfProps ({amount:loansList.loanTotalAmount, name:loansList.customerName, id:loansList.customerId})
-    setIsDialogPdfOpen(true);
+    setIsDialogPdfOpen (true);
     // setModalOpen(true);
   }
 
@@ -147,7 +147,7 @@ export default function LoansApproved () {
     setIsDialogPdfOpen(false);
   }
  
-  async function DeleteLoan( id ) {
+  async function DeleteLoan ( id ) {
     try {
       const response = await api.delete (`profile/${id}`,{   // elimina registro no banco de dados
         headers : {

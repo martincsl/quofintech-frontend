@@ -56,6 +56,7 @@ export function useLoanCalculations ({values, setValues}) {
     factor = multiplier [values.loanTerm];
     payment = factor * values.loanCapital;
     total = payment* (values.loanTerm + 1 );
+    // setValues (prevState => ({...prevState,loanTerm:values.loanTerm +1}));
     setValues (prevState => ({...prevState,loanPayment:Math.round(payment) }));
     setValues (prevState => ({...prevState,loanTotalAmount:Math.round(total) }));
     }

@@ -40,7 +40,7 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function Main () {
 
   const classes = useStyles();  
-
+  localStorage.clear();
   return (
     // <div className="main-container">
     <div>

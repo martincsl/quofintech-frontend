@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { LoginContext } from '../helper/Context.js';
+
 
 export default function useForm (callback) {
-
-  const [ values, setValues ] = useState ({ contactName: "", contactMobile: "", contactEmail: "", contactMsg:"", userId:"", userPassword:"" });
+  const { userId, setUserId, setUserName, setSponsorId, setSponsorName} = useContext (LoginContext);
+  // const [ values, setValues ] = useState ({ contactName: "", contactMobile: "", contactEmail: "", contactMsg:"", userId:"", userPassword:"" });
+  const [ values, setValues ] = useState ({ contactName: "", contactMobile: "", contactEmail: "", contactMsg:"", userPassword:"" });
+  
   const [ formErrors, setFormErrors ] = useState({ contactName: "", contactMobile: "", contactEmail: "", contactMsg:"", userId:"", userPassword:"" });
-  const { contactName, contactMobile, contactEmail, contactMsg, userId, userPassword } = values;
+  const { contactName, contactMobile, contactEmail, contactMsg, userPassword } = values;
+  // const { contactName, contactMobile, contactEmail, contactMsg, userId, userPassword } = values;
 
   function noBlanks (value) {
     if (value === "") {
@@ -134,10 +139,16 @@ export default function useForm (callback) {
     handleValidators(target, validators);
   }
 
+  const handleChangeUserId = (e, validators) =>{
+    const target=e.target;
+    // setUserId (prevState => ({...prevState, [target.name]:target.value }))
+    setUserId(e.target.value)
+    handleValidators(target, validators);
+  }
   const handleValidators = (target, validators) => {
     validators.forEach(validation => {         // array 
-    const result= validation (target.value)    // value="martin" ou "0985 290979"...
-    const errors= formErrors [target.name]     // le os erros do "vetor"
+    const result = validation (target.value)    // value="martin" ou "0985 290979"...
+    const errors = formErrors [target.name]     // le os erros do "vetor"
       if (result.valid) {                      // se o retorno da funcao eh true, ou seja se o input eh valido.....
  //       if (errors.includes (result.message)){   //"limpa" as mesgs de erro
           setFormErrors (prevState => ( {...prevState, [target.name]: ""}))
@@ -150,6 +161,6 @@ export default function useForm (callback) {
     })
   }
 
-  return { handleChange, handleSubmit, chkBlankFormContact, chkBlankFormLogin,chkFormErrors, isValidName, isValidPhone, isValidEmail, noBlanks, isValidUser, isValidPassword, values, formErrors }
+  return { handleChange, handleChangeUserId, handleSubmit, chkBlankFormContact, chkBlankFormLogin,chkFormErrors, isValidName, isValidPhone, isValidEmail, noBlanks, isValidUser, isValidPassword, userId, values, formErrors }
 }
 
