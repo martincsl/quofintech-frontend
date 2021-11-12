@@ -67,10 +67,10 @@ export default function TableCollatDocs() {
               <StyledTableCell component="th" scope="row">
                 {row.customerName}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.customerId}</StyledTableCell>
-              <StyledTableCell align="right">{row.loanAmount}</StyledTableCell>
-              <StyledTableCell align="right">{row.loanExpDate}</StyledTableCell>
-              <StyledTableCell align="right">{row.loanDocStatus}</StyledTableCell>
+                <StyledTableCell align="right">{row.customerId}</StyledTableCell>
+                <StyledTableCell align="right">{row.loanAmount}</StyledTableCell>
+                <StyledTableCell align="right">{row.loanExpDate}</StyledTableCell>
+                <StyledTableCell align="right">{row.loanDocStatus}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -68,7 +68,7 @@ const useStyles = makeStyles((mainTheme) => ({
     const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();
     const { setUserId, setUserName, setSponsorId, setSponsorName} = useContext (LoginContext);
     const history = useHistory();
-    localStorage.clear();
+    // localStorage.clear();
     // localStorage.clear();
     async function handleLogon () {
 

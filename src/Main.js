@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import { Grid, Button, Typography, Slide, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,8 +8,8 @@ import mainVideo from './assets/videoQuoWeb.mp4';
 // import MobileImg from './assets/FotoQuoMobile.jpg';
 import SmallScrreenImg from './assets/FotoQuoReduc.jpg';
 
-import Header from './components/Header'
-import Footer from './components/Footer'
+import Header from './components/Header';
+import Footer from './components/Footer';
 import Carousel from './Carousel';
 import SocialNetworksLinks from './components/SocialNetworksLinks';
 
@@ -88,8 +88,8 @@ export default function Main () {
           </Hidden>
           <Slide in direction = "up" timeout = {1000}>
             <Grid item container direction="row" alignItems="center" justify="center" spacing={2} xs={12} > 
-             <Button className={classes.buttonStyle} component={Link} to={'/contact'} variant="outlined" size ="large" disableRipple>Me interesa ! Quiero catastrarme</Button>
-             <Button className={classes.buttonStyle} component={Link} to={'/login'}variant="contained" size ="large"disableRipple>Ya soy cliente, quiero conectarme</Button>
+             {/* <Button className={classes.buttonStyle} component={Link} to={'/contact'} variant="outlined" size ="large" disableRipple>Me interesa ! Quiero catastrarme</Button>
+             <Button className={classes.buttonStyle} component={Link} to={'/login'}variant="contained" size ="large"disableRipple>Ya soy cliente, quiero conectarme</Button> */}
             </Grid>
           </Slide>
       </Grid>

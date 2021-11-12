@@ -24,7 +24,6 @@ import api from '../services/api';
 import useValidations from '../hooks/useValidations.js';
 import useUnsavedWarning from '../hooks/useUnsavedWarning';
 import useStepper from '../hooks/useStepper';
-import { AllInclusiveRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles( (mainTheme) => ({
   root: {
@@ -72,7 +71,11 @@ const useStyles = makeStyles( (mainTheme) => ({
 }))
 
 function getSteps() {
-  return ['Datos Personales del Cliente', 'Datos de la Financiacion','Datos Laborales del Cliente',  'Analisis Preliminar', 'Datos Referencias Personales','Datos Referencias Comerciales','Carga de Documentos'];
+  // return ['Datos Personales del Cliente', 'Datos de la Financiacion','Datos Laborales del Cliente',  'Analisis Preliminar', 'Datos Referencias Personales','Datos Referencias Comerciales','Carga de Documentos'];
+  // return ['Estimar Receita', 'Estimar Margem','Estimar Investimento (Capex)',  'Estimar Var. Capital de Giro', 'Estimar Custo de Capital','Estimar Estrutura de Capital'];
+  // return ['Estimar Ingresos', 'Estimar Margen','Estimar Inversion (Capex)',  'Estimar Var. Capital de Trabajo', 'Estimar Costo de Capital','Estimar Estructura de Capital'];
+  // return ['Revenue Estimate', 'Margin Estimate','Capex Estimate',  'Working Capital Chgs. Estimate', 'Cost of Capital Estimate','Capital Structure Estimate'];
+  return ['Revenue', 'Margin','Capex',  'Working Capital Chgs.', 'Cost of Capital','Capital Structure','CAPM'];
 }
 
 export default function LoanRequest (){
@@ -105,9 +108,9 @@ export default function LoanRequest (){
   const { sponsorId, setSponsorId, sponsorName,  setSponsorName, userId, setUserId, userName, setUserName } = useContext (LoginContext);
 
   setSponsorId (localStorage.getItem('sponsorId'));
-  setSponsorName(localStorage.getItem('sponsorName'));
-  setUserId(localStorage.getItem('userId'));
-  setUserName(localStorage.getItem('userName'));
+  setSponsorName (localStorage.getItem('sponsorName'));
+  setUserId (localStorage.getItem('userId'));
+  setUserName (localStorage.getItem('userName'));
 
   async function handleCustomer() {
     alert("entrou em handleCustomer");
@@ -117,29 +120,39 @@ export default function LoanRequest (){
         try {
           const data = {customerId, customerMobilePrefix, customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary, customerHiringType, customerLaborSeniority } ;
           const response = await api.put ('/customers', data);
+          return { valid: true, message:"Éxito en actualización de cliente" };
         } catch (err) {
             const errorMsg = Object.values(err.response.data);
             setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en alteración de solcitud", message: errorMsg }));
             setIsAlertOpen(true);
+            return { valid: false, message:"Error en actualización de cliente" };
           }
     } catch (err) {
       // se houve algum erro na busca do cliente...
+      if (err.request){
+        setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusión de la solicitud", message:"Problema en acceso al servidor" }));
+        setIsAlertOpen(true);
+        return { valid: false, message:"Sin respuesta de la base de datos" };
+      }
       if (err.response.status == 404) {
         // se o cliente nao esta na base, inclui como novo registro
         try {
           const data = { customerId, customerName, customerBirthDate, customerMobilePrefix, customerMobile, customerEmail, customerCity, customerAddress, customerOccupation,customerSalary, customerHiringType, customerLaborSeniority } ;
           const response = await api.post('/customers', data );
+          return { valid: true, message:"Éxito en inclusión de cliente" };
         } catch (err) {
             // se nao conseguiu incluir, mostra msg de erro
             const errorMsg = Object.values(err.response.data);
-            setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusión de solcitud", message: errorMsg }));
+            setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusión de la solicitud", message: errorMsg }));
             setIsAlertOpen(true);
+            return { valid: false, message:"Error en actualización de cliente" };
           }
       } else {
           // se for um erro diferente do 404 (cliente nao encontrado), mostra msg de erro 
           const errorMsg = Object.values(err.response.data);
           setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inicio de sessión", message: errorMsg }));
           setIsAlertOpen(true);
+          return { valid: false, message:"Error en actualización de cliente" }
         }
       }
   }
@@ -150,10 +163,11 @@ export default function LoanRequest (){
     try {
     const response = await api.get ('/companies', { headers:{Authorization: companyId}})
       try {
-        alert("update company");
-        alert(companyId);
+        // alert("update company");
+        // alert(companyId);
         const data = { companyId, companyPhone, companyMobilePrefix, companyMobile, companyAddress, companyCity} ;
         const response = await api.put ('/companies', data);
+        return { valid: true, message:"Éxito en actualización de empresa" };
       } catch (err) {
           const errorMsg = Object.values(err.response.data);
           setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en alteración de solcitud", message: errorMsg }));
@@ -161,7 +175,9 @@ export default function LoanRequest (){
         }
       // se houve algum erro na busca da empresa...
     } catch (err) {
-     
+      if (err.request){
+        return { valid: false, message:"Sin respuesta de la base de datos" };
+      }
       if (err.response.status == 404) {
         // se a empresa nao esta na base, inclui como novo registro
         try {
@@ -169,17 +185,20 @@ export default function LoanRequest (){
           // se conseguiu,
           const data = { companyId, companyName,companyPhone, companyMobilePrefix, companyMobile, companyAddress, companyCity } ;
           const response = await api.post('/companies', data );
+          return { valid: true, message:"Éxito en inclusión de la empresa" };
           // se nao conseguiu, ve a msg de erro
         } catch (err) {
             const errorMsg = Object.values(err.response.data);
             setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusión de solcitud-Empresa", message: errorMsg }));
             setIsAlertOpen(true);
+            return { valid: false, message:"Error en actualización de empresa" };
           }
       } else {
         // se...
           const errorMsg = Object.values(err.response.data);
           setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inicio de sessión", message: errorMsg }));
           setIsAlertOpen(true);
+          return { valid: false, message:"Error en actualización de empresa" };
         }
       }
   }
@@ -190,10 +209,12 @@ export default function LoanRequest (){
       // alert (`sponsor: ${sponsorId} user:${userId} `);
       const data = { loanProduct, loanCapital, loanTerm, loanPayment, loanTotalAmount, loanExpireDate, loanRequestStatus,loanRequestDenialMsg, loanDocStatus, customerId, userId, sponsorId } ;
       const response = await api.post('/loans', data );
+      return { valid: true, message:"Éxito en inclusión de la solicitud" };
     } catch (err) {
         const errorMsg = Object.values(err.response.data);
         setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en inclusión de solcitud-Prestamo", message: errorMsg }));
         setIsAlertOpen(true);
+        return { valid: false, message:"Error en inclusión de la solicitud" };
       }
   }
 
@@ -235,23 +256,45 @@ export default function LoanRequest (){
         <Redirect to="/loanrequest" />
     } else {
       history.push('/sponsor');
-    } 
+    }; 
   };
 
   //testear aca grabacion de customer
   const handleExit = () => {
     alert ("passou em handleexit");
+    // salida:
     // setIsPristine();
     // setValues(inicialValuesState);
     // setFormErrors(inicialFormErrorsState);
-    // localStorage.clear();
     // history.push('/sponsor');
+
+    // testeando inclusion
+    // if (chkBlankFormCustomer (setFormErrors, values)){
+    //   setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias!"}));
+    //   setIsAlertOpen(true);
+
+    // } else if (chkFormErrors(formErrors)) {
+    //     setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor corregir los dados marcados como incorrectos, gracias!"}));
+    //     setIsAlertOpen(true);
+
+    //   }
     setIsPristine();
-    handleCustomer();
-    handleCompany();
-    handleLoan();
-    setDialogMessage( {title: "Solicitud cargada con exito !", message:"Desea cargar una nueva solicitud ?"});
-    setIsDialogOpen(true);   
+
+    const result = handleCustomer()
+    // if (handleCustomer().valid) {
+    if (result.valid) {
+      if (handleCompany().valid);{
+        if (handleLoan().valid){
+          setDialogMessage( {title: "Solicitud cargada con exito !", message:"Desea cargar una nueva solicitud ?"});
+          setIsDialogOpen(true);   
+        };
+      }
+    } 
+    // else {
+    //   alert ("Problema en acceso a la base de datos del servidor");
+    //   alert (result.message);
+
+    // };
   }
 
   function submit() {
@@ -309,7 +352,7 @@ export default function LoanRequest (){
 
         <Grid item xs={12} sm={10} md={8} >
           {/* -------------------------------------TEMP */}
-        <Typography>{`Usuario ${userId} Sponsor: ${sponsorId}`}</Typography>
+        {/* <Typography>{`Usuario ${userId} Sponsor: ${sponsorId}`}</Typography> */}
           <CustomerStepper activeStep={activeStep} steps={steps} />
         </Grid>
         

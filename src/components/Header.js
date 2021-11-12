@@ -77,7 +77,7 @@ export default function Header() {
 
         <Hidden smDown>
           <Box style={{ width: '20px' }}/>    
-            <Button component={Link} to={'/whoweare'} className={classes.buttonMenuStyle} size="large" disableRipple>Quienes Somos</Button>
+            <Button component={Link} to={'/whoweare'} className={classes.buttonMenuStyle}  size="large" disableRipple>Quienes Somos</Button>
             <Button component={Link} to={'/howitworks'} className={classes.buttonMenuStyle} size="large" disableRipple>Como Funciona?</Button>
             <Button component={Link} to={'/benefits'} className={classes.buttonMenuStyle} size="large" disableRipple>Beneficios</Button>
             <Button component={Link} to={'/contact'} className={classes.buttonMenuStyle} size="large" disableRipple>Contáctanos</Button>

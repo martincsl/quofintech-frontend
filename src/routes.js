@@ -19,8 +19,8 @@ export default function Routes() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact component={Main} />
-        <Route path="/main" component={Main} />
+        <Route path = "/" exact component={Main} />
+        <Route path = "/main" component={Main} />
         <Route path="/whoweare" component={Whoweare} />
         <Route path="/howitworks" component={Howitworks} />
         <Route path="/benefits" component={Benefits} />

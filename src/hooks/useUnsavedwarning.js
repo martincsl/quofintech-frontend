@@ -3,7 +3,7 @@ import { Prompt } from "react-router-dom";
 
 const useUnsavedWarning = (message = "Desea realmente salir del formulario antes de finalizar la solicitud ?")  => {
 
-    const [isDirty, setIsDirty] = useState(false);
+    const [isDirty, setIsDirty] = useState (false) ;
 
     useEffect(() => {
         //Detecting browser closing
