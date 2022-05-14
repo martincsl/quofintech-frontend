@@ -27,7 +27,6 @@ export default function HireTypeSelect ({value, onChange, name}){
       <FormControl variant="filled" className={classes.formControl} fullWidth>
         <InputLabel id="demo-simple-select-outlined-label">Tipo de Contrato *</InputLabel>
           <Select
-            
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
             value={value}
@@ -40,7 +39,7 @@ export default function HireTypeSelect ({value, onChange, name}){
                 {name}
               </MenuItem>
             ))}
-         </Select>
+        </Select>
       </FormControl>
     </> 
   )

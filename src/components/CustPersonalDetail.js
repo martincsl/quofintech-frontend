@@ -63,7 +63,7 @@ export default function CustPersonalDetail ({ values, setValues, formErrors, set
     if (value==="Seguir Cargando"){
           <Redirect to = "/loanrequest" />
       } else {
-        alert ("else que hago?");
+        // alert ("else que hago?");
       } 
     };
 

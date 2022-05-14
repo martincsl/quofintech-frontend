@@ -21,8 +21,6 @@ export default function NumberFormatPhone(props) {
         allowNegative="false"
         isNumericString
         prefix=""
-        isNumericString
-        prefix=""
       />
     );
   }

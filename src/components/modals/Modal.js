@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import "./Modal.css";
-
+// pedrotech tutorial
 function Modal({ setOpenModal }) {
 
   useEffect(() => {
@@ -10,7 +10,7 @@ function Modal({ setOpenModal }) {
     }
   }, []);
 
-  alert("entou em modal");
+  // alert("entou em modal");
   return (
     <div className="modalBackground">
       <div className="modalContainer">

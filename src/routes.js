@@ -12,7 +12,8 @@ import LoanRequest from './pages/LoanRequest.js';
 import LoansInProcess from './pages/LoansInProcess.js';
 import LoansPending from './pages/LoansPending';
 import LoansApproved from './pages/LoansApproved.js';
-import LoansRejected from './pages/LoansRejected.js';
+// import LoansRejected from './pages/LoansRejected.js';
+import TestUpload from './pages/TestUpload.jsx';
 
 export default function Routes() {
 
@@ -31,7 +32,7 @@ export default function Routes() {
         <Route path="/inprocess" component={LoansInProcess} />
         <Route path="/pending" component={LoansPending} />
         <Route path="/approved" component={LoansApproved} />
-        <Route path="/rejected" component={LoansRejected} />
+        <Route path="/rejected" component={TestUpload} />
       </Switch>
     </BrowserRouter>
   );

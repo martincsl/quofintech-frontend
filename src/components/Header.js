@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppBar, Toolbar, IconButton, Box, Button, Hidden } from '@material-ui/core';
@@ -53,7 +53,7 @@ const useStyles = makeStyles( (mainTheme) => ({
   }
 })); 
 
-export default function Header() {
+function Header() {
 
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -91,7 +91,7 @@ export default function Header() {
               <MenuIcon />
             </IconButton>
           </Hidden>
-       </div> 
+      </div> 
  
       </Toolbar>
     </AppBar>
@@ -106,8 +106,8 @@ export default function Header() {
         classes={{
           paper: classes.drawerPaper,
         }}
-       >
-       <div className={classes.drawerContainer}>
+      >
+      <div className={classes.drawerContainer}>
           <List>
             <ListItem button component={Link} to={'/whoweare'} disableRipple className={classes.buttonDrawerStyle}>
               <ListItemText primary="Quienes Somos" />
@@ -125,12 +125,14 @@ export default function Header() {
           <Divider />
           <List>
             <ListItem button component={Link} to={'/login'} disableRipple className={classes.buttonDrawerStyle} >
-               <ListItemText primary="Conectarse" />
+              <ListItemText primary="Conectarse" />
             </ListItem> 
-         </List>
+        </List>
         </div>
       </Drawer>
     </Hidden>
     </>
   )
 }
+
+export default memo(Header);

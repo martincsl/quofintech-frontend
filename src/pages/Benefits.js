@@ -69,68 +69,68 @@ export default function Benefits (){
       </Grid>
 
       <Grid item container direction="row" spacing={2} xs={12}>
-       
+      
         <Grid item direction="row" spacing={1} xs={12} sm={6} md={4}>
-          <Slide in direction = "up" timeout = {1000}> 
+          <Grow in direction = "up" timeout = {1000}> 
             <Paper elevation={1} className={classes.paperStyle} style={{minHeight:'30vh'}}>
               <Typography align="center" variant="subtitle1" className={classes.boxStyle}><b>Vendé en cuotas, cobra al contado</b></Typography>
                 <img src={iconCash} className={classes.iconStyle}/>
-               <Typography display="block" align="center" variant="body2" ><b>Quo posibilita que vendas financiado a tus clientes, sin que tengas que preocuparte por el análisis de crédito, la cobranza y la financiación.</b></Typography>
+              <Typography display="block" align="center" variant="body2" ><b>Quo posibilita que vendas financiado a tus clientes, sin que tengas que preocuparte por el análisis de crédito, la cobranza y la financiación.</b></Typography>
             </Paper>
-          </Slide>
+          </Grow>
         </Grid>
 
         <Grid item direction="row" spacing={2} xs={12} sm={6} md={4}>
-          <Slide in direction = "up" timeout = {1200}> 
+          <Grow in direction = "up" timeout = {1200}> 
             <Paper elevation={1} className={classes.paperStyle} style={{minHeight:'30vh'}}>
               <Typography align="center" variant="subtitle1" className={classes.boxStyle}><b>Cuotas más bajas, mayores ventas</b></Typography>
               <img src={iconGraph} className={classes.iconStyle}/>
               <Typography display="block" align="center" variant="body2" ><b>Teniendo la opción de pagar en cuotas, más clientes pueden comprar.</b></Typography>
             </Paper> 
-          </Slide>
+          </Grow>
         </Grid> 
 
         <Grid item direction="row" spacing={2} xs={12} sm={6} md={4}>
-          <Slide in direction = "up" timeout = {1400}> 
+          <Grow in direction = "up" timeout = {1400}> 
             <Paper elevation={1} className={classes.paperStyle}  style={{minHeight:'30vh'}}>
               <Typography align="center" variant="subtitle1" className={classes.boxStyle}><b>Sin riesgos</b></Typography>
               <img src={iconCoins} className={classes.iconStyle}/>
               <Typography display="block" align="center" variant="body2" ><b>Quo Asume la morosidad e incobrabilidad.</b></Typography>
             </Paper>
-           </Slide> 
+          </Grow> 
         </Grid>
 
         <Grid item direction="row" spacing={2} xs={12} sm={6} md={4}>
-          <Slide in direction = "up" timeout = {1600}> 
+          <Grow in direction = "up" timeout = {1600}> 
             <Paper elevation={1} className={classes.paperStyle} style={{minHeight:'30vh'}}>
               <Typography align="center" variant="subtitle1" className={classes.boxStyle}><b>Fácil</b></Typography>
               <img src={iconApp} className={classes.iconStyle}/>
               <Typography display="block" align="center" variant="body2" ><b>Sin instalaciones ni computadoras exclusivas. Bajando la app de celular o la a través de página web, podes ingresar los datos de tus clientes, para el análisis de crédito.</b></Typography>
             </Paper>
-          </Slide>
+          </Grow>
         </Grid>
 
           <Grid item direction="row" spacing={2} xs={12} sm={6} md={4}>
-            <Slide in direction = "up" timeout = {1600}> 
+            <Grow in direction = "up" timeout = {1600}> 
               <Paper elevation={1} className={classes.paperStyle} style={{minHeight:'30vh'}}>
                 <Typography align="center" variant="subtitle1" className={classes.boxStyle} ><b>Sin costo</b></Typography>
                 <img src={iconSaving} className={classes.iconStyle} style={{height:'65px'}}/>
                 <Typography display="block" align="center" variant="body2" ><b>Sin costos, ni comisiones para el comercio.</b></Typography>
               </Paper>
-            </Slide>  
+            </Grow>  
           </Grid>
 
           <Grid item direction="row" spacing={1} xs={12} sm={6} md={4} >
-          <Slide in direction = "up" timeout = {1600}> 
+          <Grow in direction = "up" timeout = {1600}> 
             <Paper elevation={1} className={classes.paperStyle} style={{minHeight:'30vh'}}>
               <Typography align="center" variant="subtitle1" className={classes.boxStyle}><b>Practico</b></Typography>
               <img src={iconFolder} className={classes.iconStyle}/>
               <Typography display="block" align="center" variant="body2" ><b>Sin cupos mínimos de ventas.</b></Typography>
             </Paper>
-            </Slide>
+            </Grow>
           </Grid>
-       </Grid>
-       <Grid style={{height:'8vh'}} />
+      </Grid>
+      <Grid style={{height:'8vh'}} />
       
       </Grid>
       <Footer />

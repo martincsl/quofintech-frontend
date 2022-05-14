@@ -72,6 +72,7 @@ const useStyles = makeStyles((mainTheme) => ({
     // localStorage.clear();
     async function handleLogon () {
 
+
     if (chkBlankFormLogin ()){
       // setAlertMessage(prevState => ( {...prevState, severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias !"}));
       setAlertMessage({severity:"warning", title: "Error en entrada de datos", message:"Favor completar los dados marcados como requeridos, gracias !"});
@@ -80,6 +81,7 @@ const useStyles = makeStyles((mainTheme) => ({
       else {
         setIsPristine();
         try {
+          console.count();
           const data = { userId, userPassword } ;
           const response = await api.post('/sessions', data );
           setUserId (response.data.userId);

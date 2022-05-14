@@ -69,7 +69,8 @@ export default function CustLoanAnalisys ({values, isLoanPreApproved, setIsLoanP
 
   function isLoanApproved (){
     if ( ! isValidAge().valid || ! isValidLaborSeniority().valid || ! isValidSalaryPaymentRatio().valid ) {
-      setIsLoanPreApproved(false);
+      // setIsLoanPreApproved(false);
+      setIsLoanPreApproved(true);
       return {
         valid: false,
         title: "Analisis Preliminar - Solicitud Rechazada",

@@ -71,11 +71,11 @@ const useStyles = makeStyles( (mainTheme) => ({
 }))
 
 function getSteps() {
-  // return ['Datos Personales del Cliente', 'Datos de la Financiacion','Datos Laborales del Cliente',  'Analisis Preliminar', 'Datos Referencias Personales','Datos Referencias Comerciales','Carga de Documentos'];
+  return ['Datos Personales del Cliente', 'Datos de la Financiacion','Datos Laborales del Cliente',  'Analisis Preliminar', 'Datos Referencias Personales','Datos Referencias Comerciales','Carga de Documentos'];
   // return ['Estimar Receita', 'Estimar Margem','Estimar Investimento (Capex)',  'Estimar Var. Capital de Giro', 'Estimar Custo de Capital','Estimar Estrutura de Capital'];
   // return ['Estimar Ingresos', 'Estimar Margen','Estimar Inversion (Capex)',  'Estimar Var. Capital de Trabajo', 'Estimar Costo de Capital','Estimar Estructura de Capital'];
   // return ['Revenue Estimate', 'Margin Estimate','Capex Estimate',  'Working Capital Chgs. Estimate', 'Cost of Capital Estimate','Capital Structure Estimate'];
-  return ['Revenue', 'Margin','Capex',  'Working Capital Chgs.', 'Cost of Capital','Capital Structure','CAPM'];
+  // return ['Revenue', 'Margin','Capex',  'Working Capital Chgs.', 'Cost of Capital','Capital Structure','CAPM'];
 }
 
 export default function LoanRequest (){

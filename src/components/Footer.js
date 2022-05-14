@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo }from 'react';
 
 import { Box, Grid, Hidden, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,7 +17,7 @@ const useStyles = makeStyles((mainTheme) => ({
 })
 );
 
-export default function Footer() {
+function Footer() {
 
   const classes = useStyles();
   return (
@@ -39,5 +39,7 @@ export default function Footer() {
         </Hidden>
       </Grid>
     </Box>
-   </>  
+    </>  
 )}
+
+export default memo(Footer);
