@@ -5,8 +5,8 @@ import { Grid, Paper, Box, Typography, TextField, Button, Grow } from '@material
 import { makeStyles } from '@material-ui/core/styles';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 
-import Header from '../components/Header.js';
-import Footer from '../components/Footer.js';
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.jsx';
 import AlertMessage from '../components/modals/AlertMessage';
 
 import api from '../services/api';

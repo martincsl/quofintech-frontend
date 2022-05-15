@@ -3,17 +3,17 @@ import React, {useEffect} from 'react';
 import { Grid, Paper, TextField, Typography, Box, Grow, Slide } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
-import useUnsavedWarning from '../hooks/useUnsavedWarning';
-import useValidations from '../hooks/useValidations.js';
-import useFormHandlers from '../hooks/useFormHandlers';
+import useUnsavedWarning from '../../../hooks/useUnsavedWarning';
+import useValidations from '../../../hooks/useValidations.js';
+import useFormHandlers from '../../../hooks/useFormHandlers';
 
-import MobilePrefixSelect from './selects/MobilePrefixSelect';
-import CitiesSelect from './selects/CitiesSelect';
-import HireTypeSelect from './selects/HireTypeSelect';
-import NumberFormatAmount from './formats/NumberFormatAmount';
-import NumberFormatRUC from './formats/NumberFormatRUC';
-import NumberFormatPhone from './formats/NumberFormatPhone';
-import NumberFormatPositive from './formats/NumberFormatPositive';
+import MobilePrefixSelect from '../../../components/selects/MobilePrefixSelect';
+import CitiesSelect from '../../../components/selects/CitiesSelect';
+import HireTypeSelect from '../../../components/selects/HireTypeSelect';
+import NumberFormatAmount from '../../../components/formats/NumberFormatAmount';
+import NumberFormatRUC from '../../../components/formats/NumberFormatRUC';
+import NumberFormatPhone from '../../../components/formats/NumberFormatPhone';
+import NumberFormatPositive from '../../../components/formats/NumberFormatPositive';
 
 const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
@@ -60,7 +60,7 @@ const useStyles = makeStyles( (mainTheme) => ({
   },
 }))
 
-export default function CustWorkDetail ({ values, setValues, formErrors, setFormErrors }) {
+export function FormWorkData ({ values, setValues, formErrors, setFormErrors }) {
 
   const classes = useStyles();
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();

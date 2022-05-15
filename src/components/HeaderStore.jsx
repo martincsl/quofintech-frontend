@@ -46,7 +46,6 @@ const useStyles = makeStyles( (mainTheme) => ({
   },
   avatarStyle: {
     display: 'inline-block',
-
     // marginLeft: 'auto',
     // marginRight: 'auto'
   }

@@ -3,8 +3,8 @@ import React from 'react';
 import { Grid, Box, Paper, Typography, Grow, Slide } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
-import Header from '../components/Header.js';
-import Footer from '../components/Footer.js';
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.jsx';
 import picMcl from '../assets/mcl.jpg';
 import picElh from '../assets/picelh.jpg';
 import picMaz from '../assets/picmaz.jpg';

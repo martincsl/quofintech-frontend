@@ -19,7 +19,7 @@ const useStyles = makeStyles((mainTheme) => ({
   },
 }))
 
-export default function CustomerStepper ({activeStep, steps}) {
+export function FormStepper ({activeStep, steps}) {
 
   const classes = useStyles();  
   return (

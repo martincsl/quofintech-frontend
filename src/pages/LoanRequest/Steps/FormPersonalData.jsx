@@ -4,17 +4,17 @@ import { Redirect } from "react-router-dom";
 import { Grid, Paper, TextField, Typography, Box } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
-import useUnsavedWarning from '../hooks/useUnsavedWarning';
-import useFormHandlers from '../hooks/useFormHandlers';
-import useValidations from '../hooks/useValidations.js';
+import useUnsavedWarning from '../../../hooks/useUnsavedWarning';
+import useFormHandlers from '../../../hooks/useFormHandlers';
+import useValidations from '../../../hooks/useValidations.js';
 
-import AlertDialog from './modals/AlertDialog';
-import CitiesSelect from './selects/CitiesSelect';
-import OccupationSelect from './selects/OccupationSelect';
-import MobilePrefixSelect from './selects/MobilePrefixSelect';
-import NumberFormatDate from './formats/NumberFormatDate.js';
-import NumberFormatCI from './formats/NumberFormatCI.js';
-import NumberFormatPhone from './formats/NumberFormatPhone.js';
+import AlertDialog from '../../../components/modals/AlertDialog';
+import CitiesSelect from '../../../components/selects/CitiesSelect';
+import OccupationSelect from '../../../components/selects/OccupationSelect';
+import MobilePrefixSelect from '../../../components/selects/MobilePrefixSelect';
+import NumberFormatDate from '../../../components/formats/NumberFormatDate.js';
+import NumberFormatCI from '../../../components/formats/NumberFormatCI.js';
+import NumberFormatPhone from '../../../components/formats/NumberFormatPhone.js';
 
 const useStyles = makeStyles((mainTheme) => ({
   contentStyle: {
@@ -41,7 +41,7 @@ const useStyles = makeStyles((mainTheme) => ({
   },
 }))
 
-export default function CustPersonalDetail ({ values, setValues, formErrors, setFormErrors }) {
+export function FormPersonalData ({ values, setValues, formErrors, setFormErrors }) {
   // export default function CustPersonalDetail ({handleChange, handleBlur, values, setValues, formErrors, setFormErrors,isValidCustomerId, isValidName, isValidDay, isValidDate, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
 
   const classes = useStyles();

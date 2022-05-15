@@ -1,29 +1,29 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Redirect } from "react-router-dom";
 
-import { Grid, Typography, Button, Hidden } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import HeaderStore from '../components/HeaderStore.js';
-import Footer from '../components/Footer.js';
-import StepperButton from '../components/StepperButtons.js';
-import CustPersonalDetail from '../components/CustPersonalDetail';
-import CustWorkDetail from '../components/CustWorkDetail';
-import CustLoanDetail from '../components/CustLoanDetail';
-import CustLoanAnalisys from '../components/CustLoanAnalisys.js';
-import CustPersReferences from '../components/CustPersReferences';
-import CustComReferences from '../components/CustComReferences';
-import CustDocsUpload from '../components/CustDocsUpload.js';
-import AlertMessage from '../components/modals/AlertMessage';
-import AlertDialog from '../components/modals/AlertDialog.js';
-import CustomerStepper from '../components/CustomerStepper';
+import HeaderStore from '../../components/HeaderStore';
+import Footer from '../../components/Footer.jsx';
+import { StepperButton } from './Steps/StepperButtons';
+import { FormPersonalData } from './Steps/FormPersonalData';
+import { FormWorkData } from './Steps/FormWorkData';
+import { FormLoanData } from './Steps/FormLoanData';
+import { FormLoanAnalysis } from './Steps/FormLoanAnalysis';
+import { FormPersonalReferences } from './Steps/FormPersonalReferences';
+import { FormCommercialReferences } from './Steps/FormCommercialReferences';
+import { FormDocsUpload } from './Steps/FormDocsUpload';
+import AlertMessage from '../../components/modals/AlertMessage';
+import AlertDialog from '../../components/modals/AlertDialog.js';
+import { FormStepper } from './Steps/FormStepper';
 
-import { LoginContext } from '../helper/Context.js';
-import api from '../services/api';
-import useValidations from '../hooks/useValidations.js';
-import useUnsavedWarning from '../hooks/useUnsavedWarning';
-import useStepper from '../hooks/useStepper';
+import { LoginContext } from '../../helper/Context.js';
+import api from '../../services/api';
+import useValidations from '../../hooks/useValidations.js';
+import useUnsavedWarning from '../../hooks/useUnsavedWarning';
+import useStepper from '../../hooks/useStepper';
 
 const useStyles = makeStyles( (mainTheme) => ({
   root: {
@@ -317,25 +317,25 @@ export default function LoanRequest (){
     switch (stepIndex) {
       case 0:
         return (
-          <CustPersonalDetail values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} step={activeStep}/> );
+          <FormPersonalData values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors} step={activeStep}/> );
       case 1:
-         return (
-          <CustLoanDetail values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );
+        return (
+          <FormLoanData values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );
       case 2:
         return (
-          <CustWorkDetail values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );
+          <FormWorkData values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );
       case 3:
         return (
-          <CustLoanAnalisys values={values} isLoanPreApproved={isLoanPreApproved} setIsLoanPreApproved={setIsLoanPreApproved} /> );
+          <FormLoanAnalysis values={values} isLoanPreApproved={isLoanPreApproved} setIsLoanPreApproved={setIsLoanPreApproved} /> );
       case 4:
         return (
-           <CustPersReferences values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );
+          <FormPersonalReferences values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );
       case 5:
         return (
-          <CustComReferences values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );   
+          <FormCommercialReferences values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> );   
       case 6:
         return (
-          <CustDocsUpload values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> ); 
+          <FormDocsUpload values={values} setValues={setValues} formErrors={formErrors} setFormErrors={setFormErrors}  step={activeStep}/> ); 
     } 
   }
 
@@ -353,7 +353,7 @@ export default function LoanRequest (){
         <Grid item xs={12} sm={10} md={8} >
           {/* -------------------------------------TEMP */}
         {/* <Typography>{`Usuario ${userId} Sponsor: ${sponsorId}`}</Typography> */}
-          <CustomerStepper activeStep={activeStep} steps={steps} />
+          <FormStepper activeStep={activeStep} steps={steps} />
         </Grid>
         
         <Grid item xs={12} sm={1} md={2} />

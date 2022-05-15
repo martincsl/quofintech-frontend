@@ -27,7 +27,7 @@ const useStyles = makeStyles ((mainTheme) => ({
   },
   }))
 
-export default function StepperButton ({ handleExit, handleBack, handleNext, activeStep, stepsLength, isLoanPreApproved }) {
+export function StepperButton ({ handleExit, handleBack, handleNext, activeStep, stepsLength, isLoanPreApproved }) {
 
   const classes = useStyles(); 
 
@@ -57,5 +57,5 @@ export default function StepperButton ({ handleExit, handleBack, handleNext, act
       </Button>
     </Grid>
     </>
-   )
+  )
 }

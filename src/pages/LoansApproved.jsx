@@ -5,14 +5,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
-import { LoginContext } from '../helper/Context.js';
+import { LoginContext } from '../helper/Context';
 import api from '../services/api';
 
-import HeaderStore from '../components/HeaderStore.js';
-import Footer from '../components/Footer.js';
-import AlertDialog from '../components/modals/AlertDialog.js';
+import HeaderStore from '../components/HeaderStore';
+import Footer from '../components/Footer';
+import AlertDialog from '../components/modals/AlertDialog';
 import AlertMessage from '../components/modals/AlertMessage';
-import PdfDialog from '../components/modals/PdfDialog.js';
+import PdfDialog from '../components/modals/PdfDialog';
 // import Modal from '../components/modals/Modal';
 
 const useStyles = makeStyles({

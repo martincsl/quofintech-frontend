@@ -10,8 +10,8 @@ import api from '../services/api';
 import useForm from '../components/useForm.js';
 import useUnsavedWarning from '../hooks/useUnsavedWarning.js';
 
-import Header from '../components/Header.js';
-import Footer from '../components/Footer.js';
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.jsx';
 import AlertMessage from '../components/modals/AlertMessage.js';
 
 const useStyles = makeStyles((mainTheme) => ({

@@ -4,7 +4,7 @@ import { Grid, Paper, Button, Box, Typography, Grow, Slide } from '@material-ui/
 import { makeStyles } from '@material-ui/core/styles';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
-import useUnsavedWarning from '../hooks/useUnsavedWarning';
+import useUnsavedWarning from '../../../hooks/useUnsavedWarning';
 
 const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
@@ -46,7 +46,7 @@ const useStyles = makeStyles( (mainTheme) => ({
   },
 }))
 
-export default function CustDocsUpload ({handleChange, values, setValues, formErrors, setFormErrors,isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
+export function FormDocsUpload ({handleChange, values, setValues, formErrors, setFormErrors,isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
 
   const classes = useStyles();  
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();

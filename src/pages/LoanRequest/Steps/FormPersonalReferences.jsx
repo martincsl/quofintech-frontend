@@ -3,13 +3,13 @@ import React, {useEffect} from 'react';
 import { Grid, Paper, TextField, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import useUnsavedWarning from '../hooks/useUnsavedWarning';
-import useFormHandlers from '../hooks/useFormHandlers';
-import useValidations from '../hooks/useValidations.js';
+import useUnsavedWarning from '../../../hooks/useUnsavedWarning';
+import useFormHandlers from '../../../hooks/useFormHandlers';
+import useValidations from '../../../hooks/useValidations.js';
 
-import MobilePrefixSelect from './selects/MobilePrefixSelect';
-import NumberFormatCI from './formats/NumberFormatCI.js';
-import NumberFormatPhone from './formats/NumberFormatPhone.js';
+import MobilePrefixSelect from '../../../components/selects/MobilePrefixSelect';
+import NumberFormatCI from '../../../components/formats/NumberFormatCI.js';
+import NumberFormatPhone from '../../../components/formats/NumberFormatPhone.js';
 
 const useStyles = makeStyles( (mainTheme) => ({
     root: {
@@ -61,7 +61,7 @@ const useStyles = makeStyles( (mainTheme) => ({
     },
   }))
 
-export default function CustPersReferences ({ values, setValues, formErrors, setFormErrors }){
+export function FormPersonalReferences ({ values, setValues, formErrors, setFormErrors }){
 
   const classes = useStyles();  
   const [ Prompt, setIsDirty, setIsPristine ] = useUnsavedWarning();

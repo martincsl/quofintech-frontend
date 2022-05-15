@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
-import usePreliminaryLoanValidation from '../hooks/usePreliminaryLoanValidation';
+import usePreliminaryLoanValidation from '../../../hooks/usePreliminaryLoanValidation';
 
 const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
@@ -62,7 +62,7 @@ const useStyles = makeStyles( (mainTheme) => ({
 }))
 
 // export default function CustLoanAnalisys ({handleChange, values, setValues, formErrors, setFormErrors, isLoanPreApproved, setIsLoanPreApproved, isValidName, isValidPhone, isValidAmount, isValidEmail, noBlanks }) {
-export default function CustLoanAnalisys ({values, isLoanPreApproved, setIsLoanPreApproved}) {
+export function FormLoanAnalysis ({values, isLoanPreApproved, setIsLoanPreApproved}) {
   
   const {isValidAge, isValidLaborSeniority, isValidSalaryPaymentRatio} = usePreliminaryLoanValidation(values);
   const classes = useStyles();  

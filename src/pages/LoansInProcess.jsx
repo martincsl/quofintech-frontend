@@ -5,13 +5,13 @@ import { Grid, Paper, Box, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-import { LoginContext } from '../helper/Context.js';
+import { LoginContext } from '../helper/Context';
 import api from '../services/api';
 
-import HeaderStore from '../components/HeaderStore.js';
-import Footer from '../components/Footer.js';
-import AlertDialog from '../components/modals/AlertDialog.js';
-import AlertMessage from '../components/modals/AlertMessage.js';
+import HeaderStore from '../components/HeaderStore'
+import Footer from '../components/Footer';
+import AlertDialog from '../components/modals/AlertDialog';
+import AlertMessage from '../components/modals/AlertMessage';
 
 //backgroundColor:"#1C1C49",
 

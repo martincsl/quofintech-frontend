@@ -1,19 +1,19 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import Main from './Main.js';
-import Whoweare from './pages/Whoweare.js';
-import Howitworks from './pages/Howitworks.js';
-import Benefits from './pages/Benefits.js';
-import Contact from './pages/Contact.js';
-import Login from './pages/Login.js';
+import Main from './Main';
+import Whoweare from './pages/Whoweare';
+import Howitworks from './pages/Howitworks';
+import Benefits from './pages/Benefits';
+import Contact from './pages/Contact';
+import Login from './pages/Login';
 import Sponsor from './pages/Sponsor';
-import LoanRequest from './pages/LoanRequest.js';
-import LoansInProcess from './pages/LoansInProcess.js';
+import LoanRequest from './pages/LoanRequest';
+import LoansInProcess from './pages/LoansInProcess';
 import LoansPending from './pages/LoansPending';
-import LoansApproved from './pages/LoansApproved.js';
-// import LoansRejected from './pages/LoansRejected.js';
-import TestUpload from './pages/TestUpload.jsx';
+import LoansApproved from './pages/LoansApproved';
+// import LoansRejected from './pages/LoansRejected';
+import TestUpload from './pages/TestUpload';
 
 export default function Routes() {
 

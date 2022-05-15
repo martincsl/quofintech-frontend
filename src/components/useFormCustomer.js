@@ -165,12 +165,12 @@ export default function useFormCustomer (callback) {
     //alert(target.value)
     setValues (prevState => ({...prevState, [target.name]:target.value }))
    // alert(values.customerIdFile1);
-   if (validators) {
+    if (validators) {
      //alert("entrou no if validators")
     handleValidators(target, validators);
-   } else {
+    } else {
      //alert("nao entrou no if validators")
-   }
+    }
   }
 
   const handleChangeStorage = (name,value) => {
