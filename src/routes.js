@@ -22,14 +22,14 @@ export default function Routes() {
       <Switch>
         <Route path = "/" exact component={Main} />
         <Route path = "/main" component={Main} />
-        <Route path="/whoweare" component={Whoweare} />
-        <Route path="/howitworks" component={Howitworks} />
+        <Route path="/who-we-are" component={Whoweare} />
+        <Route path="/how-it-works" component={Howitworks} />
         <Route path="/benefits" component={Benefits} />
         <Route path="/contact" component={Contact} />
         <Route path="/login" component={Login} />
         <Route path="/sponsor" component={Sponsor} />
-        <Route path="/loanrequest" component={LoanRequest} />
-        <Route path="/inprocess" component={LoansInProcess} />
+        <Route path="/loan-request" component={LoanRequest} />
+        <Route path="/in-process" component={LoansInProcess} />
         <Route path="/pending" component={LoansPending} />
         <Route path="/approved" component={LoansApproved} />
         <Route path="/rejected" component={TestUpload} />

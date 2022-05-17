@@ -58,7 +58,7 @@ export default function HeaderStore() {
   const { userName, setUserName, sponsorName, setSponsorName } = useContext (LoginContext);
   
   let avatar = `Hola, ${userName}`;
-   
+  
   const handleDrawerOpen = () => {
     setIsOpen (true);
   };
@@ -74,8 +74,8 @@ export default function HeaderStore() {
         <img src={mainLogo} style={{ height: '45px' }}/>
         <Hidden smDown>
           <Box style={{ width: '20px' }}/>
-          <Button component={Link} to={'/loanrequest'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<AddCircleIcon />} >Nueva Solicitud</Button>
-          <Button component={Link} to={'/inprocess'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<AccountBalanceWalletIcon />} >Solicitudes En Analisis</Button>
+          <Button component={Link} to={'/loan-request'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<AddCircleIcon />} >Nueva Solicitud</Button>
+          <Button component={Link} to={'/in-process'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<AccountBalanceWalletIcon />} >Solicitudes En Analisis</Button>
           <Button component={Link} to={'/pending'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<ReportProblemIcon />} >Solicitudes Pendientes</Button>
           <Button component={Link} to={'/approved'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<CheckCircleIcon />} >Solicitudes Aprobadas</Button>
           <Button component={Link} to={'/rejected'} className={classes.buttonMenuStyle} size="small" disableRipple startIcon={<CancelIcon />} >Solicitudes Rechazadas</Button>
@@ -94,7 +94,7 @@ export default function HeaderStore() {
               <MenuIcon />
             </IconButton>
           </Hidden>
-       </div> 
+        </div> 
 
       </Toolbar>
     </AppBar>
@@ -112,10 +112,10 @@ export default function HeaderStore() {
       >
         <div className={classes.drawerContainer}>
           <List>
-            <ListItem button component={Link} to={'/loanrequest'} disableRipple className={classes.buttonDrawerStyle}>
+            <ListItem button component={Link} to={'/loan-request'} disableRipple className={classes.buttonDrawerStyle}>
               <ListItemText primary="Nueva Solicitud" />
             </ListItem> 
-            <ListItem button component={Link} to={'/inprocess'} disableRipple className={classes.buttonDrawerStyle} >
+            <ListItem button component={Link} to={'/in-process'} disableRipple className={classes.buttonDrawerStyle} >
               <ListItemText primary="En Analisis" />
             </ListItem> 
             <ListItem button component={Link} to={'/pending'} disableRipple className={classes.buttonDrawerStyle}>

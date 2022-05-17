@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { AppBar, Toolbar, IconButton, Box, Button, Hidden } from '@material-ui/core';
 import { Drawer, List, ListItem, ListItemText, ListItemIcon, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
 import MenuIcon from '@material-ui/icons/Menu';
 import mainLogo from '../assets/LogoQuo.png';
 
@@ -57,7 +56,28 @@ function Header() {
 
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-
+  const menuOptions = [
+    { id:0,
+      title:"Quienes Somos",
+      route:"/who-we-are"
+    },
+    { id:1,
+      title:"Como Funciona ?",
+      route:"/how-it-works"
+    },
+    { id:2,
+      title:"Beneficios",
+      route:"/benefits"
+    },
+    { id:3,
+      title:"Contáctanos",
+      route:"/contact"
+    },
+    { id:4,
+      title:"Conectarse",
+      route:"/login"
+    },
+  ]
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -77,12 +97,12 @@ function Header() {
 
         <Hidden smDown>
           <Box style={{ width: '20px' }}/>    
-            <Button component={Link} to={'/whoweare'} className={classes.buttonMenuStyle}  size="large" disableRipple>Quienes Somos</Button>
-            <Button component={Link} to={'/howitworks'} className={classes.buttonMenuStyle} size="large" disableRipple>Como Funciona?</Button>
-            <Button component={Link} to={'/benefits'} className={classes.buttonMenuStyle} size="large" disableRipple>Beneficios</Button>
-            <Button component={Link} to={'/contact'} className={classes.buttonMenuStyle} size="large" disableRipple>Contáctanos</Button>
+            <Button component={Link} to={menuOptions[0].route} className={classes.buttonMenuStyle}  size="large" disableRipple>{menuOptions[0].title}</Button>
+            <Button component={Link} to={menuOptions[1].route} className={classes.buttonMenuStyle} size="large" disableRipple>{menuOptions[1].title}</Button>
+            <Button component={Link} to={menuOptions[2].route} className={classes.buttonMenuStyle} size="large" disableRipple>{menuOptions[2].title}</Button>
+            <Button component={Link} to={menuOptions[3].route} className={classes.buttonMenuStyle} size="large" disableRipple>{menuOptions[3].title}</Button>
             <div className={classes.grow} />
-            <Button component={Link} to={'/login'} className={classes.buttonMenuStyle} size="large" disableRipple>Conectarse</Button>
+            <Button component={Link} to={menuOptions[4].route} className={classes.buttonMenuStyle} size="large" disableRipple>{menuOptions[4].title}</Button>
         </Hidden>
 
         <div className={classes.toolbarButtons}> 
@@ -91,7 +111,7 @@ function Header() {
               <MenuIcon />
             </IconButton>
           </Hidden>
-      </div> 
+        </div> 
  
       </Toolbar>
     </AppBar>
@@ -109,23 +129,23 @@ function Header() {
       >
       <div className={classes.drawerContainer}>
           <List>
-            <ListItem button component={Link} to={'/whoweare'} disableRipple className={classes.buttonDrawerStyle}>
-              <ListItemText primary="Quienes Somos" />
+            <ListItem button component={Link} to={menuOptions[0].route} disableRipple className={classes.buttonDrawerStyle}>
+              <ListItemText primary={menuOptions[0].title} />
             </ListItem> 
-            <ListItem button component={Link} to={'/howitworks'} disableRipple className={classes.buttonDrawerStyle} >
-              <ListItemText primary="Como Funciona?" />
+            <ListItem button component={Link} to={menuOptions[1].route} disableRipple className={classes.buttonDrawerStyle} >
+              <ListItemText primary={menuOptions[1].title} />
             </ListItem> 
-            <ListItem button component={Link} to={'/benefits'} disableRipple className={classes.buttonDrawerStyle}>
-              <ListItemText primary="Beneficios" />
+            <ListItem button component={Link} to={menuOptions[2].route} disableRipple className={classes.buttonDrawerStyle}>
+              <ListItemText primary={menuOptions[2].title} />
             </ListItem> 
-            <ListItem button component={Link} to={'/contact'} disableRipple className={classes.buttonDrawerStyle} >
-              <ListItemText primary="Contáctanos" />
+            <ListItem button component={Link} to={menuOptions[3].route} disableRipple className={classes.buttonDrawerStyle} >
+              <ListItemText primary={menuOptions[3].title} />
             </ListItem> 
           </List>
           <Divider />
           <List>
-            <ListItem button component={Link} to={'/login'} disableRipple className={classes.buttonDrawerStyle} >
-              <ListItemText primary="Conectarse" />
+            <ListItem button component={Link} to={menuOptions[4].route} disableRipple className={classes.buttonDrawerStyle} >
+              <ListItemText primary={menuOptions[4].title} />
             </ListItem> 
         </List>
         </div>

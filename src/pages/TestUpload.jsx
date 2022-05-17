@@ -4,6 +4,9 @@ import { Grid, Paper, Button, Box, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+
 const useStyles = makeStyles( (mainTheme) => ({
   contentStyle: {
     position: 'absolute',
@@ -46,32 +49,46 @@ const useStyles = makeStyles( (mainTheme) => ({
 
 export default function TestUpload (){
   const classes = useStyles();
-  const [ utilitiesInvoice, setUtilitiesInvoice ] = useState("");
+  const [ utilitiesInvoice, setUtilitiesInvoice ] = useState(null);
+  let fileName ="";
 
-  function handleUtilitiesInvoice( file){
-    console.log(file[0].name)
-
+  function handleUtilitiesInvoice (e){
+    let file = e.target.files
+    console.log(file[0])
     setUtilitiesInvoice(file[0].name)
+    let reader = new FileReader ();
+    reader.readAsDataURL (file[0]);
+    reader.onload = (e) => {
+      console.warn("image data", e.target.result)
+    }
+
   }
 
   return (
     <>
-    
-      <input
-        accept="image/jpeg,image/gif,image/png,application/pdf"
-        name="utilitiesInvoce"
-        value={utilitiesInvoice}
-        onChange= { (event) => {handleUtilitiesInvoice (event.target.files)}}
-        className={classes.input}
-        id="contained-button-file-invoice"
-        multiple
-        type="file"
-      />
-      <label htmlFor="contained-button-file-invoice">
-        <Button variant="contained" size="small" className={classes.buttonStyle} component="span" disableRipple startIcon={<CloudUploadIcon />} style={{justifyContent: 'center',width:'150px'}}>Factura Ande</Button> 
-        <Typography align="center" style={{fontSize:9}}>{utilitiesInvoice}</Typography> 
-      </label>  
+    {/* <Header /> */}
+    {console.count()}
+    {/* { ! utilitiesInvoice ? <> */}
+        <input
+          accept="image/jpeg,image/gif,image/png,application/pdf"
+          name="utilitiesInvoce"
+          // value={utilitiesInvoice}
+          onChange= { (e) => {handleUtilitiesInvoice (e)}}
+          className={classes.input}
+          id="contained-button-file-invoice"
+          // multiple
+          type="file"
+        />
 
+        <label htmlFor="contained-button-file-invoice">
+          <Button variant="contained" size="small" className={classes.buttonStyle} component="span" disableRipple startIcon={<CloudUploadIcon />} style={{justifyContent: 'center',width:'150px'}}>Factura Ande</Button> 
+          <Typography variant ="caption" align="left" style={{fontSize:9}}>{utilitiesInvoice}</Typography> 
+        </label>  
+
+
+      {/* </>: <p>{utilitiesInvoice}</p> }   */}
+  
+    <Footer />
   </>
   )  
 }

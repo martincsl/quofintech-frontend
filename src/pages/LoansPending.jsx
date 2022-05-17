@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-import { LoginContext } from '../helper/Context.js';
+import { LoginContext } from '../helper/Context';
 import api from '../services/api';
 
 import HeaderStore from '../components/HeaderStore';
@@ -81,7 +81,7 @@ export default function LoansPending () {
     }
     
     }).then (response => {
-       setLoansList(response.data);
+      setLoansList(response.data);
 
     }).catch (function (err){
       if (err.response) {

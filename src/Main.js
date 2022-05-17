@@ -45,7 +45,7 @@ export default function Main () {
     // <div className="main-container">
     <div>
     <Header />
-   
+  
       <div className="video-container">
         {/* <Hidden smDown> */}
         <Hidden xsDown>
@@ -72,8 +72,8 @@ export default function Main () {
       <div className="video-section-info">
         <Grid container direction="row" alignItems="center" justify="center" style={{ minHeight:'30vh'}} /> 
 
-         <Grid container direction="row" alignItems="center" justify="center" style={{minHeight:'35px'}}>
-           <div style={{backgroundColor:'white'},{height:'20vh'}}></div>
+        <Grid container direction="row" alignItems="center" justify="center" style={{minHeight:'35px'}}>
+          <div style={{backgroundColor:'white',height:'20vh'}}></div>
           <Hidden mdUp>
             <Grid item spacing={2} xs={12} > 
               <Typography align="center" variant="h4" >Aumenta sus ventas hoy!</Typography>
@@ -88,7 +88,7 @@ export default function Main () {
           </Hidden>
           <Slide in direction = "up" timeout = {1000}>
             <Grid item container direction="row" alignItems="center" justify="center" spacing={2} xs={12} > 
-             {/* <Button className={classes.buttonStyle} component={Link} to={'/contact'} variant="outlined" size ="large" disableRipple>Me interesa ! Quiero catastrarme</Button>
+            {/* <Button className={classes.buttonStyle} component={Link} to={'/contact'} variant="outlined" size ="large" disableRipple>Me interesa ! Quiero catastrarme</Button>
              <Button className={classes.buttonStyle} component={Link} to={'/login'}variant="contained" size ="large"disableRipple>Ya soy cliente, quiero conectarme</Button> */}
             </Grid>
           </Slide>

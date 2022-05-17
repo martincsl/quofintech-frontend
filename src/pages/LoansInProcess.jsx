@@ -8,7 +8,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { LoginContext } from '../helper/Context';
 import api from '../services/api';
 
-import HeaderStore from '../components/HeaderStore'
+import HeaderStore from '../components/HeaderStore';
 import Footer from '../components/Footer';
 import AlertDialog from '../components/modals/AlertDialog';
 import AlertMessage from '../components/modals/AlertMessage';
@@ -82,7 +82,7 @@ export default function LoansInProcess () {
   const history = useHistory();
 
   useEffect ( ()=> {
-    alert ("entrou em useEffect-onMount");
+    // alert ("entrou em useEffect-onMount");
     // const data = { sponsorId }
     api.get('profile', { headers :{
       Authorization: sponsorId,
@@ -272,7 +272,7 @@ export default function LoansInProcess () {
                 </Grid>
               </Paper>  
             </Grid> 
-           ))}
+          ))}
         </Grid>   
         <Grid style={{height:'8vh'}} />
       </Grid> 
