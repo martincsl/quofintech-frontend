@@ -20,12 +20,12 @@ const useStyles = makeStyles( (mainTheme) => ({
   },
   buttonStyle:{
     color: "white",
-    backgroundColor:"gray",
+    backgroundColor:mainTheme.palette.primary.main,
     textTransform:"none",
     margin: "6px",
     "&:hover": {
     color:"mainTheme.palette.secondary.main",
-    backgroundColor:mainTheme.palette.primary.main,
+    backgroundColor:"gray",
     },
   },
   paperStyle: {
@@ -50,18 +50,26 @@ const useStyles = makeStyles( (mainTheme) => ({
 export default function TestUpload (){
   const classes = useStyles();
   const [ utilitiesInvoice, setUtilitiesInvoice ] = useState(null);
-  let fileName ="";
+  let fileAndeSrc = null;
+  
+  function checkBtnColors (){
+    if (utilitiesInvoice){
+      return "green"
+    }
+  }
 
   function handleUtilitiesInvoice (e){
     let file = e.target.files
     console.log(file[0])
-    setUtilitiesInvoice(file[0].name)
-    let reader = new FileReader ();
-    reader.readAsDataURL (file[0]);
-    reader.onload = (e) => {
-      console.warn("image data", e.target.result)
+    if (file[0].name){
+      setUtilitiesInvoice(file[0].name)
+      let reader = new FileReader ();
+      reader.readAsDataURL (file[0]);
+      reader.onload = (e) => {
+        fileAndeSrc = e.target.result
+        console.warn("image data", e.target.result)
+      }
     }
-
   }
 
   return (
@@ -81,13 +89,12 @@ export default function TestUpload (){
         />
 
         <label htmlFor="contained-button-file-invoice">
-          <Button variant="contained" size="small" className={classes.buttonStyle} component="span" disableRipple startIcon={<CloudUploadIcon />} style={{justifyContent: 'center',width:'150px'}}>Factura Ande</Button> 
-          <Typography variant ="caption" align="left" style={{fontSize:9}}>{utilitiesInvoice}</Typography> 
-        </label>  
+          <Button variant="contained" size="small" className={classes.buttonStyle} component="span" disableRipple startIcon={<CloudUploadIcon />} style={{justifyContent: 'center',width:'150px', backgroundColor:checkBtnColors()}}>Factura Ande</Button>
+          <Typography variant ="caption" align="left" style={{fontSize:9, paddingLeft: 5}}>{utilitiesInvoice}</Typography> 
+        </label>
+        {/* <embed src={utilitiesInvoice} width="200px" height="600px" /> */}
 
-
-      {/* </>: <p>{utilitiesInvoice}</p> }   */}
-  
+        {/* <img src={fileAndeSrc} alt="ande" /> */}
     <Footer />
   </>
   )  

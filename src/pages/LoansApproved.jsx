@@ -88,7 +88,7 @@ export default function LoansApproved () {
       Authorization: sponsorId,
     }
     }).then (response => {
-       setLoansList (response.data);
+      setLoansList (response.data);
     }).catch (function (err){
       if (err.response) {
         const errorMsg = Object.values(err.response.data);
@@ -161,7 +161,7 @@ export default function LoansApproved () {
       } else if (response.dtatus === 401){
         alert("Exlusion no fue autorizada");
       }
-     
+    
     } catch (err) {
       if (err.response) {
         const errorMsg = Object.values(err.response.data);
